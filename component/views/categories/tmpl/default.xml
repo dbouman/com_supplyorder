@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+<layout title="SUPPLYORDER CATEGORY LIST LAYOUT">
+<message>
+SUPPLYORDER CATEGORY LIST LAYOUT DESC
+</message>
+</layout>
+<state>
+<name>SUPPLYORDER CATEGORY LIST LAYOUT</name>
+<description>SUPPLYORDER CATEGORY LIST LAYOUT DESC</description>
+<params>
+<param name="image" type="imagelist" directory="/images/stories" hide_default="1" default="" label="Image" description="PARAMIMAGE" />
+<param name="image_align" type="radio" default="right" label="Image Align" description="Alignment of the image">
+<option value="left">Left</option>
+<option value="right">Right</option>
+</param>
+</params>
+</state>
+</metadata>
