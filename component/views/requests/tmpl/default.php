@@ -18,7 +18,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 	jQuery(document).ready(function() {
 	    jQuery('#unitPrice,#quantity').change(function() {
 		    var total = parseFloat(jQuery('#unitPrice').val()) * parseInt(jQuery('#quantity').val());
-	    	jQuery('#totalPrice').update("Total Price: $ "+total);
+	    	jQuery('#totalPrice').html("Total Price: $ "+total);
 	    });
 
 	    jQuery("#dateRequired").datepicker();
