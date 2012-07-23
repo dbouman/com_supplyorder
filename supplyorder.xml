@@ -2,7 +2,7 @@
 <install type="component" version="1.5.0">
 <name>Supplyorder</name>
 <author>Howard County Library</author>
-<creationDate>2012-07-21</creationDate>
+<creationDate>July 2012</creationDate>
 <license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
 <!-- The version string is recorded in the components table -->
 <version>1.5.0</version>
