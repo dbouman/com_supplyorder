@@ -31,12 +31,7 @@ class SupplyOrderController extends JController
 		if ( ! JRequest::getCmd( 'view' ) ) {
 			JRequest::setVar('view', 'requests' );
 		}
-		//update the hit count for the item
-		if(JRequest::getCmd('view') == 'item')
-		{
-			$model =& $this->getModel('item');
-			$model->hit();
-		}
+		
 		parent::display();
 	}
 }
