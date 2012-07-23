@@ -1,71 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
 <install type="component" version="1.5.0">
-<name>Supply Order</name>
-<author>Howard County Library</author>
-<creationDate>July 2012</creationDate>
-<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
-<!-- The version string is recorded in the components table -->
-<version>1.5.0</version>
-<!-- The description is optional and defaults to the name -->
-<description>A component built to handle supply order requests for Joomla 1.5.</description> 
-<!-- Install Database Section -->
-<install>
-<sql>
-<file driver="mysql" charset="utf8">install.mysql.sql</file>
-</sql>
-</install>
+	<name>Supply Order</name>
+	<author>Howard County Library</author>
+	<creationDate>July 2012</creationDate>
+	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+	<!-- The version string is recorded in the components table -->
+	<version>1.5.0</version>
+	<!-- The description is optional and defaults to the name -->
+	<description>A component built to handle supply order requests for
+		Joomla 1.5.</description>
+	<!-- Install Database Section -->
+	<install>
+		<sql>
+			<file driver="mysql" charset="utf8">install.mysql.sql</file>
+		</sql>
+	</install>
 
-<uninstall>
-<sql>
-<file driver="mysql" charset="utf8">uninstall.mysql.sql</file>
-</sql>
-</uninstall>
-<!-- Custom Install Script to execute -->
-<installfile>install.supplyorder.php</installfile>
-    <!-- Custom Uninstall Script to execute -->
-<uninstallfile>uninstall.supplyorder.php</uninstallfile>
-  
-<!-- Site Main File Copy Section -->
-<files folder="component">
-<filename>supplyorder.php</filename>
-<filename>controller.php</filename>
-<filename>index.html</filename>
-<folder>css</folder>
-<folder>js</folder>
-<folder>models</folder>
-<folder>views</folder>
-</files>
-  <!-- Language -->
-  <languages folder="component/language/">
-  <language tag="en-GB">en-GB.com_supplyorder.ini</language>
-  </languages>
+	<uninstall>
+		<sql>
+			<file driver="mysql" charset="utf8">uninstall.mysql.sql</file>
+		</sql>
+	</uninstall>
+	<!-- Custom Install Script to execute -->
+	<installfile>install.supplyorder.php</installfile>
+	<!-- Custom Uninstall Script to execute -->
+	<uninstallfile>uninstall.supplyorder.php</uninstallfile>
 
-<administration>
-<menu>Supplyorder</menu>
-<submenu>
-<menu link="option=com_supplyorder">Supplyorder</menu>
-<menu link="option=com_categories&amp;section=com_supplyorder">Categories</menu>
-</submenu>
- <!-- Administration Main File Copy Section -->
-  <files>
-<filename>supplyorder.xml</filename>
-</files>
-<files folder="administrator">
-<filename>install.mysql.sql</filename>
-<filename>uninstall.mysql.sql</filename>
-<filename>supplyorder.php</filename>
-<filename>controller.php</filename>
-<filename>config.xml</filename>
-<folder>helpers</folder>
-<folder>models</folder>
-<folder>tables</folder>
-<folder>views</folder>
-<folder>elements</folder>
-</files>
-<!-- Language Administrator-->
-  <languages folder="administrator/language/">
-  <language tag="en-GB">en-GB.com_supplyorder.menu.ini</language>
-  <language tag="en-GB">en-GB.com_supplyorder.ini</language>
-  </languages>
-  </administration>
+	<!-- Site Main File Copy Section -->
+	<files folder="component">
+		<filename>supplyorder.php</filename>
+		<filename>controller.php</filename>
+		<filename>index.html</filename>
+		<folder>css</folder>
+		<folder>js</folder>
+		<folder>models</folder>
+		<folder>views</folder>
+	</files>
+	<!-- Language -->
+	<languages folder="component/language/">
+		<language tag="en-GB">en-GB.com_supplyorder.ini</language>
+	</languages>
+
+	<administration>
+		<menu>Supply Order</menu>
+		<submenu>
+			<menu link="option=com_supplyorder">Supply Order</menu>
+			<menu link="option=com_categories&amp;section=com_supplyorder">Categories</menu>
+		</submenu>
+		<!-- Administration Main File Copy Section -->
+		<files>
+			<filename>supplyorder.xml</filename>
+		</files>
+		<files folder="administrator">
+			<filename>install.mysql.sql</filename>
+			<filename>uninstall.mysql.sql</filename>
+			<filename>supplyorder.php</filename>
+			<filename>controller.php</filename>
+			<filename>config.xml</filename>
+			<folder>helpers</folder>
+			<folder>models</folder>
+			<folder>tables</folder>
+			<folder>views</folder>
+			<folder>elements</folder>
+		</files>
+		<!-- Language Administrator -->
+		<languages folder="administrator/language/">
+			<language tag="en-GB">en-GB.com_supplyorder.menu.ini</language>
+			<language tag="en-GB">en-GB.com_supplyorder.ini</language>
+		</languages>
+	</administration>
 </install>

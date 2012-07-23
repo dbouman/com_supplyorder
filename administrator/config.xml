@@ -1,16 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <config>
 	<params>
-		<param name="show_employee_id" type="radio" default="1" label="employee_id" description="SHOWEMPLOYEE_ID">
-			<option value="0">Hide</option>
-			<option value="1">Show</option>
-		</param>
-		
-		<param name="show_account_id" type="radio" default="1" label="account_id" description="SHOWACCOUNT_ID">
-			<option value="0">Hide</option>
-			<option value="1">Show</option>
-		</param>
-		
 		<param name="show_author" type="radio" default="1" label="Author Names" description="TIPIFSETTOSHOWAUTHOR">
 			<option value="0">Hide</option>
 			<option value="1">Show</option>
