@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <install type="component" version="1.5.0">
-<name>Supplyorder</name>
+<name>Supply Order</name>
 <author>Howard County Library</author>
 <creationDate>July 2012</creationDate>
 <license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
@@ -30,6 +30,8 @@
 <filename>supplyorder.php</filename>
 <filename>controller.php</filename>
 <filename>index.html</filename>
+<folder>css</folder>
+<folder>js</folder>
 <folder>models</folder>
 <folder>views</folder>
 </files>
