@@ -100,7 +100,7 @@ if(isset($this->message)){
 			<td><?php echo JText::_( 'Unit Measure' ); ?> <span style="color: red;">*</span>
 			</td>
 			<td><select id="unitMeasure" name="unitMeasure">
-					<option value=" ">Select One</option>
+					<option value="">Select One</option>
 					<option value="Each">Each</option>
 					<option value="Dozen">Dozen</option>
 					<option value="Pack">Pack</option>
