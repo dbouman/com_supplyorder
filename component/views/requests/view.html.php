@@ -6,7 +6,7 @@
  * placing requests, viewing saved orders, updating an order and viewing requested orders.
  * @version 1.5.0
  * @author Howard County Library
- * @package com_supply_order
+ * @package com_supplyorder
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
  **/
 
