@@ -44,7 +44,8 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 				dateRequired: "Please select the date by which you need this request filled.",
 				shipTo: "Please select which location this request should be shipped to.",
 				accountId: "Please select which account this request should be placed under."
-			}
+			},
+			errorClass: "error-required"
 		});
 		
 		jQuery('vendor').focus(); 

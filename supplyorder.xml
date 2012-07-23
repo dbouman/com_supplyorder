@@ -36,6 +36,11 @@
 		<folder>models</folder>
 		<folder>views</folder>
 	</files>
+	<!--  Media -->
+	<media destination="com_supplyorder" folder="images">
+		<filename>error-16.png</filename>
+		<filename>warning-16.png</filename>
+	</media>
 	<!-- Language -->
 	<languages folder="component/language/">
 		<language tag="en-GB">en-GB.com_supplyorder.ini</language>

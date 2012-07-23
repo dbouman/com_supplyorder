@@ -1,8 +1,10 @@
 /* Form validation errors */
-.error {
-	border: 1px solid #FFFF00;
-	color: #000000;
-	background-color: #FFFFCC;
-	padding: 5px;
-	margin-left: 5px;
+label.error-required {
+	display: inline-block;
+	color: #FF2424;
+	background: #FFBFBF url(/media/com_supplyorder/warning-16.png) 5px 4px no-repeat;
+    text-align: left;
+    padding: 3px 15px 3px 26px;
+    border: 1px solid #FF2424;
+    margin: 5px;
 }
