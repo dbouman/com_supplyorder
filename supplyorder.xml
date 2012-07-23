@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <install type="component" version="1.5.0">
 <name>Supplyorder</name>
-<author>Danny Buytaert</author>
+<author>Howard County Library</author>
 <creationDate></creationDate>
 <license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
 <!-- The version string is recorded in the components table -->
-<version>0.8 beta </version>
+<version>1.5.0</version>
 <!-- The description is optional and defaults to the name -->
 <description>A component built to handle supply order requests for Joomla 1.5.</description> 
 <!-- Install Database Section -->
