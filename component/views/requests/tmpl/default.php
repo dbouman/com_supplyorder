@@ -24,7 +24,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 	    jQuery("#dateRequired").datepicker();
 
 	 	// validate signup form on keyup and submit
-		var validator = $("#supplyOrderRequestForm").validate({
+		var validator = jQuery("#supplyOrderRequestForm").validate({
 			rules: {
 				vendor: "required",
 				quantity: "required digits",
@@ -49,7 +49,6 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 		
 		jQuery('vendor').focus(); 
 	  });
-	};
 //-->
 </script>
 
