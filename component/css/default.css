@@ -1,0 +1,8 @@
+/* Form validation errors */
+.error {
+	border: 1px solid #FFFF00;
+	color: #000000;
+	background-color: #FFFFCC;
+	padding: 5px;
+	margin-left: 5px;
+}

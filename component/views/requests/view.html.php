@@ -30,7 +30,8 @@ class SupplyOrderViewRequests extends JView
 		$document->addScriptDeclaration ( 'jQuery.noConflict();');
 		$document->addScript(JURI::base(true).'/components/com_supplyorder/js/jquery.validate.min.js');
 		$document->addScript(JURI::base(true).'/components/com_supplyorder/js/jquery-ui-1.8.21.custom.min.js');
-		$document->addStyleSheet(JURI::base(true).'/components/com_supplyorder/css/smoothness/jquery-ui-1.8.21.custom');
+		$document->addStyleSheet(JURI::base(true).'/components/com_supplyorder/css/smoothness/jquery-ui-1.8.21.custom.css');
+		$document->addStyleSheet(JURI::base(true).'/components/com_supplyorder/css/default.css');
 		
 		// Get the page/component configuration
 		$params = &$mainframe->getParams();

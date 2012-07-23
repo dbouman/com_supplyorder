@@ -183,8 +183,8 @@ if(isset($this->message)){
 		<tr>
 			<td>&nbsp;</td>
 			<td><input type="submit" value="Save" name="saveOrder" /> <input
-				type="button" value="Cancel" name="cancel"
-				onclick="validator.resetForm(); jQuery('supplyOrderRequestForm').reset; jQuery('vendor').focus();"></input>
+				type="reset" value="Cancel" name="cancel"
+				onclick="jQuery('#supplyOrderRequestForm').data('validator').resetForm(); jQuery('#vendor').focus();"></input>
 			</td>
 		</tr>
 	</table>
