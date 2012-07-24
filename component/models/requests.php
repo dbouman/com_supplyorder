@@ -163,20 +163,156 @@ class SupplyOrderModelRequests extends JModel
 	 */
 	function updateStatus($id, $statusId)
 	{
-		
+		$updateStatusQuery = "Update `#__so_order` set `order_status_id` = $statusId where order_id = $id";
+		$db->setQuery($updateStatusQuery);
+		try
+		{
+			return $db->loadResult();//return true;
+		}
+		catch (Exception $e)
+		{
+			return $e;
+		}
 	}
 	
 	/**
-	 * List request by owner
+	 * List request by Owner
 	 * 
-	 * @var string email
+	 * @var int employee id
 	 * @access public
 	 * @return array
 	 *  
 	 */
 	function listRequestByOwner($employeId)
 	{
+		$listRequestByOwnerQuery = "Select * from `#__so_order` where `employee_id` = $employeId";
+		$db->setQuery($listRequestByOwnerQuery);
+		
+		try {
+			return $db->loadAssocList();
+		} catch (Exception $e) {
+			return $e;
+		}
+	}
+	
+	/**
+	 * List request by Approver
+	 * 
+	 * @var int approver id
+	 * @access public
+	 * @return array 
+	 */
+	function listRequestByApprover($approverId)
+	{
+		$listRequestByApproverQuery = "Select * from `#__so_order` where `account_id` = $approverId";
+		
+		$db->setQuery($listRequestByApproverQuery);
+		
+		try {
+			return $db->loadAssocList();
+		} catch (Exception $e) {
+			return $e;
+		}
+	}
+	
+	/**
+	 * List request by Status
+	 * 
+	 * @var int status id
+	 * @access public
+	 * @return array
+	 */
+	function listRequestByStatus($statusId)
+	{
+		$listRequestByStatusQuery = "Select * from `#__so_order` where `order_status_id` = $statusId";
+		
+		$db->setQuery($listRequestByStatusQuery);
+		
+		try {
+			return $db->loadAssocList();
+		} catch (Exception $e) {
+			return $e;
+		}
+	}
+	
+	/**
+	 * Request received update 
+	 * 
+	 * @var boolean, int
+	 * @access public
+	 * @return boolean
+	 */
+	function requestReceived($newStatusId, $requestId)
+	{
+		$requestReceivedQuery = "Update `#__so_order` set `order_status_id` = $newStatusId where `order_id` = $requestId";
+		$db->setQuery($requestReceivedQuery);
+		
+		try {
+			$db->query();
+			return true;
+		} catch (Exception $e) {
+			return $e;
+		}
+	}
+	
+	/**
+	 * getter Request Breif Details
+	 * 
+	 * @var int
+	 * @return array
+	 */
+	function getRequestBriefDetail($requestId)
+	{
+		$requestBriefDetailQuery = "Select o.order_id, o.vendor, o.item_desc, o.ship_to, o.quantity, o.order_total, 
+										o.date_required, os.status_name, a.account_num, e.first_name, e.last_name, 
+										e.email 
+										from o order, os order_status, e employee, a accounts 
+										where 
+										o.order_status_id = os.order_status_id
+										AND o.employee_id = o.employee_id
+										AND o.account_id = a.account_id";
+		
+		$db->setQuery($requestBriefDetailQuery);
+		
+		try {
+			$db->query();
+			return $db->loadAssoc();
+		} catch (Exception $e) {
+			return $e;
+		}
 		
 	}
 	
+	/**
+	 * Request Detail View
+	 * This detail view is for complete information.
+	 *
+	 * @var int
+	 * @return array
+	 */
+	function getRequestDetail($requestId)
+	{
+		$requestDetailQuery = "Select o.order_id, o.vendor, o.item_desc, o.ship_to, o.quantity, o.order_total,
+		o.date_required, os.status_name, a.account_num, e.first_name, e.last_name,
+		e.email
+		from o order, os order_status, e employee, a accounts
+		where
+		o.order_status_id = os.order_status_id
+		AND o.employee_id = o.employee_id
+		AND o.account_id = a.account_id";
+	
+		$db->setQuery($requestDetailQuery);
+	
+		try {
+			$db->query();
+			return $db->loadAssoc();
+		} catch (Exception $e) {
+			return $e;
+		}
+	
+	}
+	
 }
+
+
+
