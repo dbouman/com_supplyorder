@@ -79,7 +79,7 @@ if(isset($this->message)){
 		</tr>
 		<tr>
 			<td><?php echo JText::_( 'Item No.' ); ?></td>
-			<td><input type="text" name="itemNum" id="itemNum" class="inputbox" /></td>
+			<td><input type="text" name="item_num" id="item_num" class="inputbox" /></td>
 		</tr>
 		<tr>
 			<td><?php echo JText::_( 'Color' ); ?></td>
@@ -92,7 +92,7 @@ if(isset($this->message)){
 		<tr>
 			<td><?php echo JText::_( 'Unit Price' ); ?> <span style="color: red;">*</span>
 			</td>
-			<td>$<input type="text" name="unitPrice" id="unitPrice"
+			<td>$<input type="text" name="unit_cost" id="unit_cost"
 				class="inputbox" width="248px;" />	<span id="totalPrice"></span>
 			</td>
 		</tr>
@@ -114,7 +114,7 @@ if(isset($this->message)){
 		<tr>
 			<td><?php echo JText::_( 'Description' ); ?> <span style="color: red;">*</span>
 			</td>
-			<td><textarea cols="50" id="description" name="description" rows="7"
+			<td><textarea cols="50" id="item_desc" name="item_desc" rows="7"
 					class="inputbox"></textarea>
 			</td>
 		</tr>
@@ -126,13 +126,13 @@ if(isset($this->message)){
 			<td><?php echo JText::_( 'Need By' ); ?> <span style="color: red;">*</span>
 			</td>
 			<td>
-				<input	type="text" name="dateRequired" id="dateRequired" class="inputbox" />
+				<input	type="text" name="date_required" id="date_required" class="inputbox" />
 			</td>
 		</tr>
 		<tr>
 			<td><?php echo JText::_( 'Ship To' ); ?> <span style="color: red;">*</span>
 			</td>
-			<td><select id="shipTo" name="shipTo">
+			<td><select id="ship_to" name="ship_to">
 					<option value=""><?php echo JText::_( 'Select One' ); ?></option>
 					<option value="Admin@CEN">Admin@CEN</option>
 					<option value="Admin@ECO">Admin@ECO</option>
@@ -158,7 +158,7 @@ if(isset($this->message)){
 		<tr>
 			<td><?php echo JText::_( 'Account' ); ?> <span style="color: red;">*</span>
 			</td>
-			<td><select name="accountId" id="accountId">
+			<td><select name="account_id" id="account_id">
 					<option value=""><?php echo JText::_( 'Select Account' ); ?>:</option> 
 					<?php 
 					foreach ($accounts as $account) {
