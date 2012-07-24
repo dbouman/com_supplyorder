@@ -60,7 +60,7 @@ class SupplyOrderModelAccounts extends JModel
 		$columns .= ")";
 		$columnValue .= ")";
 		
-		$newAccountSql = "Insert Into #__so_accounts $columns Values $columnValue";
+		$newAccountSql = "Insert Into `#__so_accounts` $columns Values $columnValue";
 		
 		$db->setQuery($newAccountSql);
 		
@@ -91,7 +91,7 @@ class SupplyOrderModelAccounts extends JModel
 		
 		$fieldValuePair = substr($fieldValuePair, 0, -1);
 		
-		$updateAccountSql = "Update #__so_accounts set $fieldValuePair where account_id = $accountId";
+		$updateAccountSql = "Update `#__so_accounts` set $fieldValuePair where `account_id` = $accountId";
 
 		$db->setQuery($updateAccountSql);
 		
@@ -108,7 +108,7 @@ class SupplyOrderModelAccounts extends JModel
 	 */
 	function deleteAccount($accountId)
 	{
-		$deleteAccount = "Delete from #__so_accounts where account_id = $accountId";
+		$deleteAccount = "Delete from `#__so_accounts` where `account_id` = $accountId";
 		$db->setQuery($deleteAccount);
 		
 		try {
@@ -121,11 +121,12 @@ class SupplyOrderModelAccounts extends JModel
 	
 	/**
 	 * list of Accounts
+	 * List of the all the accounts from DB for dropdown.
 	 * 
 	 */
 	function listAccount()
 	{
-		$listAllAccounts = "Select * from #__so_accounts";
+		$listAllAccounts = "Select * from `#__so_accounts`";
 		$db->setQuery($listAllAccounts);
 		try {
 			return $db->loadAssocList();

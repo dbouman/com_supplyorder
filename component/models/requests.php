@@ -60,7 +60,7 @@ class SupplyOrderModelRequests extends JModel
 		$columns .= ")";
 		$columnValue .= ")";
 		
-		$insertSql = "insert into `#__so_order` $columns values $columnValue";
+		$insertSql = "insert into `#__so_request` $columns values $columnValue";
 		
 		$db->setQuery($insertSql);
 		
@@ -93,7 +93,7 @@ class SupplyOrderModelRequests extends JModel
 		}
 		
 		$fieldValuePair = substr($fieldValuePair, 0, -1);
-		$fieldValuePair = "update `#__so_order` set $fieldValuePair where order_id = $id";
+		$fieldValuePair = "update `#__so_request` set $fieldValuePair where request_id = $id";
 		
 		$db->setQuery($fieldValuePair);
 		try
@@ -119,7 +119,7 @@ class SupplyOrderModelRequests extends JModel
 	 */
 	function deleteRequest($id)
 	{
-		$deleteQuery = "delete from `#__so_order` where order_id = $id";
+		$deleteQuery = "delete from `#__so_request` where request_id = $id";
 	
 		$db->setQuery($deleteQuery);
 		try
@@ -142,7 +142,8 @@ class SupplyOrderModelRequests extends JModel
 	 */
 	function getStatusId($id)
 	{
-		$statusIdQuery = "select `order_status_id` from `#__so_order` where order_id = $id";
+		$statusIdQuery = "select  from r `#__so_request`, rs `#__so_request_status` 
+							where (r.request_id = $id) AND (r.request_status_id = rs.request_status_id)";
 		$db->setQuery($statusIdQuery);
 		try
 		{
@@ -163,7 +164,7 @@ class SupplyOrderModelRequests extends JModel
 	 */
 	function updateStatus($id, $statusId)
 	{
-		$updateStatusQuery = "Update `#__so_order` set `order_status_id` = $statusId where order_id = $id";
+		$updateStatusQuery = "Update `#__so_request` set `request_status_id` = $statusId where request_id = $id";
 		$db->setQuery($updateStatusQuery);
 		try
 		{
@@ -185,7 +186,7 @@ class SupplyOrderModelRequests extends JModel
 	 */
 	function listRequestByOwner($employeId)
 	{
-		$listRequestByOwnerQuery = "Select * from `#__so_order` where `employee_id` = $employeId";
+		$listRequestByOwnerQuery = "Select * from `#__so_request` where `employee_id` = $employeId";
 		$db->setQuery($listRequestByOwnerQuery);
 		
 		try {
@@ -204,7 +205,7 @@ class SupplyOrderModelRequests extends JModel
 	 */
 	function listRequestByApprover($approverId)
 	{
-		$listRequestByApproverQuery = "Select * from `#__so_order` where `account_id` = $approverId";
+		$listRequestByApproverQuery = "Select * from `#__so_request` where `account_id` = $approverId";
 		
 		$db->setQuery($listRequestByApproverQuery);
 		
@@ -224,7 +225,7 @@ class SupplyOrderModelRequests extends JModel
 	 */
 	function listRequestByStatus($statusId)
 	{
-		$listRequestByStatusQuery = "Select * from `#__so_order` where `order_status_id` = $statusId";
+		$listRequestByStatusQuery = "Select * from `#__so_request` where `request_status_id` = $statusId";
 		
 		$db->setQuery($listRequestByStatusQuery);
 		
@@ -244,7 +245,7 @@ class SupplyOrderModelRequests extends JModel
 	 */
 	function requestReceived($newStatusId, $requestId)
 	{
-		$requestReceivedQuery = "Update `#__so_order` set `order_status_id` = $newStatusId where `order_id` = $requestId";
+		$requestReceivedQuery = "Update `#__so_request` set `request_status_id` = $newStatusId where `request_id` = $requestId";
 		$db->setQuery($requestReceivedQuery);
 		
 		try {
@@ -263,6 +264,7 @@ class SupplyOrderModelRequests extends JModel
 	 */
 	function getRequestBriefDetail($requestId)
 	{
+		//Select Query 
 		$requestBriefDetailQuery = "Select o.order_id, o.vendor, o.item_desc, o.ship_to, o.quantity, o.order_total, 
 										o.date_required, os.status_name, a.account_num, e.first_name, e.last_name, 
 										e.email 
@@ -292,6 +294,7 @@ class SupplyOrderModelRequests extends JModel
 	 */
 	function getRequestDetail($requestId)
 	{
+		//Select query
 		$requestDetailQuery = "Select o.order_id, o.vendor, o.item_desc, o.ship_to, o.quantity, o.order_total,
 		o.date_required, os.status_name, a.account_num, e.first_name, e.last_name,
 		e.email
