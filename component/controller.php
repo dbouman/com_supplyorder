@@ -27,11 +27,30 @@ class SupplyOrderController extends JController
 	 */
 	function display() {
 		// Set a default view if none exists
-		if ( ! JRequest::getCmd( 'view' ) ) {
+		if ( !JRequest::getCmd( 'view' ) ) {
 			JRequest::setVar('view', 'requests' );
 		}
 		
-		parent::display();
+		$document =& JFactory::getDocument();
+		
+		$viewType	= $document->getType();
+		$viewName	= JRequest::getCmd( 'view', $this->getName() );
+		$viewLayout	= JRequest::getCmd( 'layout', 'default' );
+		
+		$view =& $this->getView( $viewName, $viewType, '', array( 'base_path'=>$this->_basePath));
+		
+		// Set the default model as requests
+		$requestsModel =& $this->getModel ( 'requests' ); // get first model
+	    $view->setModel( $requestsModel, true );  // true is for the default model  
+	    
+	    // Set accounts model
+	    $accountsModel =& $this->getModel ( 'accounts' ); // get second model     
+	    $view->setModel( $accountsModel );  
+
+	    // Set the layout
+	    $view->setLayout($viewLayout);
+	    
+	    $view->display();
 	}
 	
 	/**
@@ -40,36 +59,31 @@ class SupplyOrderController extends JController
 	function request_save() {
 		$model =& $this->getModel('requests');
 		
-		$model->setRequest("order_status_id", '0');
-		$model->setRequest("account_id", $_POST['account_id']);
-		//$model->setRequest("order_name", $_POST['']);
-		//$model->setRequest("order_desc", $_POST['']);
-		$model->setRequest("vendor", $_POST['vendor']);
-		//$model->setRequest("item_name", $_POST['']);
-		$model->setRequest("item_num", $_POST['item_num']);
-		$model->setRequest("item_desc", $_POST['item_desc']);
-		$model->setRequest("color", $_POST['color']);
-		$model->setRequest("url", $_POST['url']);
-		//$model->setRequest("requester_name", $_POST['']);
-		//$model->setRequest("requester_email", $_POST['']);
-		//$model->setRequest("requester_dept", $_POST['']);
-		$model->setRequest("ship_to", $_POST['ship_to']);
-		$model->setRequest("quantity", $_POST['quantity']);
-		$model->setRequest("unit_cost", $_POST['unit_cost']);
-		$order_cost = $_POST['quantity'] * $_POST['unit_cost'];
-		$model->setRequest("order_cost", $order_cost);
-		//$model->setRequest("shipping_cost", $_POST['']);
-		//$model->setRequest("order_total", $_POST['']);
-		$model->setRequest("date_ordered", date('Y-m-d H:i:s',strtotime('now')));
-		$model->setRequest("date_required", $_POST['date_required']);
+		$model->setRequest("request_status_id", '0');
+		$model->setRequest("employee_id", '1'); // FIX ME
+		$model->setRequest("account_id", JRequest::getVar('account_id'));
+		$model->setRequest("vendor", JRequest::getVar('vendor'));
+		$model->setRequest("item_num", JRequest::getVar('item_num'));
+		$model->setRequest("item_desc", JRequest::getVar('item_desc'));
+		$model->setRequest("color", JRequest::getVar('color'));
+		$model->setRequest("url", JRequest::getVar('url'));
+		$model->setRequest("ship_to", JRequest::getVar('ship_to'));
+		$model->setRequest("quantity", JRequest::getVar('quantity'));
+		$model->setRequest("unit_cost", JRequest::getVar('unit_cost'));
+		$model->setRequest("unit_measure", JRequest::getVar('unit_measure'));
+		
+		$order_cost = JRequest::getVar('quantity') * JRequest::getVar('unit_cost');
+		$model->setRequest("request_cost", $order_cost);
+		
+		$model->setRequest("date_required", JRequest::getVar('date_required'));
+		$model->setRequest("date_submitted", date('Y-m-d H:i:s',strtotime('now')));
 		
 		$model->setRequest("approval_level_required", get_approval_level($order_cost));
 		
 		if ($model->requestInsertSql()) {
 			$msg	= JText::_( 'Your request has been saved. Your request has not yet been ordered, please visit your saved orders to submit the order for purchasing.' );
 		} else {
-			//$msg	= JText::_( 'Error saving your settings.' );
-			$msg	= $model->getError();
+			$msg	= JText::_( 'Error saving your request.' );
 		}
 		
 		// get the redirect

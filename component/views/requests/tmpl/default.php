@@ -99,7 +99,7 @@ if(isset($this->message)){
 		<tr>
 			<td><?php echo JText::_( 'Unit Measure' ); ?> <span style="color: red;">*</span>
 			</td>
-			<td><select id="unitMeasure" name="unitMeasure">
+			<td><select id="unit_measure" name="unit_measure">
 					<option value="">Select One</option>
 					<option value="Each">Each</option>
 					<option value="Dozen">Dozen</option>
@@ -161,7 +161,7 @@ if(isset($this->message)){
 			<td><select name="account_id" id="account_id">
 					<option value=""><?php echo JText::_( 'Select Account' ); ?>:</option> 
 					<?php 
-					foreach ($accounts as $account) {
+					foreach ($this->accounts as $account) {
 						?>
 						<option value="<?php echo $account['id']; ?>">
 							<?php echo	$account['number'] . " " . 
