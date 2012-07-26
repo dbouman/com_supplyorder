@@ -42,6 +42,8 @@ class SupplyOrderModelComments extends JModel
 	 */
 	function newComments($comment, $request_id, $employee_id)
 	{
+		$db = JFactory::getDBO();
+		
 		$newCommentSql = "Insert into `#__so_comemnts` 
 							(request_id, employee_id, comment_body) 
 							values
@@ -63,7 +65,10 @@ class SupplyOrderModelComments extends JModel
 	 * Assuming everytime multiple entries of comments are selected on one request.
 	 * 
 	 */
-	function commentDetails($request_id){
+	function commentDetails($request_id)
+	{
+		$db = JFactory::getDBO();
+		
 		$commentsDetailSql = "Select * from `#__so_comments` where request_id = $request_id";
 		
 		$db->setQuery($commentsDetailSql);

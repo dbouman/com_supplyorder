@@ -2,7 +2,7 @@
 
 /**
  * Supply Order Component for Joomla! 1.5
- * This model handles all queries to the database with regards to requests
+ * Accounts Model
  * @version 1.5.0
  * @author Howard County Library
  * @package com_supplyorder
@@ -47,6 +47,8 @@ class SupplyOrderModelAccounts extends JModel
 	 */
 	function newAccount()
 	{
+		$db = JFactory::getDBO();
+		
 		$columns = "(";
 		$columnValue = "(";
 		foreach($this->accounts as $field => $value){
@@ -82,6 +84,8 @@ class SupplyOrderModelAccounts extends JModel
 	 */
 	function updateAccount($accountId)
 	{
+		$db = JFactory::getDBO();
+		
 		$fieldValuePair = "";
 		
 		foreach ($this->accounts as $field => $value)
@@ -108,6 +112,8 @@ class SupplyOrderModelAccounts extends JModel
 	 */
 	function deleteAccount($accountId)
 	{
+		$db = JFactory::getDBO();
+		
 		$deleteAccount = "Delete from `#__so_accounts` where `account_id` = $accountId";
 		$db->setQuery($deleteAccount);
 		
@@ -131,6 +137,7 @@ class SupplyOrderModelAccounts extends JModel
 		$listAllAccounts = "select a.account_id, a.account_num, a.account_name, e.first_name, e.last_name 
 							from `#__so_accounts` a, `#__so_employee` e
 							where a.employee_id = e.employee_id";
+		
 		$db->setQuery($listAllAccounts);
 		
 		// Check for database error

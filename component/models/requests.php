@@ -47,6 +47,8 @@ class SupplyOrderModelRequests extends JModel
 	 */
 	function requestInsertSql() 
 	{
+		$db = JFactory::getDBO();
+		
 		$columns = "(";
 		$columnValue = "(";
 		foreach ($this->request as $field => $value)
@@ -86,6 +88,8 @@ class SupplyOrderModelRequests extends JModel
 	 */
 	function updateRequest($id)
 	{
+		$db = JFactory::getDBO();
+		
 		$fieldValuePair = "";
 		foreach ($this->request as $field => $value)
 		{
@@ -119,6 +123,8 @@ class SupplyOrderModelRequests extends JModel
 	 */
 	function deleteRequest($id)
 	{
+		$db = JFactory::getDBO();
+		
 		$deleteQuery = "delete from `#__so_request` where request_id = $id";
 	
 		$db->setQuery($deleteQuery);
@@ -142,6 +148,8 @@ class SupplyOrderModelRequests extends JModel
 	 */
 	function getStatusId($id)
 	{
+		$db = JFactory::getDBO();
+		
 		$statusIdQuery = "select  from r `#__so_request`, rs `#__so_request_status` 
 							where (r.request_id = $id) AND (r.request_status_id = rs.request_status_id)";
 		$db->setQuery($statusIdQuery);
@@ -164,6 +172,8 @@ class SupplyOrderModelRequests extends JModel
 	 */
 	function updateStatus($id, $statusId)
 	{
+		$db = JFactory::getDBO();
+		
 		$updateStatusQuery = "Update `#__so_request` set `request_status_id` = $statusId where request_id = $id";
 		$db->setQuery($updateStatusQuery);
 		try
@@ -186,6 +196,8 @@ class SupplyOrderModelRequests extends JModel
 	 */
 	function listRequestByOwner($employeId)
 	{
+		$db = JFactory::getDBO();
+		
 		$listRequestByOwnerQuery = "Select * from `#__so_request` where `employee_id` = $employeId";
 		$db->setQuery($listRequestByOwnerQuery);
 		
@@ -205,6 +217,8 @@ class SupplyOrderModelRequests extends JModel
 	 */
 	function listRequestByApprover($approverId)
 	{
+		$db = JFactory::getDBO();
+		
 		$listRequestByApproverQuery = "Select * from `#__so_request` where `account_id` = $approverId";
 		
 		$db->setQuery($listRequestByApproverQuery);
@@ -225,6 +239,8 @@ class SupplyOrderModelRequests extends JModel
 	 */
 	function listRequestByStatus($statusId)
 	{
+		$db = JFactory::getDBO();
+		
 		$listRequestByStatusQuery = "Select * from `#__so_request` where `request_status_id` = $statusId";
 		
 		$db->setQuery($listRequestByStatusQuery);
@@ -245,6 +261,8 @@ class SupplyOrderModelRequests extends JModel
 	 */
 	function requestReceived($newStatusId, $requestId)
 	{
+		$db = JFactory::getDBO();
+		
 		$requestReceivedQuery = "Update `#__so_request` set `request_status_id` = $newStatusId where `request_id` = $requestId";
 		$db->setQuery($requestReceivedQuery);
 		
@@ -264,6 +282,8 @@ class SupplyOrderModelRequests extends JModel
 	 */
 	function getRequestBriefDetail($requestId)
 	{
+		$db = JFactory::getDBO();
+		
 		//Select Query 
 		$requestBriefDetailQuery = "Select o.order_id, o.vendor, o.item_desc, o.ship_to, o.quantity, o.order_total, 
 										o.date_required, os.status_name, a.account_num, e.first_name, e.last_name, 
@@ -294,6 +314,8 @@ class SupplyOrderModelRequests extends JModel
 	 */
 	function getRequestDetail($requestId)
 	{
+		$db = JFactory::getDBO();
+		
 		//Select query
 		$requestDetailQuery = "Select o.order_id, o.vendor, o.item_desc, o.ship_to, o.quantity, o.order_total,
 		o.date_required, os.status_name, a.account_num, e.first_name, e.last_name,
