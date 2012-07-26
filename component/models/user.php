@@ -49,6 +49,7 @@ class SupplyOrderModelUser extends JModel
 			$user_info['id'] = $user_id;
 			$user_info['username'] = $user->username;
 			$user_info['name'] = $user->name;
+			$user_info['email'] = $user->email;
 			
 			$row =& JTable::getInstance('contact', 'Table');
 			$row->load( $user_id );
