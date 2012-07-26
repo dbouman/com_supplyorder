@@ -205,3 +205,12 @@ ALTER TABLE `#__so_requests`
   ADD CONSTRAINT `fk_order_order_status1` FOREIGN KEY (`request_status_id`) REFERENCES `#__so_request_status` (`request_status_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_order_employee1` FOREIGN KEY (`employee_id`) REFERENCES `#__so_employee` (`employee_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_requests_order` FOREIGN KEY (`order_id`) REFERENCES `#__so_orders` (`order_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+  
+  
+-- Add role data
+INSERT INTO `#__so_roles` (`role_id`, `role_name`) VALUES
+(1, 'Registered'),
+(2, 'Tier 1 Approver'),
+(3, 'Tier 2 Approver'),
+(4, 'Accounting');
