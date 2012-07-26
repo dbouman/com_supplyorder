@@ -28,22 +28,22 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 			rules: {
 				vendor: "required",
 				quantity: "required digits",
-				unitPrice: "required number",
-				unitMeasure: "required",
-				description: "required",
-				dateRequired: "required date",
-				shipTo: "required",
-				accountId: "required"
+				unit_cost: "required number",
+				unit_measure: "required",
+				item_desc: "required",
+				date_required: "required date",
+				ship_to: "required",
+				account_id: "required"
 			},
 			messages: {
 				vendor: "Please enter a vendor.",
 				quantity: "Please enter a quantity.",
-				unitPrice: "Please enter valid amount like 10.89.",
-				unitMeasure: "Please select a unit measure.",
-				description: "Please enter a description.",
-				dateRequired: "Please select the date by which you need this request filled.",
-				shipTo: "Please select which location this request should be shipped to.",
-				accountId: "Please select which account this request should be placed under."
+				unit_cost: "Please enter valid amount like 10.89.",
+				unit_measure: "Please select a unit measure.",
+				item_desc: "Please enter a description.",
+				date_required: "Please select the date by which you need this request filled.",
+				ship_to: "Please select which location this request should be shipped to.",
+				account_id: "Please select which account this request should be placed under."
 			},
 			errorClass: "error-required"
 		});
