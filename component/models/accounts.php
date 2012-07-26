@@ -134,9 +134,8 @@ class SupplyOrderModelAccounts extends JModel
 	{
 		$db = &JFactory::getDBO();
 		
-		$listAllAccounts = "select a.account_id, a.account_num, a.account_name, e.first_name, e.last_name 
-							from `#__so_accounts` a, `#__so_employee` e
-							where a.employee_id = e.employee_id";
+		$listAllAccounts = "select account_id, employee_id, account_num, account_name 
+							from `#__so_accounts`";
 		
 		$db->setQuery($listAllAccounts);
 		
@@ -146,8 +145,21 @@ class SupplyOrderModelAccounts extends JModel
 			$this->setError(JText::_('DATABASE_ERROR'));
 			return false;
 		}
+
+		// Get user model
+		$userModel = JModel::getInstance(‘User’, ‘SupplyOrderModel’);
 		
-		return $result;
+		$accounts = array();
+		$i = 0;
+		foreach ($result as $row) {
+			$accounts[$i]['id'] = $row['account_id'];
+			$accounts[$i]['name'] = $row['account_name'];
+			$accounts[$i]['number'] = $row['number'];
+			$accounts[$i]['owner'] = $userModel->getUserInfo($row['employee_id']);
+			$i++; 
+		}
+		
+		return $accounts;
 	}
 
 }
