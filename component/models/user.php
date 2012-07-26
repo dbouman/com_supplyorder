@@ -51,6 +51,7 @@ class SupplyOrderModelUser extends JModel
 			$user_info['name'] = $user->name;
 			$user_info['email'] = $user->email;
 			
+			// Get user position from associated contact details
 			$row =& JTable::getInstance('contact', 'Table');
 			$row->load( $user_id );
 			$title = $row->con_position;
