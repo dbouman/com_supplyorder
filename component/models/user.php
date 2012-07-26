@@ -52,7 +52,7 @@ class SupplyOrderModelUser extends JModel
 			
 			$row =& JTable::getInstance('contact', 'Table');
 			$row->load( $user_id );
-			$title = $row['con_position'];
+			$title = $row->con_position;
 			
 			$user_info['role_id'] = $this->getRoleId($title);
 		}

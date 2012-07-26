@@ -46,6 +46,10 @@ class SupplyOrderController extends JController
 	    // Set accounts model
 	    $accountsModel =& $this->getModel ( 'accounts' ); // get second model     
 	    $view->setModel( $accountsModel );  
+	    
+	    // Set user model
+	    $userModel =& $this->getModel ( 'user' ); // get second model
+	    $view->setModel( $userModel );
 
 	    // Set the layout
 	    $view->setLayout($viewLayout);
