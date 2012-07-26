@@ -126,13 +126,21 @@ class SupplyOrderModelAccounts extends JModel
 	 */
 	function listAccount()
 	{
-		$listAllAccounts = "Select * from `#__so_accounts`";
+		$db = &JFactory::getDBO();
+		
+		$listAllAccounts = "select a.account_id, a.account_num, a.account_name, e.first_name, e.last_name 
+							from `#__so_accounts` a, `#__so_employee` e
+							where a.employee_id = e.employee_id";
 		$db->setQuery($listAllAccounts);
-		try {
-			return $db->loadAssocList();
-		} catch (Exception $e) {
-			return $e;
+		
+		// Check for database error
+		if (!$result = $db->loadAssocList())
+		{
+			$this->setError(JText::_('DATABASE_ERROR'));
+			return false;
 		}
+		
+		return $result;
 	}
 
 }

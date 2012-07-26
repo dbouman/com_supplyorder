@@ -163,10 +163,11 @@ if(isset($this->message)){
 					<?php 
 					foreach ($this->accounts as $account) {
 						?>
-						<option value="<?php echo $account['id']; ?>">
-							<?php echo	$account['number'] . " " . 
-										$account['description'] . " " . 
-										$account['owner']; 
+						<option value="<?php echo $account['account_id']; ?>">
+							<?php echo	$account['account_num'] . " " . 
+										$account['account_name'] . " " . 
+										$account['first_name'] . " " . 
+										$account['last_name']; 
 							?>
 						</option>
 						<?php 	
