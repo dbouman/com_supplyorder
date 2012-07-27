@@ -30,6 +30,12 @@ class SupplyOrderModelUser extends JModel
 		parent::__construct();
 	}
 
+	/**
+	 * If id is empty, get information on currently logged in user.
+	 * If id is not empty, get information on the user based on user id
+	 * @param int $id
+	 * @return array of user information
+	 */
 	function getUserInfo($id = 0)
 	{
 		if ($id == 0) // No id passed in, get current user info
@@ -62,12 +68,17 @@ class SupplyOrderModelUser extends JModel
 		return $user_info;
 	}
 
+	/**
+	 * Map a title to a role id. If no match is found, assume that the role id is 1 (lowest). 
+	 * @param string $title
+	 * @return role id, returns 1 if no title match found
+	 */
 	function getRoleId ($title) 
 	{
 		$db = &JFactory::getDBO();
 		
-		$query = "select role_id from `#__so_title_roles`
-							where title = '" . $title . "'";
+		$query = "SELECT role_id FROM `#__so_title_roles`
+					WHERE title = '" . $title . "'";
 		
 		$db->setQuery($query);
 		
