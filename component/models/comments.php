@@ -15,7 +15,6 @@ jimport('joomla.application.component.model');
 
 class SupplyOrderModelComments extends JModel
 {
-	private $comments = array();
 	
 	/**
 	 * Constructor
@@ -27,58 +26,42 @@ class SupplyOrderModelComments extends JModel
 	}
 	
 	/**
-	 * NOT USED
-	 * Comments setter
-	 * 
+	 * Insert a comment
 	 */
-	function setComments($field, $value)
-	{
-		$this->comments["$field"] = $value;	
-	}
-	
-	/**
-	 * New Comments
-	 * 
-	 */
-	function newComments($comment, $request_id, $employee_id)
+	function insertComment($comment, $request_id, $employee_id)
 	{
 		$db = JFactory::getDBO();
 		
-		$newCommentSql = "Insert into `#__so_comemnts` 
-							(request_id, employee_id, comment_body) 
-							values
-							($request_id, $employee_id, $comment)";
+		$query = "INSERT INTO `#__so_comments` 
+							(request_id, employee_id, comment_body, date_sent) 
+							values 
+							($request_id, $employee_id, '$comment', CURDATE())";
 		
-		$db->setQuery($newCommentSql);
+		$db->setQuery($query);
 		
-		try {
-			$db->query;
-			return $db->insertid();
-		} catch (Exception $e) {
-			return $e;
+		if (!$result = $db->query()) {
+			JError::raiseError('', JText::_('SQL_ERROR'));
+			return false;
 		}
+		
+		return $db->insertid();
 	}
 	
 	/**
-	 * Comment Details
+	 * Get a list of all comments for a specific request
 	 * 
-	 * Assuming everytime multiple entries of comments are selected on one request.
-	 * 
+	 * @param int $request_id
+	 * @return false if no comments
 	 */
-	function commentDetails($request_id)
+	function getComments($request_id)
 	{
 		$db = JFactory::getDBO();
 		
-		$commentsDetailSql = "Select * from `#__so_comments` where request_id = $request_id";
+		$query = "SELECT * FROM `#__so_comments` WHERE request_id = $request_id";
 		
-		$db->setQuery($commentsDetailSql);
+		$db->setQuery($query);
+		$result = $db->loadAssocList();
 		
-		try {
-			$db->query();
-			return $db->loadAssoc();
-		} catch (Exception $e) {
-			return $e;
-		}
-		
+		return $result;
 	}
 }
