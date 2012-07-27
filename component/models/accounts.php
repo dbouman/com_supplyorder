@@ -128,7 +128,7 @@ class SupplyOrderModelAccounts extends JModel
 		$db = &JFactory::getDBO();
 		
 		$query = "SELECT account_id, employee_id, account_num, account_name 
-							FROM `#__so_accounts`";
+					FROM `#__so_accounts`";
 		
 		$db->setQuery($query);
 		
