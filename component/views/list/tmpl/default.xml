@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<layout title="New Request">
+		<message>
+			Place a new supply order request
+		</message>
+	</layout>
+	<state>
+		<name>New Request</name>
+		<description>Place a new supply order request</description>
+		<params>
+		</params>
+	</state>
+</metadata>

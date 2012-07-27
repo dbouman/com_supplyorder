@@ -38,7 +38,11 @@
 	</files>
 	<!--  Media -->
 	<media destination="com_supplyorder" folder="images">
+		<filename>bg_header.jpg</filename>
+		<filename>blank.gif</filename>
 		<filename>error-16.png</filename>
+		<filename>fancybox_loading.gif</filename>
+		<filename>fancybox_sprite.png</filename>
 		<filename>warning-16.png</filename>
 	</media>
 	<!-- Language -->
