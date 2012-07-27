@@ -43,7 +43,7 @@ class SupplyOrderModelAccounts extends JModel
 	/**
 	 * Insert an account 
 	 */
-	function newAccount()
+	function insertAccount()
 	{
 		$db = JFactory::getDBO();
 		
@@ -60,9 +60,9 @@ class SupplyOrderModelAccounts extends JModel
 		$columns .= ")";
 		$columnValue .= ")";
 		
-		$newAccountSql = "INSERT INTO `#__so_accounts` $columns Values $columnValue";
+		$query = "INSERT INTO `#__so_accounts` $columns Values $columnValue";
 		
-		$db->setQuery($newAccountSql);
+		$db->setQuery($query);
 		
 		if (!$result = $db->query()) {
 			JError::raiseError('', JText::_('SQL_ERROR'));
@@ -76,22 +76,22 @@ class SupplyOrderModelAccounts extends JModel
 	 * Update an account by account id
 	 * @param int $accountId
 	 */
-	function updateAccount($accountId)
+	function updateAccount($account_id)
 	{
 		$db = JFactory::getDBO();
 		
-		$updateAccountSql = "UPDATE `#__so_accounts` SET ";
+		$query = "UPDATE `#__so_accounts` SET ";
 		
 		foreach ($this->accounts as $field => $value)
 		{
-			$updateAccountSql .= $field." = ".$value.", ";
+			$query .= $field." = ".$value.", ";
 		}
 		
-		$updateAccountSql = substr($updateAccountSql, 0, -2);
+		$query = substr($query, 0, -2);
 		
-		$updateAccountSql .= " WHERE `account_id` = $accountId";
+		$query .= " WHERE `account_id` = $account_id";
 
-		$db->setQuery($updateAccountSql);
+		$db->setQuery($query);
 		
 		if (!$result = $db->query()) {
 			JError::raiseError('', JText::_('SQL_ERROR'));
@@ -105,12 +105,12 @@ class SupplyOrderModelAccounts extends JModel
 	 * Delete an account by account id
 	 * @param int $accountId
 	 */
-	function deleteAccount($accountId)
+	function deleteAccount($account_id)
 	{
 		$db = JFactory::getDBO();
 		
-		$deleteAccount = "DELETE FROM `#__so_accounts` WHERE `account_id` = $accountId";
-		$db->setQuery($deleteAccount);
+		$query = "DELETE FROM `#__so_accounts` WHERE `account_id` = $account_id";
+		$db->setQuery($query);
 		
 		if (!$result = $db->query()) {
 			JError::raiseError('', JText::_('SQL_ERROR'));
@@ -127,10 +127,10 @@ class SupplyOrderModelAccounts extends JModel
 	{
 		$db = &JFactory::getDBO();
 		
-		$listAllAccounts = "SELECT account_id, employee_id, account_num, account_name 
+		$query = "SELECT account_id, employee_id, account_num, account_name 
 							FROM `#__so_accounts`";
 		
-		$db->setQuery($listAllAccounts);
+		$db->setQuery($query);
 		
 		// Check for empty accounts table
 		if (!$result = $db->loadAssocList())
