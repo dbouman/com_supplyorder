@@ -20,7 +20,7 @@ jimport('joomla.application.component.view');
  * HTML View class for the com_supplyorder component
  * @package com_supplyorder
  */
-class SupplyOrderViewRequests extends JView
+class SupplyOrderViewList extends JView
 {
 	function display( $tpl = null)
 	{
