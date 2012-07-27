@@ -30,9 +30,9 @@ class SupplyOrderModelAccounts extends JModel
 	}
 	
 	/**
-	 * set $accounts array
-	 * 
-	 * @var string, string
+	 * Add field/value pairs to the $accounts array
+	 * @param string $field
+	 * @param string $value
 	 */
 	function setAccount($field, $value)
 	{
@@ -41,9 +41,7 @@ class SupplyOrderModelAccounts extends JModel
 	
 	
 	/**
-	 * New account
-	 * Create new account 
-	 * 
+	 * Insert an account 
 	 */
 	function newAccount()
 	{
@@ -62,92 +60,87 @@ class SupplyOrderModelAccounts extends JModel
 		$columns .= ")";
 		$columnValue .= ")";
 		
-		$newAccountSql = "Insert Into `#__so_accounts` $columns Values $columnValue";
+		$newAccountSql = "INSERT INTO `#__so_accounts` $columns Values $columnValue";
 		
 		$db->setQuery($newAccountSql);
 		
-		try
-		{
-			$db->query();
-			$requestId = $db->insertid();
-			return $requestId;//return true;
-		}
-		catch (Exception $e)
-		{
+		if (!$result = $db->query()) {
+			JError::raiseError('', JText::_('SQL_ERROR'));
 			return false;
 		}
+		
+		return $db->insertid();
 	}
 	
 	/**
-	 * Update Account
-	 * 
+	 * Update an account by account id
+	 * @param int $accountId
 	 */
 	function updateAccount($accountId)
 	{
 		$db = JFactory::getDBO();
 		
-		$fieldValuePair = "";
+		$updateAccountSql = "UPDATE `#__so_accounts` SET ";
 		
 		foreach ($this->accounts as $field => $value)
 		{
-			$fieldValuePair .= $field." = ".$value.", ";
+			$updateAccountSql .= $field." = ".$value.", ";
 		}
 		
-		$fieldValuePair = substr($fieldValuePair, 0, -1);
+		$updateAccountSql = substr($updateAccountSql, 0, -2);
 		
-		$updateAccountSql = "Update `#__so_accounts` set $fieldValuePair where `account_id` = $accountId";
+		$updateAccountSql .= " WHERE `account_id` = $accountId";
 
 		$db->setQuery($updateAccountSql);
 		
-		try {
-			$db->query();
-			return $db->LoadResults();
-		} catch (Exception $e) {
-		}
+		if (!$result = $db->query()) {
+			JError::raiseError('', JText::_('SQL_ERROR'));
+			return false;
+		} 
+		
+		return true;
 	}
 
 	/**
-	 * Delete Account
-	 * 
+	 * Delete an account by account id
+	 * @param int $accountId
 	 */
 	function deleteAccount($accountId)
 	{
 		$db = JFactory::getDBO();
 		
-		$deleteAccount = "Delete from `#__so_accounts` where `account_id` = $accountId";
+		$deleteAccount = "DELETE FROM `#__so_accounts` WHERE `account_id` = $accountId";
 		$db->setQuery($deleteAccount);
 		
-		try {
-			$db->query();
-			return true;
-		} catch (Exception $e) {
-			return $e;
-		}
+		if (!$result = $db->query()) {
+			JError::raiseError('', JText::_('SQL_ERROR'));
+			return false;
+		} 
+		
+		return true;
 	}
 	
 	/**
-	 * list of Accounts
-	 * List of the all the accounts from DB for dropdown.
-	 * 
+	 * List of all the accounts
 	 */
 	function listAccount()
 	{
 		$db = &JFactory::getDBO();
 		
-		$listAllAccounts = "select account_id, employee_id, account_num, account_name 
-							from `#__so_accounts`";
+		$listAllAccounts = "SELECT account_id, employee_id, account_num, account_name 
+							FROM `#__so_accounts`";
 		
 		$db->setQuery($listAllAccounts);
 		
-		// Check for database error
+		// Check for empty accounts table
 		if (!$result = $db->loadAssocList())
 		{
-			$this->setError(JText::_('DATABASE_ERROR'));
+			JError::raiseNotice('', JText::_('ACCOUNTS_EMPTY'));
 			return false;
 		}
 
 		// Get user model
-		$userModel = JModel::getInstance(‘User’, ‘SupplyOrderModel’);
+		$userModel = JModel::getInstance('User', 'SupplyOrderModel');
 		
 		$accounts = array();
 		$i = 0;
