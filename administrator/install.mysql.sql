@@ -169,3 +169,13 @@ INSERT INTO `#__so_roles` (`role_id`, `role_name`) VALUES
 (2, 'Tier 1 Approver'),
 (3, 'Tier 2 Approver'),
 (4, 'Accounting');
+
+-- Add request statuses
+INSERT INTO `#__so_request_status` (`request_status_id`, `status_name`, `status_desc`, `approval_level`) VALUES
+(1, 'Saved', 'Order is saved', 0),
+(2, 'Pending Level 1', 'Pending 1st approval', 0),
+(3, 'Pending Level 2', 'Pending 2nd approval', 1),
+(4, 'Pending Level 3', 'Pending 3rd approval', 2),
+(5, 'Pending Purchase', 'Approved and awaiting purchase', 3),
+(6, 'Purchased', 'Approved and purchased', 3),
+(7, 'Received', 'Received', 3);
