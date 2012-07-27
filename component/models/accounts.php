@@ -154,8 +154,10 @@ class SupplyOrderModelAccounts extends JModel
 		foreach ($result as $row) {
 			$accounts[$i]['id'] = $row['account_id'];
 			$accounts[$i]['name'] = $row['account_name'];
-			$accounts[$i]['number'] = $row['number'];
-			$accounts[$i]['owner'] = $userModel->getUserInfo($row['employee_id']);
+			$accounts[$i]['number'] = $row['account_num'];
+			
+			$userInfo = $userModel->getUserInfo($row['employee_id']);
+			$accounts[$i]['owner'] = $userInfo['name'];
 			$i++; 
 		}
 		
