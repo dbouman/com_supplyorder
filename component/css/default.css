@@ -3,9 +3,7 @@
 	font: bold 11px "Trebuchet MS", Verdana, Arial, Helvetica,
 	sans-serif;
 	color: #6D929B;
-	border-right: 1px solid #C1DAD7;
-	border-bottom: 1px solid #C1DAD7;
-	border-top: 1px solid #C1DAD7;
+	border: 1px solid #C1DAD7;
 	letter-spacing: 2px;
 	text-transform: uppercase;
 	text-align: left;
@@ -14,10 +12,16 @@
 }
 
 .so_table th.nobg {
-	border-top: 0;
-	border-left: 0;
-	border-right: 1px solid #C1DAD7;
 	background: none;
+}
+
+.so_table tr {
+	background: #fff;
+	color: #6D929B;
+}
+
+.so_table tr.alt {
+	background: #F5FAFA;
 }
 
 .so_table tr.selected_color {
@@ -25,18 +29,13 @@
 }
 
 .so_table td {
+	border-left: 1px solid #C1DAD7;
 	border-right: 1px solid #C1DAD7;
 	border-bottom: 1px solid #C1DAD7;
-	background: #fff;
 	padding: 6px 6px 6px 12px;
-	color: #6D929B;
 }
 
 
-.so_table td.alt {
-	background: #F5FAFA;
-	color: #B4AA9D;
-}
 
 /* Form validation errors */
 label.error-required {

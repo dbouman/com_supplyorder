@@ -23,18 +23,25 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 <!--
 	jQuery(document).ready(function() {
 		
+		// Alternate table row color
+		jQuery('.so_table tr:even').addClass('alt'); 
+		
 		// Handles highlighting row when box is checked
-		jQuery("table#requests_table").delegate('input[id^="request"]','click', function(e) {
+		jQuery(".so_table").delegate('input[id^="request"]','click', function(e) {
 			jQuery(this).parents("tr").toggleClass("selected_color");
 		});
 
-		jQuery("a.fancybox").fancybox({
-			'width'			:	800,
-			'height'		:	600,
-			'openEffect'	:	'elastic',
-			'closeEffect'	:	'elastic',
-			'openSpeed'		:	normal, 
-			'closeSpeed'	:	normal
+		jQuery("a.popup").fancybox({
+			fitToView	: false,
+			width		: 830,
+			height		: 600,
+			autoSize	: false,
+			closeClick	: false,
+			scrolling	: 'no',
+			openEffect	: 'elastic',
+			closeEffect	: 'elastic',
+			openSpeed	:	'normal', 
+			closeSpeed	:	'normal'
 		});
 		
 	  });
@@ -58,7 +65,7 @@ if(isset($this->message)){
 	</div>
 	<?php endif; ?>
 
-	<table cellpadding="0" cellspacing="0" border="0" width="100%"	class="so_table" id="requests_table">
+	<table cellpadding="0" cellspacing="0" border="0" width="100%"	class="so_table">
 		<tr>
 			<th><?php echo JText::_( 'Select' ); ?></th>
 			<th><?php echo JText::_( 'ID' ); ?></th>
@@ -82,7 +89,7 @@ if(isset($this->message)){
 				<td><?php echo $request['item_desc']; ?></td>
 				<td><?php echo $request['quantity']; ?></td>
 				<td><?php echo $request['request_cost']; ?></td>
-				<td><a class="fancybox" href="<?php echo JRoute::_( 'index.php?option=com_supply_order&view=list&layout=details&tmpl=component&request_id=' . $request['request_id'] ); ?>">Details</a></td>
+				<td><a class="popup fancybox.iframe" href="<?php echo JRoute::_( 'index.php?option=com_supply_order&view=list&layout=details&tmpl=component&request_id=' . $request['request_id'] ); ?>">Details</a></td>
 				<td><a href="<?php echo JRoute::_( 'index.php?option=com_supply_order&view=requests&layout=edit&request_id=' . $request['request_id'] ); ?>">Edit</a></td>
 				<td><a href="<?php echo JRoute::_( 'index.php?option=com_supply_order&view=list&layout=saved&task=delete_request&request_id=' . $request['request_id'] ); ?>">Delete</a></td>
 			</tr>
