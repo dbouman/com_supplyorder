@@ -123,7 +123,7 @@ class SupplyOrderModelAccounts extends JModel
 	/**
 	 * List of all the accounts
 	 */
-	function listAccount()
+	function listAccounts()
 	{
 		$db = &JFactory::getDBO();
 		
