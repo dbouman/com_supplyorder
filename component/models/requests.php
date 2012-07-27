@@ -30,9 +30,9 @@ class SupplyOrderModelRequests extends JModel
 	}
 	
 	/**
-	 * Array setter 
-	 * 
-	 * @var int, string, float
+	 * Add field/value pairs to the $request array
+	 * @param string $field
+	 * @param string $value
 	 */
 	function setRequest($field, $value)
 	{
@@ -40,301 +40,256 @@ class SupplyOrderModelRequests extends JModel
 	}
 
 	/**
-	 * New Request insert Query
+	 * Insert a request
 	 * 
-	 * @var array
-	 * @access public
+	 * @return int request id
 	 */
-	function requestInsertSql() 
+	function insertRequest() 
 	{
 		$db = JFactory::getDBO();
 		
 		$columns = "(";
-		$columnValue = "(";
+		$column_values = "(";
 		foreach ($this->request as $field => $value)
 		{
-			$columns .= $field."'";
-			$columnValue .= "\"".$value."\",";
+			$columns .= $field.",";
+			$column_values .= "\"".$value."\",";
 		}
 		$columns = substr($columns, 0, -1);
-		$columnValue = substr($columnValue, 0, -1);
+		$column_values = substr($column_values, 0, -1);
 		
 		$columns .= ")";
-		$columnValue .= ")";
+		$column_values .= ")";
 		
-		$insertSql = "insert into `#__so_request` $columns values $columnValue";
+		$query = "INSERT INTO `#__so_request` $columns VALUE $column_values";
 		
-		$db->setQuery($insertSql);
+		$db->setQuery($query);
 		
-		try
-		{
-			$db->query();
-			$requestId = $db->insertid();
-			return $requestId;//return true;
-		}
-		catch (Exception $e)
-		{
+		if (!$result = $db->query()) {
+			JError::raiseError('', JText::_('SQL_ERROR'));
 			return false;
 		}
+		
+		return $db->insertid();
 	}
 	
 	/**
-	 * Request update query
+	 * Update a request by request id
 	 * 
-	 * @var int record id
-	 * @access public
-	 * @return boolean 
-	 * 
+	 * @param int request id
+	 * @return true if request was successfully updated 
 	 */
-	function updateRequest($id)
+	function updateRequest($request_id)
 	{
 		$db = JFactory::getDBO();
 		
-		$fieldValuePair = "";
+		$query = "UPDATE `#__so_request` SET ";
+		
 		foreach ($this->request as $field => $value)
 		{
-			$fieldValuePair .= $field. "= \"".$value."\",";
+			$query .= $field. "= \"".$value."\", ";
 		}
 		
-		$fieldValuePair = substr($fieldValuePair, 0, -1);
-		$fieldValuePair = "update `#__so_request` set $fieldValuePair where request_id = $id";
+		$query = substr($query, 0, -2);
+		$query .= " WHERE request_id = $request_id";
 		
-		$db->setQuery($fieldValuePair);
-		try
-		{
-			$db->query();
-			$requestId = $db->insertid();
-			return $requestId;//return true;
-		}
-		catch (Exception $e)
-		{
+		$db->setQuery($query);
+		
+		if (!$result = $db->query()) {
+			JError::raiseError('', JText::_('SQL_ERROR'));
 			return false;
 		}
 		
+		return true;
 	}
 	
 	/**
-	 * Request Delete query
+	 * Delete a request by request id
 	 * 
-	 * @var int record id
-	 * @access public
-	 * @return boolean
-	 *
+	 * @param int request id
+	 * @return true if request was successfully deleted 
 	 */
-	function deleteRequest($id)
+	function deleteRequest($request_id)
 	{
 		$db = JFactory::getDBO();
 		
-		$deleteQuery = "delete from `#__so_request` where request_id = $id";
+		$query = "DELETE FROM `#__so_request` WHERE request_id = $request_id";
 	
-		$db->setQuery($deleteQuery);
-		try
-		{
-			$db->query();
-			return $db->loadResult();//return true;
-		}
-		catch (Exception $e)
-		{
+		$db->setQuery($query);
+		
+		if (!$result = $db->query()) {
+			JError::raiseError('', JText::_('SQL_ERROR'));
+			return false;
+		} 
+		
+		return true;
+	}
+	
+	/**
+	 * Get details of a specific status
+	 * 
+	 * @param int request status id
+	 * @return array of status details
+	 */
+	function getStatus($request_status_id)
+	{
+		$db = JFactory::getDBO();
+		
+		$query = "SELECT *
+					FROM `#__so_request_status` 
+					WHERE request_status_id = $request_status_id)";
+		
+		$db->setQuery($query);
+		
+		return $db->loadResult();
+	}
+	
+	/**
+	 * Update status id for specific request
+	 *
+	 * @param int request id
+	 * @param int request status id
+	 * @return true if successfully updated
+	 */
+	function updateStatus($request_id, $request_status_id)
+	{
+		$db = JFactory::getDBO();
+		
+		$query = "UPDATE `#__so_request` 
+					SET `request_status_id` = $request_status_id 
+					WHERE request_id = $request_id";
+		
+		$db->setQuery($query);
+		
+		if (!$result = $db->query()) {
+			JError::raiseError('', JText::_('SQL_ERROR'));
 			return false;
 		}
+		
+		return true;
 	}
 	
 	/**
-	 * Get Status Id for the request
+	 * List requests by owner
 	 * 
-	 * @var int request id
-	 * @access public
-	 * @return string
+	 * @param int employee id
+	 * @return indexed array of associated arrays
 	 */
-	function getStatusId($id)
+	function listRequestByOwner($employee_id)
 	{
 		$db = JFactory::getDBO();
 		
-		$statusIdQuery = "select  from r `#__so_request`, rs `#__so_request_status` 
-							where (r.request_id = $id) AND (r.request_status_id = rs.request_status_id)";
-		$db->setQuery($statusIdQuery);
-		try
-		{
-			return $db->loadResult();//return true;
-		}
-		catch (Exception $e)
-		{
+		$query = "SELECT * FROM `#__so_request` WHERE `employee_id` = $employee_id";
+		$db->setQuery($query);
+		
+		return $db->loadAssocList();
+	}
+	
+	/**
+	 * List requests by approver
+	 * 
+	 * @param int approver id
+	 * @return indexed array of associated arrays
+	 */
+	function listRequestByApprover($approver_id)
+	{
+		$db = JFactory::getDBO();
+		
+		$query = "SELECT * FROM `#__so_request` WHERE `account_id` = $approver_id";
+		
+		$db->setQuery($query);
+		
+		return $db->loadAssocList();
+		
+	}
+	
+	/**
+	 * List requests by status id
+	 * 
+	 * @param int status id
+	 * @return indexed array of associated arrays
+	 */
+	function listRequestByStatus($status_id)
+	{
+		$db = JFactory::getDBO();
+		
+		$query = "SELECT * FROM `#__so_request` WHERE `request_status_id` = $status_id";
+		
+		$db->setQuery($query);
+		
+		return $db->loadAssocList();
+	}
+	
+	/**
+	 * @TODO Why do we need this, when we have a way to update status already? - Danny
+	 * Update a request when it has been received 
+	 * 
+	 * @param int new status id
+	 * @param int request id
+	 * @return true if request successfully updated
+	 */
+	function requestReceived($new_status_id, $request_id)
+	{
+		$db = JFactory::getDBO();
+		
+		$query = "UPDATE `#__so_request` 
+					SET `request_status_id` = $new_status_id 
+					WHERE `request_id` = $request_id";
+		
+		$db->setQuery($query);
+		
+		if (!$result = $db->query()) {
+			JError::raiseError('', JText::_('SQL_ERROR'));
 			return false;
-		}
-	}
-	
-	/**
-	 * Update Status Id for the request
-	 *
-	 * @var int list or single request id
-	 * @access public
-	 * @return string
-	 */
-	function updateStatus($id, $statusId)
-	{
-		$db = JFactory::getDBO();
+		} 
 		
-		$updateStatusQuery = "Update `#__so_request` set `request_status_id` = $statusId where request_id = $id";
-		$db->setQuery($updateStatusQuery);
-		try
-		{
-			return $db->loadResult();//return true;
-		}
-		catch (Exception $e)
-		{
-			return $e;
-		}
+		return true;
 	}
 	
 	/**
-	 * List request by Owner
+	 * @FIXME Needs to be updated for new database schema, and it needs to use request_id
+	 * Get brief details about a request
 	 * 
-	 * @var int employee id
-	 * @access public
-	 * @return array
-	 *  
+	 * @param int request id
+	 * @return indexed array of associated arrays
 	 */
-	function listRequestByOwner($employeId)
+	function getRequestBriefDetail($request_id)
 	{
 		$db = JFactory::getDBO();
 		
-		$listRequestByOwnerQuery = "Select * from `#__so_request` where `employee_id` = $employeId";
-		$db->setQuery($listRequestByOwnerQuery);
+		$query = "SELECT o.order_id, o.vendor, o.item_desc, o.ship_to, o.quantity, o.order_total, 
+					o.date_required, os.status_name, a.account_num, e.first_name, e.last_name, e.email 
+					FROM o order, os order_status, e employee, a accounts 
+					WHERE o.order_status_id = os.order_status_id
+					AND o.employee_id = o.employee_id
+					AND o.account_id = a.account_id";
 		
-		try {
-			return $db->loadAssocList();
-		} catch (Exception $e) {
-			return $e;
-		}
+		$db->setQuery($query);
+		
+		return $db->loadAssoc();
 	}
 	
 	/**
-	 * List request by Approver
+	 * @FIXME Needs to be updated for new database schema, and it needs to use request_id
+	 * Get complete details about a request
 	 * 
-	 * @var int approver id
-	 * @access public
-	 * @return array 
+	 * @param int request id
+	 * @return indexed array of associated arrays
 	 */
-	function listRequestByApprover($approverId)
+	function getRequestDetail($request_id)
 	{
 		$db = JFactory::getDBO();
 		
-		$listRequestByApproverQuery = "Select * from `#__so_request` where `account_id` = $approverId";
-		
-		$db->setQuery($listRequestByApproverQuery);
-		
-		try {
-			return $db->loadAssocList();
-		} catch (Exception $e) {
-			return $e;
-		}
-	}
+		$query = "SELECT o.order_id, o.vendor, o.item_desc, o.ship_to, o.quantity, o.order_total,
+					o.date_required, os.status_name, a.account_num, e.first_name, e.last_name, e.email
+					FROM o order, os order_status, e employee, a accounts
+					WHERE o.order_status_id = os.order_status_id
+					AND o.employee_id = o.employee_id
+					AND o.account_id = a.account_id";
 	
-	/**
-	 * List request by Status
-	 * 
-	 * @var int status id
-	 * @access public
-	 * @return array
-	 */
-	function listRequestByStatus($statusId)
-	{
-		$db = JFactory::getDBO();
-		
-		$listRequestByStatusQuery = "Select * from `#__so_request` where `request_status_id` = $statusId";
-		
-		$db->setQuery($listRequestByStatusQuery);
-		
-		try {
-			return $db->loadAssocList();
-		} catch (Exception $e) {
-			return $e;
-		}
-	}
+		$db->setQuery($query);
 	
-	/**
-	 * Request received update 
-	 * 
-	 * @var boolean, int
-	 * @access public
-	 * @return boolean
-	 */
-	function requestReceived($newStatusId, $requestId)
-	{
-		$db = JFactory::getDBO();
-		
-		$requestReceivedQuery = "Update `#__so_request` set `request_status_id` = $newStatusId where `request_id` = $requestId";
-		$db->setQuery($requestReceivedQuery);
-		
-		try {
-			$db->query();
-			return true;
-		} catch (Exception $e) {
-			return $e;
-		}
-	}
-	
-	/**
-	 * getter Request Breif Details
-	 * 
-	 * @var int
-	 * @return array
-	 */
-	function getRequestBriefDetail($requestId)
-	{
-		$db = JFactory::getDBO();
-		
-		//Select Query 
-		$requestBriefDetailQuery = "Select o.order_id, o.vendor, o.item_desc, o.ship_to, o.quantity, o.order_total, 
-										o.date_required, os.status_name, a.account_num, e.first_name, e.last_name, 
-										e.email 
-										from o order, os order_status, e employee, a accounts 
-										where 
-										o.order_status_id = os.order_status_id
-										AND o.employee_id = o.employee_id
-										AND o.account_id = a.account_id";
-		
-		$db->setQuery($requestBriefDetailQuery);
-		
-		try {
-			$db->query();
-			return $db->loadAssoc();
-		} catch (Exception $e) {
-			return $e;
-		}
-		
-	}
-	
-	/**
-	 * Request Detail View
-	 * This detail view is for complete information.
-	 *
-	 * @var int
-	 * @return array
-	 */
-	function getRequestDetail($requestId)
-	{
-		$db = JFactory::getDBO();
-		
-		//Select query
-		$requestDetailQuery = "Select o.order_id, o.vendor, o.item_desc, o.ship_to, o.quantity, o.order_total,
-		o.date_required, os.status_name, a.account_num, e.first_name, e.last_name,
-		e.email
-		from o order, os order_status, e employee, a accounts
-		where
-		o.order_status_id = os.order_status_id
-		AND o.employee_id = o.employee_id
-		AND o.account_id = a.account_id";
-	
-		$db->setQuery($requestDetailQuery);
-	
-		try {
-			$db->query();
-			return $db->loadAssoc();
-		} catch (Exception $e) {
-			return $e;
-		}
-	
+		return $db->loadAssoc();
 	}
 	
 }
