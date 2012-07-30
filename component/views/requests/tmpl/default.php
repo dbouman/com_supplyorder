@@ -21,7 +21,11 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 		    var quantity = jQuery('#quantity').val();
 		    if (unit_cost && quantity) { 
 			    var total = parseFloat(jQuery('#unit_cost').val()) * parseInt(jQuery('#quantity').val());
+			    total = parseFloat(Math.round(total * 100) / 100).toFixed(2);
 		    	jQuery('#total_price').html("Total Price: $ "+total);
+		    }
+		    else {
+		    	jQuery('#total_price').html("");
 		    }
 	    });
 
