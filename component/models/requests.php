@@ -220,35 +220,9 @@ class SupplyOrderModelRequests extends JModel
 		return $db->loadAssocList();
 	}
 	
-	/**
-	 * @TODO Why do we need this, when we have a way to update status already? - Danny
-	 * Update a request when it has been received 
-	 * 
-	 * @param int new status id
-	 * @param int request id
-	 * @return true if request successfully updated
-	 */
-	function requestReceived($new_status_id, $request_id)
-	{
-		$db = JFactory::getDBO();
-		
-		$query = "UPDATE `#__so_requests` 
-					SET `request_status_id` = $new_status_id 
-					WHERE `request_id` = $request_id";
-		
-		$db->setQuery($query);
-		
-		if (!$result = $db->query()) {
-			JError::raiseError('', JText::_('SQL_ERROR'));
-			return false;
-		} 
-		
-		return true;
-	}
 	
 	/**
-	 * @FIXME Needs to be updated for new database schema, and it needs to use request_id
-	 * Get brief details about a request
+	 * Brief Details 
 	 * 
 	 * @param int request id
 	 * @return indexed array of associated arrays
@@ -257,39 +231,61 @@ class SupplyOrderModelRequests extends JModel
 	{
 		$db = JFactory::getDBO();
 		
-		$query = "SELECT o.order_id, o.vendor, o.item_desc, o.ship_to, o.quantity, o.order_total, 
-					o.date_required, os.status_name, a.account_num, e.first_name, e.last_name, e.email 
-					FROM o order, os order_status, e employee, a accounts 
-					WHERE o.order_status_id = os.order_status_id
-					AND o.employee_id = o.employee_id
-					AND o.account_id = a.account_id";
+		$userModel = JModel::getInstance('User', 'SuppyOrderModel');
 		
+		$query = "SELECT r.request_id, r.vendor, r.item_desc, r.ship_to, r.quantity, r.request_cost, 
+					r.date_required, r.employee_id, os.status_name, os.status_desc, a.account_num, a.account_name
+					FROM r requests, os order_status, a accounts 
+					WHERE r.request_id = $request_id 
+					AND r.request_status_id = os.request_status_id
+					AND r.account_id = a.account_id" ;
 		$db->setQuery($query);
 		
-		return $db->loadAssoc();
+		//Acc array for the Brief Details
+		$briefDetails = $db->loadAssoc();
+		
+		//Employee info
+		$userInfo = $userModel->getUserInfo($briefDetails['employee_id']);
+		
+		//Add employee value
+		$briefDetails["employee_name"] = $userInfo['name'];
+		$briefDetails["employee_email"] = $userInfo['email'];
+		
+		return $briefDetails;
 	}
 	
 	/**
-	 * @FIXME Needs to be updated for new database schema, and it needs to use request_id
+	 * @FIXME Needs to be changed for JOIN query
 	 * Get complete details about a request
 	 * 
 	 * @param int request id
 	 * @return indexed array of associated arrays
 	 */
-	function getRequestDetail($request_id)
+	function getRequestCompleteDetail($request_id)
 	{
 		$db = JFactory::getDBO();
 		
-		$query = "SELECT o.order_id, o.vendor, o.item_desc, o.ship_to, o.quantity, o.order_total,
-					o.date_required, os.status_name, a.account_num, e.first_name, e.last_name, e.email
-					FROM o order, os order_status, e employee, a accounts
-					WHERE o.order_status_id = os.order_status_id
-					AND o.employee_id = o.employee_id
-					AND o.account_id = a.account_id";
-	
+		$userModel = JModel::getInstance('User', 'SuppyOrderModel');
+		
+		$query = "SELECT r.request_id, r.vendor, r.item_desc, r.ship_to, r.quantity, r.request_cost, 
+					r.date_required, r.employee_id, os.status_name, os.status_desc, a.account_num, a.account_name
+					FROM r requests, os order_status, a accounts 
+					WHERE r.request_id = $request_id 
+					AND r.request_status_id = os.request_status_id
+					AND r.account_id = a.account_id" ;
 		$db->setQuery($query);
 	
-		return $db->loadAssoc();
+		//Acc array for the Complete Details
+		$completeDetails = $db->loadAssoc();
+		
+		//Employee info
+		$userInfo = $userModel->getUserInfo($completeDetails['employee_id']);
+		
+		//Add employee value
+		$completeDetails["employee_name"] = $userInfo['name'];
+		$completeDetails["employee_email"] = $userInfo['email'];
+		
+		return $completeDetails;
 	}
 	
 }
