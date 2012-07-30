@@ -61,7 +61,7 @@ class SupplyOrderModelRequests extends JModel
 		$columns .= ")";
 		$column_values .= ")";
 		
-		$query = "INSERT INTO `#__so_request` $columns VALUE $column_values";
+		$query = "INSERT INTO `#__so_requests` $columns VALUE $column_values";
 		
 		$db->setQuery($query);
 		
@@ -83,7 +83,7 @@ class SupplyOrderModelRequests extends JModel
 	{
 		$db = JFactory::getDBO();
 		
-		$query = "UPDATE `#__so_request` SET ";
+		$query = "UPDATE `#__so_requests` SET ";
 		
 		foreach ($this->request as $field => $value)
 		{
@@ -113,7 +113,7 @@ class SupplyOrderModelRequests extends JModel
 	{
 		$db = JFactory::getDBO();
 		
-		$query = "DELETE FROM `#__so_request` WHERE request_id = $request_id";
+		$query = "DELETE FROM `#__so_requests` WHERE request_id = $request_id";
 	
 		$db->setQuery($query);
 		
@@ -155,7 +155,7 @@ class SupplyOrderModelRequests extends JModel
 	{
 		$db = JFactory::getDBO();
 		
-		$query = "UPDATE `#__so_request` 
+		$query = "UPDATE `#__so_requests` 
 					SET `request_status_id` = $request_status_id 
 					WHERE request_id = $request_id";
 		
@@ -179,7 +179,7 @@ class SupplyOrderModelRequests extends JModel
 	{
 		$db = JFactory::getDBO();
 		
-		$query = "SELECT * FROM `#__so_request` WHERE `employee_id` = $employee_id";
+		$query = "SELECT * FROM `#__so_requests` WHERE `employee_id` = $employee_id";
 		$db->setQuery($query);
 		
 		return $db->loadAssocList();
@@ -195,7 +195,7 @@ class SupplyOrderModelRequests extends JModel
 	{
 		$db = JFactory::getDBO();
 		
-		$query = "SELECT * FROM `#__so_request` WHERE `account_id` = $approver_id";
+		$query = "SELECT * FROM `#__so_requests` WHERE `account_id` = $approver_id";
 		
 		$db->setQuery($query);
 		
@@ -213,7 +213,7 @@ class SupplyOrderModelRequests extends JModel
 	{
 		$db = JFactory::getDBO();
 		
-		$query = "SELECT * FROM `#__so_request` WHERE `request_status_id` = $status_id";
+		$query = "SELECT * FROM `#__so_requests` WHERE `request_status_id` = $status_id";
 		
 		$db->setQuery($query);
 		
@@ -232,7 +232,7 @@ class SupplyOrderModelRequests extends JModel
 	{
 		$db = JFactory::getDBO();
 		
-		$query = "UPDATE `#__so_request` 
+		$query = "UPDATE `#__so_requests` 
 					SET `request_status_id` = $new_status_id 
 					WHERE `request_id` = $request_id";
 		
