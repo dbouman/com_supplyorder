@@ -20,13 +20,47 @@ class SupplyOrderModelRequests extends JModel
 	private $request = array();
 	
 	/**
+	 * Items total
+	 * @var integer
+	 */
+	var $_total = null;
+	
+	/**
+	 * Pagination object
+	 * @var object
+	 */
+	var $_pagination = null;
+	
+	/**
 	 * Constructor
 	 *
 	 * @since 1.5
 	 */
 	function __construct()
 	{
-		parent::__construct();
+	 	parent::__construct();
+	 
+		$mainframe = JFactory::getApplication();
+	 
+		// Get pagination request variables
+		$limit = $mainframe->getUserStateFromRequest('global.list.limit', 'limit', $mainframe->getCfg('list_limit'), 'int');
+		$limitstart = JRequest::getVar('limitstart', 0, '', 'int');
+	 
+		// In case limit has been changed, adjust it
+		$limitstart = ($limit != 0 ? (floor($limitstart / $limit) * $limit) : 0);
+	 
+		$this->setState('limit', $limit);
+		$this->setState('limitstart', $limitstart);
+	}
+	
+	function getPagination()
+	{
+		// Load the content if it doesn't already exist
+		if (empty($this->_pagination)) {
+			jimport('joomla.html.pagination');
+			$this->_pagination = new JPagination($this->_total, $this->getState('limitstart'), $this->getState('limit') );
+		}
+		return $this->_pagination;
 	}
 	
 	/**
@@ -170,19 +204,31 @@ class SupplyOrderModelRequests extends JModel
 	}
 	
 	/**
-	 * List requests by owner
+	 * List requests by owner and status id
 	 * 
 	 * @param int employee id
+	 * @param int or array status ids
 	 * @return indexed array of associated arrays
 	 */
-	function listRequestByOwner($employee_id)
+	function listRequestByOwner($employee_id, $status_ids)
 	{
 		$db = JFactory::getDBO();
 		
-		$query = "SELECT * FROM `#__so_requests` WHERE `employee_id` = $employee_id";
-		$db->setQuery($query);
+		// Turn status ids into comma separated list
+		$status_ids = implode(',', $status_ids);
+		$status_ids = rtrim($status_ids, ',');
 		
-		return $db->loadAssocList();
+		$query = "SELECT * FROM `#__so_requests` 
+					WHERE `employee_id` = $employee_id
+					AND `request_status_id` IN ($status_ids)";
+		$db->setQuery($query, $this->getState('limitstart'), $this->getState('limit'));
+		$requests = $db->loadAssocList();
+		
+		// Get total for pagination
+		$db->setQuery('SELECT FOUND_ROWS();');
+		$this->_total = $db->loadResult();
+		
+		return $requests;
 	}
 	
 	/**
@@ -191,33 +237,50 @@ class SupplyOrderModelRequests extends JModel
 	 * @param int approver id
 	 * @return indexed array of associated arrays
 	 */
-	function listRequestByApprover($approver_id)
+	function listRequestByApprover($approver_id, $status_ids)
 	{
 		$db = JFactory::getDBO();
 		
-		$query = "SELECT * FROM `#__so_requests` WHERE `account_id` = $approver_id";
+		// Turn status ids into comma separated list
+		$status_ids = implode(',', $status_ids);
+		$status_ids = rtrim($status_ids, ',');
 		
-		$db->setQuery($query);
+		$query = "SELECT * FROM `#__so_requests` 
+					WHERE `account_id` = $approver_id
+					AND `request_status_id` IN ($status_ids)";
+		$db->setQuery($query, $this->getState('limitstart'), $this->getState('limit'));
+		$requests = $db->loadAssocList();
+
+		// Get total for pagination
+		$db->setQuery('SELECT FOUND_ROWS();');
+		$this->_total = $db->loadResult();
 		
-		return $db->loadAssocList();
-		
+		return $requests;
 	}
 	
 	/**
-	 * List requests by status id
+	 * List requests by status ids
 	 * 
-	 * @param int status id
+	 * @param int or array of status ids
 	 * @return indexed array of associated arrays
 	 */
-	function listRequestByStatus($status_id)
+	function listRequestByStatus($status_ids)
 	{
 		$db = JFactory::getDBO();
 		
-		$query = "SELECT * FROM `#__so_requests` WHERE `request_status_id` = $status_id";
+		// Turn status ids into comma separated list
+		$status_ids = implode(',', $status_ids);
+		$status_ids = rtrim($status_ids, ',');
 		
-		$db->setQuery($query);
+		$query = "SELECT * FROM `#__so_requests` WHERE `request_status_id` IN ($status_ids)";
+		$db->setQuery($query, $this->getState('limitstart'), $this->getState('limit'));
+		$requests = $db->loadAssocList();
 		
-		return $db->loadAssocList();
+		// Get total for pagination
+		$db->setQuery('SELECT FOUND_ROWS();');
+		$this->_total = $db->loadResult();
+		
+		return $requests;
 	}
 	
 	
