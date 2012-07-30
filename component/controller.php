@@ -84,7 +84,7 @@ class SupplyOrderController extends JController
 		
 		$model->setRequest("approval_level_required", get_approval_level($order_cost));
 		
-		if ($model->requestInsertSql()) {
+		if ($model->insertRequest()) {
 			$msg	= JText::_( 'Your request has been saved. Your request has not yet been ordered, please visit your saved orders to submit the order for purchasing.' );
 		} else {
 			$msg	= JText::_( 'Error saving your request.' );
