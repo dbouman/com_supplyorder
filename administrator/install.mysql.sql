@@ -179,3 +179,11 @@ INSERT INTO `#__so_request_status` (`request_status_id`, `status_name`, `status_
 (5, 'Pending Purchase', 'Approved and awaiting purchase', 3),
 (6, 'Purchased', 'Approved and purchased', 3),
 (7, 'Received', 'Received', 3);
+
+
+-- Sample data for accounts - can be removed after initial testing
+INSERT INTO `jos_so_department_head` (`dept_head_id`, `employee_id`) VALUES
+(5, 62);
+
+INSERT INTO `jos_so_accounts` (`account_id`, `employee_id`, `dept_head_id`, `account_num`, `account_name`, `account_desc`) VALUES
+(7, 62, 5, '123456', 'Test Account', 'My Account');
