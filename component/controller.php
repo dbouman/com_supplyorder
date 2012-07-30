@@ -31,6 +31,9 @@ class SupplyOrderController extends JController
 			JRequest::setVar('view', 'requests' );
 		}
 		
+		// Check if user is logged in
+		$this->check_user_logged_in();
+		
 		$document =& JFactory::getDocument();
 		
 		$viewType	= $document->getType();
@@ -68,8 +71,7 @@ class SupplyOrderController extends JController
 		$employee_id = $userInfo['id'];
 		
 		$model->setRequest("request_status_id", '1');
-		$model->setRequest("employee_id", '1'); // FIX ME
-		//$model->setRequest("employee_id", $employee_id);
+		$model->setRequest("employee_id", $employee_id);
 		$model->setRequest("account_id", JRequest::getVar('account_id'));
 		$model->setRequest("vendor", JRequest::getVar('vendor'));
 		$model->setRequest("item_num", JRequest::getVar('item_num'));
@@ -112,5 +114,20 @@ class SupplyOrderController extends JController
 		}
 		
 		return $approval_level;
+	}
+	
+	private function check_user_logged_in () {
+		$user =& JFactory::getUser();
+		
+		if ($user->guest) {
+			$redirectUrl = JURI::getInstance()->toString();
+			$redirectUrl = urlencode(base64_encode($redirectUrl));
+			$redirectUrl = '&return='.$redirectUrl;
+			
+			$joomlaLoginUrl = 'index.php?option=com_user&view=login';
+			$return = $joomlaLoginUrl . $redirectUrl;
+			
+			$this->setRedirect( $return);
+		}
 	}
 }
