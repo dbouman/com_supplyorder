@@ -55,7 +55,7 @@ if(isset($this->message)){
 ?>
 
 <form
-	action="<?php echo JRoute::_( 'index.php?option=com_supply_order' ); ?>"
+	action="<?php echo JRoute::_( 'index.php?option=com_supplyorder' ); ?>"
 	method="post" id="saved_requests" name="saved_requests" >
 
 	<?php if ( $this->params->def( 'show_page_title', 1 ) ) : ?>

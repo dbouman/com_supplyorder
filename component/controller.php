@@ -60,7 +60,7 @@ class SupplyOrderController extends JController
 	/**
 	 * Save a request
 	 */
-	function request_save() {
+	function save_request() {
 		$model =& $this->getModel('requests');
 		
 		$model->setRequest("request_status_id", '0');

@@ -32,7 +32,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 	    jQuery("#date_required").datepicker();
 
 	 	// validate signup form on keyup and submit
-		var validator = jQuery("#supplyOrderRequestForm").validate({
+		var validator = jQuery("#save_request_form").validate({
 			rules: {
 				vendor: "required",
 				quantity: "required digits",
@@ -68,8 +68,8 @@ if(isset($this->message)){
 ?>
 
 <form
-	action="<?php echo JRoute::_( 'index.php?option=com_supply_order' ); ?>"
-	method="post" id="supplyOrderRequestForm" name="supplyOrderRequestForm" >
+	action="<?php echo JRoute::_( 'index.php?option=com_supplyorder' ); ?>"
+	method="post" id="save_request_form" name="save_request_form" >
 
 	<?php if ( $this->params->def( 'show_page_title', 1 ) ) : ?>
 	<div
@@ -191,12 +191,12 @@ if(isset($this->message)){
 		</tr>
 		<tr>
 			<td>&nbsp;</td>
-			<td><input type="submit" value="Save" name="saveOrder" /> <input
+			<td><input type="submit" value="Save" name="save" /> <input
 				type="reset" value="Cancel" name="cancel"
-				onclick="jQuery('#supplyOrderRequestForm').data('validator').resetForm(); jQuery('#vendor').focus();"></input>
+				onclick="jQuery('#save_request_form').data('validator').resetForm(); jQuery('#vendor').focus();"></input>
 			</td>
 		</tr>
 	</table>
-	<input type="hidden" name="task" value="request_save" /> 
+	<input type="hidden" name="task" value="save_request" /> 
 	<?php echo JHTML::_( 'form.token' ); ?>
 </form>
