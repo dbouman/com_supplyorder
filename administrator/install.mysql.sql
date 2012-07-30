@@ -5,8 +5,7 @@ CREATE  TABLE IF NOT EXISTS  `#__so_department_head` (
   `dept_head_id` INT(11) NOT NULL AUTO_INCREMENT ,
   `employee_id` INT(11) NOT NULL ,
   PRIMARY KEY (`dept_head_id`) )
-ENGINE = InnoDB
-AUTO_INCREMENT = 5;
+ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -26,9 +25,7 @@ CREATE  TABLE IF NOT EXISTS  `#__so_accounts` (
     REFERENCES  `#__so_department_head` (`dept_head_id` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = InnoDB
-AUTO_INCREMENT = 7
-DEFAULT CHARACTER SET = latin1;
+ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -40,8 +37,7 @@ CREATE  TABLE IF NOT EXISTS  `#__so_request_status` (
   `status_desc` VARCHAR(255) NOT NULL ,
   `approval_level` TINYINT(4) NOT NULL ,
   PRIMARY KEY (`request_status_id`) )
-ENGINE = InnoDB
-AUTO_INCREMENT = 6;
+ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -89,14 +85,8 @@ CREATE  TABLE IF NOT EXISTS  `#__so_requests` (
     FOREIGN KEY (`request_status_id` )
     REFERENCES  `#__so_request_status` (`request_status_id` )
     ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_requests_order`
-    FOREIGN KEY (`order_id` )
-    REFERENCES  `#__so_orders` (`order_id` )
-    ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = InnoDB
-AUTO_INCREMENT = 27;
+ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -106,8 +96,7 @@ CREATE  TABLE IF NOT EXISTS  `#__so_roles` (
   `role_id` INT(11) NOT NULL AUTO_INCREMENT ,
   `role_name` VARCHAR(100) NOT NULL COMMENT '	' ,
   PRIMARY KEY (`role_id`) )
-ENGINE = InnoDB
-AUTO_INCREMENT = 5;
+ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -183,7 +172,7 @@ INSERT INTO `#__so_request_status` (`request_status_id`, `status_name`, `status_
 
 -- Sample data for accounts - can be removed after initial testing
 INSERT INTO `jos_so_department_head` (`dept_head_id`, `employee_id`) VALUES
-(5, 62);
+(1, 62);
 
 INSERT INTO `jos_so_accounts` (`account_id`, `employee_id`, `dept_head_id`, `account_num`, `account_name`, `account_desc`) VALUES
-(7, 62, 5, '123456', 'Test Account', 'My Account');
+(1, 62, 1, '123456', 'Test Account', 'My Account');

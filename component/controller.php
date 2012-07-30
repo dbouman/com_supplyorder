@@ -62,9 +62,14 @@ class SupplyOrderController extends JController
 	 */
 	function save_request() {
 		$model =& $this->getModel('requests');
+		$userModel =& $this->getModel ( 'user' );
 		
-		$model->setRequest("request_status_id", '0');
+		$userInfo = $userModel->getUserInfo($row['employee_id']);
+		$employee_id = $userInfo['id'];
+		
+		$model->setRequest("request_status_id", '1');
 		$model->setRequest("employee_id", '1'); // FIX ME
+		//$model->setRequest("employee_id", $employee_id);
 		$model->setRequest("account_id", JRequest::getVar('account_id'));
 		$model->setRequest("vendor", JRequest::getVar('vendor'));
 		$model->setRequest("item_num", JRequest::getVar('item_num'));
