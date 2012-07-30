@@ -62,10 +62,14 @@ class SupplyOrderViewList extends JView
 			$this->assignRef('request',$request);
 		}
 		else {
-			if ($layoutName == 'saved') 
-				$requests = $requestsModel->listRequestByOwner($employee_id); // NEEDS TO PASS IN STATUS
-			else if ($layoutName == 'requested')
-				$requests = $requestsModel->listRequestByOwner($employee_id); // NEEDS TO PASS IN ARRAY OF STATUSES
+			if ($layoutName == 'saved') {
+				$status_ids = array(1);
+				$requests = $requestsModel->listRequestByOwner($employee_id, $status_ids);
+			}
+			else if ($layoutName == 'requested') {
+				$status_ids = array(2,3,4,5,6);
+				$requests = $requestsModel->listRequestByOwner($employee_id, $status_ids);
+			}
 			
 			$this->assignRef('requests',$requests);
 		}
@@ -73,6 +77,9 @@ class SupplyOrderViewList extends JView
 		// Get pagination data from model
 		$pagination =& $this->get('Pagination');
 		$this->assignRef('pagination', $pagination);
+		
+		// Assign params
+		$this->assignRef('params',		$params);
 		
 		parent::display($tpl);
 	}

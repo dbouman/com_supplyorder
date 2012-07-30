@@ -53,6 +53,9 @@ class SupplyOrderViewRequests extends JView
 		$accounts = $accountsModel->listAccounts();
 		$this->assignRef('accounts',$accounts);
 		
+		// Assign params
+		$this->assignRef('params',		$params);
+		
 		parent::display($tpl);
 	}
 }

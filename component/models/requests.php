@@ -204,10 +204,10 @@ class SupplyOrderModelRequests extends JModel
 	}
 	
 	/**
-	 * List requests by owner and status id
+	 * List requests by owner and status ids
 	 * 
 	 * @param int employee id
-	 * @param int or array status ids
+	 * @param array of status ids
 	 * @return indexed array of associated arrays
 	 */
 	function listRequestByOwner($employee_id, $status_ids)
@@ -232,9 +232,10 @@ class SupplyOrderModelRequests extends JModel
 	}
 	
 	/**
-	 * List requests by approver
+	 * List requests by approver and status ids
 	 * 
 	 * @param int approver id
+	 * @param array status ids
 	 * @return indexed array of associated arrays
 	 */
 	function listRequestByApprover($approver_id, $status_ids)
@@ -261,7 +262,7 @@ class SupplyOrderModelRequests extends JModel
 	/**
 	 * List requests by status ids
 	 * 
-	 * @param int or array of status ids
+	 * @param array of status ids
 	 * @return indexed array of associated arrays
 	 */
 	function listRequestByStatus($status_ids)
