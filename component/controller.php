@@ -82,7 +82,7 @@ class SupplyOrderController extends JController
 		$model->setRequest("date_required", JRequest::getVar('date_required'));
 		$model->setRequest("date_submitted", date('Y-m-d H:i:s',strtotime('now')));
 		
-		$model->setRequest("approval_level_required", get_approval_level($order_cost));
+		$model->setRequest("approval_level_required", $this->get_approval_level($order_cost));
 		
 		if ($model->insertRequest()) {
 			$msg	= JText::_( 'Your request has been saved. Your request has not yet been ordered, please visit your saved orders to submit the order for purchasing.' );
