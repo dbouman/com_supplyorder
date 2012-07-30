@@ -18,7 +18,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 	jQuery(document).ready(function() {
 		
 		// Alternate table row color
-		jQuery('.so_table tr:even').addClass('alt'); 
+		jQuery('.so_table tbody tr:even').addClass('alt'); 
 		
 		// Handles highlighting row when box is checked
 		jQuery(".so_table").delegate('input[id^="request"]','click', function(e) {
@@ -49,7 +49,7 @@ if(isset($this->message)){
 ?>
 
 <form
-	action="<?php echo JRoute::_( 'index.php?option=com_supplyorder' ); ?>"
+	action="<?php echo JRoute::_( 'index.php?option=com_supplyorder&view=list&layout=saved' ); ?>"
 	method="post" id="saved_requests" name="saved_requests" >
 
 	<?php if ( $this->params->def( 'show_page_title', 1 ) ) : ?>

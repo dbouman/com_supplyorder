@@ -218,7 +218,7 @@ class SupplyOrderModelRequests extends JModel
 		$status_ids = implode(',', $status_ids);
 		$status_ids = rtrim($status_ids, ',');
 		
-		$query = "SELECT * FROM `#__so_requests` 
+		$query = "SELECT SQL_CALC_FOUND_ROWS * FROM `#__so_requests` 
 					WHERE `employee_id` = $employee_id
 					AND `request_status_id` IN ($status_ids)";
 		$db->setQuery($query, $this->getState('limitstart'), $this->getState('limit'));
@@ -246,7 +246,7 @@ class SupplyOrderModelRequests extends JModel
 		$status_ids = implode(',', $status_ids);
 		$status_ids = rtrim($status_ids, ',');
 		
-		$query = "SELECT * FROM `#__so_requests` 
+		$query = "SELECT SQL_CALC_FOUND_ROWS * FROM `#__so_requests` 
 					WHERE `account_id` = $approver_id
 					AND `request_status_id` IN ($status_ids)";
 		$db->setQuery($query, $this->getState('limitstart'), $this->getState('limit'));
@@ -273,7 +273,7 @@ class SupplyOrderModelRequests extends JModel
 		$status_ids = implode(',', $status_ids);
 		$status_ids = rtrim($status_ids, ',');
 		
-		$query = "SELECT * FROM `#__so_requests` WHERE `request_status_id` IN ($status_ids)";
+		$query = "SELECT SQL_CALC_FOUND_ROWS * FROM `#__so_requests` WHERE `request_status_id` IN ($status_ids)";
 		$db->setQuery($query, $this->getState('limitstart'), $this->getState('limit'));
 		$requests = $db->loadAssocList();
 		

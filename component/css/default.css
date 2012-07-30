@@ -35,6 +35,11 @@
 	padding: 6px 6px 6px 12px;
 }
 
+.so_table tfoot tr {
+	text-align: center;
+	background-color: #F5FAFA;
+	color: #6D929B;
+}
 
 
 /* Form validation errors */
