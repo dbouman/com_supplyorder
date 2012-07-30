@@ -48,10 +48,6 @@ class SupplyOrderViewRequests extends JView
 			$params->set('page_title', JText::_( 'SUPPLYORDER' ));
 		}
 		$document->setTitle( $params->get( 'page_title' ) );
-
-		$user =& JFactory::getUser();
-		$this->assignRef('user', $user);
-		$this->assignRef('params', $params);
 		
 		$accountsModel =& $this->getModel('accounts');
 		$accounts = $accountsModel->listAccounts();

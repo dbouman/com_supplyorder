@@ -11,12 +11,6 @@
 
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
-
-// Get Brief details display in list
-// Select  ID    Vendor    Description     Quantity     Total Price    Details    Edit   Delete  
-// Check boxes to select orders to submit (use javascript to highly row when selected)
-// Links to edit/delete order (use image icons)
-//
 ?>
 
 <script type="text/javascript">
@@ -96,12 +90,16 @@ if(isset($this->message)){
 		<?php 
 			} 
 		?>
-			<tr>
-				<td colspan="9">
-					<input type="submit" value="Submit" name="submit" /> 
-					<input type="button" value="Cancel" name="cancel" onclick="redirect"></input>
-				</td>
-			</tr>
+			<tfoot>
+			    <tr>
+			      <td colspan="9"><?php echo $this->pagination->getListFooter(); ?></td>
+			    </tr>
+			</tfoot>
+		</table>
+		<div style="float: right; text-align: right;">
+			<input type="submit" value="Submit" name="submit" /> 
+			<input type="button" value="Cancel" name="cancel" onclick="window.history.back();"></input>
+		</div>
 		<?php 
 		}
 		else {
@@ -111,10 +109,12 @@ if(isset($this->message)){
 					<?php echo JText::_( 'No saved requests.' ); ?>
 				</td>
 			</tr>
+		</table>
 		<?php 
 		}
 		?>
-	</table>
+	<input type="hidden" name="view" value="list" />
+	<input type="hidden" name="layout" value="saved" />
 	<input type="hidden" name="task" value="request_submit" /> 
 	<?php echo JHTML::_( 'form.token' ); ?>
 </form>

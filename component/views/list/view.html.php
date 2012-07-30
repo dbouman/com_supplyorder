@@ -25,6 +25,9 @@ class SupplyOrderViewList extends JView
 	function display( $tpl = null)
 	{
 		global $mainframe;
+		
+		$layoutName = $this->getLayout();
+		
 		$document =& JFactory::getDocument();
 		$document->addScript(JURI::base(true).'/components/com_supplyorder/js/jquery-1.7.2.min.js');
 		$document->addScriptDeclaration ( 'jQuery.noConflict();');
@@ -49,8 +52,27 @@ class SupplyOrderViewList extends JView
 		$document->setTitle( $params->get( 'page_title' ) );
 
 		$user =& JFactory::getUser();
-		$this->assignRef('user', $user);
-		$this->assignRef('params', $params);
+		$employee_id = $user->id;
+		
+		$requestsModel =& $this->getModel('requests');
+		
+		if ($layoutName == 'details') {
+			$request_id = JRequest::getVar('request_id');
+			$request = $requestsModel->getRequestDetail($request_id);
+			$this->assignRef('request',$request);
+		}
+		else {
+			if ($layoutName == 'saved') 
+				$requests = $requestsModel->listRequestByOwner($employee_id); // NEEDS TO PASS IN STATUS
+			else if ($layoutName == 'requested')
+				$requests = $requestsModel->listRequestByOwner($employee_id); // NEEDS TO PASS IN ARRAY OF STATUSES
+			
+			$this->assignRef('requests',$requests);
+		}
+		
+		// Get pagination data from model
+		$pagination =& $this->get('Pagination');
+		$this->assignRef('pagination', $pagination);
 		
 		parent::display($tpl);
 	}
