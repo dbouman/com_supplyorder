@@ -16,12 +16,16 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 <script type="text/javascript">
 <!--
 	jQuery(document).ready(function() {
-	    jQuery('#unitPrice,#quantity').change(function() {
-		    var total = parseFloat(jQuery('#unitPrice').val()) * parseInt(jQuery('#quantity').val());
-	    	jQuery('#totalPrice').html("Total Price: $ "+total);
+	    jQuery('#unit_cost,#quantity').change(function() {
+		    var unit_cost = jQuery('#unit_cost').val();
+		    var quantity = jQuery('#quantity').val();
+		    if (unit_cost && quantity) { 
+			    var total = parseFloat(jQuery('#unit_cost').val()) * parseInt(jQuery('#quantity').val());
+		    	jQuery('#total_price').html("Total Price: $ "+total);
+		    }
 	    });
 
-	    jQuery("#dateRequired").datepicker();
+	    jQuery("#date_required").datepicker();
 
 	 	// validate signup form on keyup and submit
 		var validator = jQuery("#supplyOrderRequestForm").validate({
@@ -93,7 +97,7 @@ if(isset($this->message)){
 			<td><?php echo JText::_( 'Unit Price' ); ?> <span style="color: red;">*</span>
 			</td>
 			<td>$<input type="text" name="unit_cost" id="unit_cost"
-				class="inputbox" width="248px;" />	<span id="totalPrice"></span>
+				class="inputbox" width="248px;" />	<span id="total_price"></span>
 			</td>
 		</tr>
 		<tr>
