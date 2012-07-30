@@ -72,8 +72,8 @@ if(isset($this->message)){
 			<th><?php echo JText::_( 'Delete' ); ?></th>
 		</tr>
 		<?php
-		if (!empty($requests)) {
-			foreach ($requests as $request) 
+		if (!empty($this->requests)) {
+			foreach ($this->requests as $request) 
 			{ 
 		?>
 			<tr>
