@@ -97,8 +97,8 @@ if(isset($this->message)){
 			</tfoot>
 		</table>
 		<div style="float: right; text-align: right;">
-			<input type="submit" value="Submit" name="submit" /> 
-			<input type="button" value="Cancel" name="cancel" onclick="window.history.back();"></input>
+			<input type="submit" value="Submit" name="submitButton" /> 
+			<input type="button" value="Cancel" name="cancelButton" onclick="window.history.back();"></input>
 		</div>
 		<?php 
 		}

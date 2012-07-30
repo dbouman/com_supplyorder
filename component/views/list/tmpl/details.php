@@ -21,7 +21,7 @@ if(isset($this->message)){
 
 <div
 	class="componentheading<?php echo $this->escape($this->params->get('pageclass_sfx')); ?>">
-	Request Details - <?php echo $request['request_id']; ?>
+	Request Details - #<?php echo $this->request['request_id']; ?>
 </div>
 
 

@@ -58,7 +58,7 @@ class SupplyOrderViewList extends JView
 		
 		if ($layoutName == 'details') {
 			$request_id = JRequest::getVar('request_id');
-			$request = $requestsModel->getRequestDetail($request_id);
+			$request = $requestsModel->getRequestBriefDetail($request_id); // @FIXME change to complete details
 			$this->assignRef('request',$request);
 		}
 		else {

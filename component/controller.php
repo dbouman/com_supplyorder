@@ -97,8 +97,8 @@ class SupplyOrderController extends JController
 			$msg	= JText::_( 'Error saving your request.' );
 		}
 		
-		// get the redirect
-		$return = JURI::base();
+		// get the redirect, current page including query string
+		$return = JURI::getInstance()->toString();
 		
 		$this->setRedirect( $return, $msg );
 	}

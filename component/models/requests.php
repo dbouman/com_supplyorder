@@ -295,11 +295,11 @@ class SupplyOrderModelRequests extends JModel
 	{
 		$db = JFactory::getDBO();
 		
-		$userModel = JModel::getInstance('User', 'SuppyOrderModel');
+		$userModel = JModel::getInstance('User', 'SupplyOrderModel');
 		
 		$query = "SELECT r.request_id, r.vendor, r.item_desc, r.ship_to, r.quantity, r.request_cost, 
 					r.date_required, r.employee_id, os.status_name, os.status_desc, a.account_num, a.account_name
-					FROM r requests, os order_status, a accounts 
+					FROM `#__so_requests` r, `#__so_request_status` os, `#__so_accounts` a 
 					WHERE r.request_id = $request_id 
 					AND r.request_status_id = os.request_status_id
 					AND r.account_id = a.account_id" ;
