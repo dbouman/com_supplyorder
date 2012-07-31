@@ -66,6 +66,7 @@ class SupplyOrderController extends JController
 	function save_request() {
 		$model =& $this->getModel('requests');
 		$userModel =& $this->getModel ( 'user' );
+		$commentsModel =& $this->getModel ( 'comments' );
 		
 		$userInfo = $userModel->getUserInfo($row['employee_id']);
 		$employee_id = $userInfo['id'];
@@ -91,10 +92,16 @@ class SupplyOrderController extends JController
 		
 		$model->setRequest("approval_level_required", $this->get_approval_level($order_cost));
 		
-		if ($model->insertRequest()) {
+		if ($request_id = $model->insertRequest()) {
 			$msg	= JText::_( 'Your request has been saved. Your request has not yet been ordered, please visit your saved orders to submit the order for purchasing.' );
 		} else {
 			$msg	= JText::_( 'Error saving your request.' );
+		}
+		
+		// Add comments if they exist
+		$comments = JRequest::getVar('comments');
+		if (!empty($comments)) {
+			insertComment($comments, $request_id, $employee_id);
 		}
 		
 		// get the redirect, current page including query string
