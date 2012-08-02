@@ -26,25 +26,11 @@ class SupplyOrderViewRequests extends JView
 	{
 		global $mainframe;
 		$document =& JFactory::getDocument();
-		// Include jquery
 		$document->addScript(JURI::base(true).'/components/com_supplyorder/js/jquery-1.7.2.min.js');
 		$document->addScriptDeclaration ( 'jQuery.noConflict();');
 		$document->addScript(JURI::base(true).'/components/com_supplyorder/js/jquery.validate.min.js');
 		$document->addScript(JURI::base(true).'/components/com_supplyorder/js/jquery-ui-1.8.22.custom.min.js');
-		// File upload
-		$document->addScript('http://blueimp.github.com/JavaScript-Templates/tmpl.min.js');
-		$document->addScript('http://blueimp.github.com/JavaScript-Load-Image/load-image.min.js');
-		$document->addScript('http://blueimp.github.com/JavaScript-Canvas-to-Blob/canvas-to-blob.min.js');
-		$document->addScript(JURI::base(true).'/components/com_supplyorder/js/fileupload/jquery.iframe-transport.js');
-		$document->addScript(JURI::base(true).'/components/com_supplyorder/js/fileupload/jquery.fileupload.js');
-		$document->addScript(JURI::base(true).'/components/com_supplyorder/js/fileupload/jquery.fileupload-fp.js');
-		$document->addScript(JURI::base(true).'/components/com_supplyorder/js/fileupload/jquery.fileupload-ui.js');
-		$document->addScript(JURI::base(true).'/components/com_supplyorder/js/fileupload/jquery.fileupload-jui.js');
-		$document->addScript(JURI::base(true).'/components/com_supplyorder/js/fileupload/locale.js');
-		$document->addScript(JURI::base(true).'/components/com_supplyorder/js/fileupload/main.js');
-		
 		$document->addStyleSheet(JURI::base(true).'/components/com_supplyorder/css/smoothness/jquery-ui-1.8.22.custom.css');
-		$document->addStyleSheet(JURI::base(true).'/components/com_supplyorder/css/jquery.fileupload-ui.css');
 		$document->addStyleSheet(JURI::base(true).'/components/com_supplyorder/css/default.css');
 		
 		// Get the page/component configuration

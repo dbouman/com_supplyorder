@@ -32,7 +32,6 @@
 		<filename>controller.php</filename>
 		<filename>index.html</filename>
 		<folder>css</folder>
-		<folder>helpers</folder>
 		<folder>js</folder>
 		<folder>models</folder>
 		<folder>views</folder>
@@ -44,8 +43,6 @@
 		<filename>error-16.png</filename>
 		<filename>fancybox_loading.gif</filename>
 		<filename>fancybox_sprite.png</filename>
-		<filename>loading.gif</filename>
-		<filename>progressbar.gif</filename>
 		<filename>warning-16.png</filename>
 	</media>
 	<!-- Language -->
