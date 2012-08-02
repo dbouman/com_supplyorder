@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<layout title="Saved Requests">
+		<message>
+			List requested requests
+		</message>
+	</layout>
+	<state>
+		<name>Requested Requests</name>
+		<description>List all requested requests</description>
+		<params>
+		</params>
+	</state>
+</metadata>
