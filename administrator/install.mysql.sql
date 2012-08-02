@@ -176,3 +176,25 @@ INSERT INTO `jos_so_department_head` (`dept_head_id`, `employee_id`) VALUES
 
 INSERT INTO `jos_so_accounts` (`account_id`, `employee_id`, `dept_head_id`, `account_num`, `account_name`, `account_desc`) VALUES
 (1, 62, 1, '123456', 'Test Account', 'My Account');
+
+--Sample data for Request Table for new request alter
+INSERT INTO `jos_so_requests` (`request_id`, `request_status_id`, 
+							`order_id`, `employee_id`, `account_id`, 
+							`approval_level_required`, `vendor`, 
+							`item_num`, `item_desc`, `color`, `url`, 
+							`ship_to`, `quantity`, `unit_cost`, 
+							`unit_measure`, `request_cost`, 
+							`date_approved`, `date_required`, 
+							`date_submitted`, `po_number`, 
+							`date_received`) VALUES 
+							('1', '1', '0', '66', '1', '0', 'Vendor', 
+							'1234456789', 'Item Description 1', 'None', 
+							'hclibrary.org', 'ADM@CEN', '11', '0.00', 'Each', 
+							'12.34', NULL, '2012-08-31 00:00:00', 
+							'2012-08-02 00:00:00', '999999', NULL);
+							
+							
+							
+							
+							
+							
