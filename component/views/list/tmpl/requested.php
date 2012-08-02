@@ -91,27 +91,31 @@ if(isset($this->message)){
 				<td><a class="popup fancybox.iframe" href="<?php echo JRoute::_( 'index.php?option=com_supplyorder&view=list&layout=details&tmpl=component&request_id=' . $request['request_id'] ); ?>">Details</a></td>
 				<td><a href="<?php echo JRoute::_( 'index.php?option=com_supply_order&view=list&layout=saved&task=delete_request&request_id=' . $request['request_id'] ); ?>">Delete</a></td>
 			</tr>
-		<?php 
+		<?php
 			} 
 		?>
-			<tr>
-				<td colspan="9">
-					<input type="submit" value="Submit" name="submit_button" /> 
-					<input type="button" value="Cancel" name="cancel" onclick="redirect"></input>
-				</td>
-			</tr>
-		<?php 
-		}
-		else {
-		?>
-			<tr>
-				<td colspan="9">
-					<?php echo JText::_( 'No saved requests.' ); ?>
-				</td>
-			</tr>
-		<?php 
-		}
-		?>
+		<tfoot>
+		    <tr>
+		      <td colspan="9"><?php echo $this->pagination->getListFooter(); ?></td>
+		    </tr>
+		</tfoot>
+	</table>
+	<div style="float: right; text-align: right;">
+		<input type="submit" value="Submit" name="submitButton" />
+		<input type="button" value="Cancel" name="cancelButton" onclick="window.history.back();"></input>
+	</div>
+	<?php
+	}
+	else {
+	?>
+		<tr>
+			<td colspan="9">
+				<?php echo JText::_( 'No saved requests.' ); ?>
+			</td>
+		</tr>
+	<?php
+	}
+	?>
 	</table>
 	<input type="hidden" name="view" value="list" />
 	<input type="hidden" name="layout" value="requested" />
