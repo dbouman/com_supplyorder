@@ -171,14 +171,14 @@ INSERT INTO `#__so_request_status` (`request_status_id`, `status_name`, `status_
 
 
 -- Sample data for accounts - can be removed after initial testing
-INSERT INTO `jos_so_department_head` (`dept_head_id`, `employee_id`) VALUES
+INSERT INTO `#__so_department_head` (`dept_head_id`, `employee_id`) VALUES
 (1, 62);
 
-INSERT INTO `jos_so_accounts` (`account_id`, `employee_id`, `dept_head_id`, `account_num`, `account_name`, `account_desc`) VALUES
+INSERT INTO `#__so_accounts` (`account_id`, `employee_id`, `dept_head_id`, `account_num`, `account_name`, `account_desc`) VALUES
 (1, 62, 1, '123456', 'Test Account', 'My Account');
 
---Sample data for Request Table for new request alter
-INSERT INTO `jos_so_requests` (`request_id`, `request_status_id`, 
+-- Sample data for Request Table for new request alter
+INSERT INTO `#__so_requests` (`request_id`, `request_status_id`, 
 							`order_id`, `employee_id`, `account_id`, 
 							`approval_level_required`, `vendor`, 
 							`item_num`, `item_desc`, `color`, `url`, 
