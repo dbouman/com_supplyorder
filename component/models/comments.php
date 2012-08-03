@@ -34,8 +34,8 @@ class SupplyOrderModelComments extends JModel
 		
 		$query = "INSERT INTO `#__so_comments` 
 							(request_id, employee_id, comment_body, date_sent) 
-							values 
-							($request_id, $employee_id, '$comment', CURDATE())";
+							VALUES 
+							($request_id, $employee_id, '$comment', NOW())";
 		
 		$db->setQuery($query);
 		
