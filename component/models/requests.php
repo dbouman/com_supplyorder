@@ -319,7 +319,7 @@ class SupplyOrderModelRequests extends JModel
 	}
 	
 	/**
-	 * @FIXME Needs to be changed for JOIN query
+	 * @FIXME Needs to be FIX the query. SQL error 1064
 	 * Get complete details about a request
 	 * 
 	 * @param int request id
@@ -346,16 +346,16 @@ class SupplyOrderModelRequests extends JModel
 					FROM (( #__so_requests r
 						LEFT JOIN #__so_order o
 							ON r.order_id = o.order_id)
-							( #__so_request r
+							( #__so_request
 						INNER JOIN #__so_request_status rs
 							ON r.request_status_id = rs.request_status_id)
-							( #__so_request r
+							( #__so_request
 						INNER JOIN #__so_files f
 							ON r.request_id = f.request_id)
-							( #__so_request r
+							( #__so_request
 						INNER JOIN #__so_comments c
 							ON r.request_id = c.request_id)
-							( #__so_request r
+							( #__so_request
 						INNER JOIN #__so_accounts a
 							ON r.account_id = a.account_id))
 						where r.request_id = $request_id";
