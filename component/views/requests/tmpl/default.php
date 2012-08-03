@@ -53,29 +53,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 				ship_to: "Please select which location this request should be shipped to.",
 				account_id: "Please select which account this request should be placed under."
 			},
-			errorClass: "error-required",
-			submitHandler: function(form) {
-				jQuery('#file_upload').uploadify('upload');
-			}
-		});
-
-		// Initialize uploadify
-		jQuery(function() {
-		    jQuery('#file_upload').uploadify({
-		        'swf'      			: '<?php echo JURI::base( true ); ?>/components/com_supplyorder/helpers/uploadify.swf',
-		        'uploader' 			: '<?php echo JURI::base( true ); ?>/components/com_supplyorder/helpers/uploadify.php',
-		    	'removeCompleted'	: false,
-		    	'auto'			  	: false,
-		    	'onQueueComplete'	: function(queueData) {
-		            document.form.submit();
-		        } 
-		    });
-		});
-
-		// Upload files on form submit
-		jQuery('#save_request_form').submit(function(event) {
-			event.preventDefault();
-			jQuery('#file_upload').uploadify('upload');
+			errorClass: "error-required"
 		});
 		
 		jQuery('vendor').focus(); 
@@ -203,11 +181,6 @@ if(isset($this->message)){
 					}
 					?>
 			</select>
-			</td>
-		</tr>
-		<tr>
-			<td><?php echo JText::_( 'Attach Files' ); ?></td>
-			<td><input type="file" name="file_upload" id="file_upload" />
 			</td>
 		</tr>
 		<tr>
