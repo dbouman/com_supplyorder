@@ -83,7 +83,7 @@ if(isset($this->message)){
 
 <form
 	action="<?php echo JRoute::_( 'index.php?option=com_supplyorder' ); ?>"
-	method="post" id="save_request_form" name="save_request_form" >
+	method="post" id="save_request_form" name="save_request_form" enctype="multipart/form-data" >
 
 	<?php if ( $this->params->def( 'show_page_title', 1 ) ) : ?>
 	<div

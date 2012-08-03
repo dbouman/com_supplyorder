@@ -72,8 +72,8 @@ class SupplyOrderController extends JController
 		// Clean all POST variables
 		JRequest::_cleanArray( $_POST );
 		
-		$userInfo = $userModel->getUserInfo($row['employee_id']);
-		$employee_id = $userInfo['id'];
+		$user =& JFactory::getUser();
+		$employee_id = $user->id;
 		
 		$model->setRequest("request_status_id", '1');
 		$model->setRequest("employee_id", $employee_id);
@@ -106,9 +106,11 @@ class SupplyOrderController extends JController
 		$uri = JURI::getInstance();
 		
 		// Add files if they exist
-		$files = $_FILES['files'];
+		$files = JRequest::getVar('files', null, 'files', 'array');
 		if (!empty($files)) {
-			if(!class_exists('SupplyOrderFileUploads')) require('components'.DS.'com_supplyorder'.DS.'helpers'.DS.'cart.php');
+			if(!class_exists('SupplyOrderFileUploads')) require('components'.DS.'com_supplyorder'.DS.'helpers'.DS.'fileuploads.php');
+			
+			$files = SupplyOrderFileUploads::initFilesArray($files);
 			
 			foreach ($files as $file) {
 				$error = SupplyOrderFileUploads::checkFileForError($file);

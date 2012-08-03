@@ -34,18 +34,18 @@ class SupplyOrderModelFiles extends JModel
 
 		$db = JFactory::getDBO();
 		
-		if(!class_exists('SupplyOrderFileUploads')) require('components'.DS.'com_supplyorder'.DS.'helpers'.DS.'cart.php');
+		if(!class_exists('SupplyOrderFileUploads')) require('components'.DS.'com_supplyorder'.DS.'helpers'.DS.'fileuploads.php');
 		
 		// Upload actual file to correct location on server
 		$error = SupplyOrderFileUploads::uploadFile($file, $request_id);
 		if (!empty($error)) {
 			JError::raiseError('', $error);
 		}
-		$file_location = SupplyOrderFileUploads::getFileLocation($file,$request_id);
+		$file_location = SupplyOrderFileUploads::getFileLocation($file,$request_id,true);
 
 		$query = "INSERT INTO `#__so_files`
 					(request_id, employee_id, file_location, date_posted)
-					VALUES ($request_id, $employee_id, '$file_location', CURDATE())";
+					VALUES ($request_id, $employee_id, '$file_location', NOW())";
 
 		$db->setQuery($query);
 
@@ -64,7 +64,7 @@ class SupplyOrderModelFiles extends JModel
 	function deleteFiles ($request_id) {
 		$db = JFactory::getDBO();
 		
-		if(!class_exists('SupplyOrderFileUploads')) require('components'.DS.'com_supplyorder'.DS.'helpers'.DS.'cart.php');
+		if(!class_exists('SupplyOrderFileUploads')) require('components'.DS.'com_supplyorder'.DS.'helpers'.DS.'fileuploads.php');
 		
 		// Delete each physical file
 		$files = $this->getFiles($request_id);

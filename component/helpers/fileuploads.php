@@ -25,6 +25,24 @@ class SupplyOrderFileUploads
 	static private $MAX_FILE_SIZE = 2000000;
 	static private $MAX_FILE_SIZE_MB = '2MB'; 
 	
+	/**
+	 * By default the $_FILES passed in from form data are grouped by key instead of 
+	 * by file. This function swaps that so they are grouped by file and it is easier to handle 
+	 * multiple files
+	 * @param $_FILES $files_arr 
+	 */
+	static public function initFilesArray ($files_arr) {
+		for ($i=0;$i<count($files_arr['name']);$i++) {
+			$files[$i]['name'] = $files_arr['name'][$i];
+			$files[$i]['tmp_name'] = $files_arr['tmp_name'][$i];
+			$files[$i]['type'] = $files_arr['type'][$i];
+			$files[$i]['error'] = $files_arr['error'][$i];
+			$files[$i]['size'] = $files_arr['size'][$i];
+		}
+		
+		return $files;
+	}
+	
 	static public function uploadFile ($file, $request_id) {
 		$error = "";
 		
@@ -41,14 +59,19 @@ class SupplyOrderFileUploads
 		return $error;
 	}
 	
-	static public function getFileLocation ($file, $request_id) {
+	static public function getFileLocation ($file, $request_id, $relative=false) {
 		
 		$filename = $file['name'];
 		//lose any special characters in the filename
 		$filename = preg_replace("/[^A-Za-z0-9]/i", "-", $filename);
+		$filename = $request_id . "-" . $filename;
 		
 		//always use constants when making file paths, to avoid the possibilty of remote file inclusion
-		$uploadPath = JPATH_SITE.DS.'media'.DS.'com_supplyorder'.DS.'uploads'.DS.$request_id.DS.$filename;
+		$uploadPath = "";
+		if (!$relative)
+			$uploadPath .= JPATH_SITE;
+		
+		$uploadPath .= DS.'media'.DS.'com_supplyorder'.DS.'uploads'.DS.$filename;
 		
 		return $uploadPath;
 	}
@@ -119,7 +142,7 @@ class SupplyOrderFileUploads
 	
 	static private function checkValidExtension ($filename) {
 		$error = "";
-		$uploadedFileNameParts = explode('.',$fileName);
+		$uploadedFileNameParts = explode('.',$filename);
 		$uploadedFileExtension = array_pop($uploadedFileNameParts);
 		
 		//assume the extension is false until we know its ok
