@@ -16,7 +16,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 <script type="text/javascript">
 <!--
 	jQuery(document).ready(function() {
-	    jQuery('#unit_cost,#quantity').change(function() {
+		jQuery('#unit_cost,#quantity').change(function() {
 		    var unit_cost = jQuery('#unit_cost').val();
 		    var quantity = jQuery('#quantity').val();
 		    if (unit_cost && quantity) { 
@@ -55,9 +55,23 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 			},
 			errorClass: "error-required"
 		});
+
+	 	// Removes a file input field
+		jQuery("#filesContainer").delegate(".removeFile","click", function() {
+			jQuery(this).prev().remove();
+			jQuery(this).next().remove();
+			jQuery(this).remove();
+		});
 		
 		jQuery('vendor').focus(); 
-	  });
+	});
+
+	function addAnotherFile() {
+		jQuery('#filesContainer').append(
+			jQuery('<input/>').attr('type', 'file').attr('name', 'files[]'),
+			" <a href='javascript:;' class='removeFile'>X</a> <br />"
+		);
+	}	
 //-->
 </script>
 
@@ -78,7 +92,7 @@ if(isset($this->message)){
 	</div>
 	<?php endif; ?>
 
-	<table cellpadding="0" cellspacing="0" border="0" width="100%"
+	<table cellpadding="0" cellspacing="2" border="0" width="100%"
 		class="contentpane">
 		<tr>
 			<td><?php echo JText::_( 'Vendor Name' ); ?> <span style="color: red;">*</span>
@@ -181,6 +195,12 @@ if(isset($this->message)){
 					}
 					?>
 			</select>
+			</td>
+		</tr>
+		<tr>
+			<td><?php echo JText::_( 'Attach Files' ); ?></td>
+			<td><input type="file" name="files[]"> <a href="javascript: addAnotherFile();">Attach another file</a>
+				<div id="filesContainer"></div>
 			</td>
 		</tr>
 		<tr>

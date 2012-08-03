@@ -67,6 +67,10 @@ class SupplyOrderController extends JController
 		$model =& $this->getModel('requests');
 		$userModel =& $this->getModel ( 'user' );
 		$commentsModel =& $this->getModel ( 'comments' );
+		$filesModel =& $this->getModel ( 'files' );
+		
+		// Clean all POST variables
+		JRequest::_cleanArray( $_POST );
 		
 		$userInfo = $userModel->getUserInfo($row['employee_id']);
 		$employee_id = $userInfo['id'];
@@ -98,16 +102,41 @@ class SupplyOrderController extends JController
 			$msg	= JText::_( 'Error saving your request.' );
 		}
 		
+		// get the redirect, current page including query string
+		$uri = JURI::getInstance();
+		
+		// Add files if they exist
+		$files = $_FILES['files'];
+		if (!empty($files)) {
+			if(!class_exists('SupplyOrderFileUploads')) require('components'.DS.'com_supplyorder'.DS.'helpers'.DS.'cart.php');
+			
+			foreach ($files as $file) {
+				$error = SupplyOrderFileUploads::checkFileForError($file);
+				if (!empty($error)) {
+					$params = JRequest::get($_POST);
+					$params = array_merge( $uri->getQuery( true ), $params );
+					$query = $uri->buildQuery( $params );
+					$uri->setQuery( $query );
+					
+					// Delete previously entered request and files since there was an error with current file
+					$filesModel->deleteFiles($request_id);
+					$model->deleteRequest($request_id);
+					
+					$this->setRedirect( $uri->toString(), $error );
+					return;
+				}
+				
+				$filesModel->insertFile($file, $request_id, $employee_id);
+			}
+		}
+		
 		// Add comments if they exist
 		$comments = JRequest::getVar('comments');
 		if (!empty($comments)) {
 			insertComment($comments, $request_id, $employee_id);
 		}
 		
-		// get the redirect, current page including query string
-		$return = JURI::getInstance()->toString();
-		
-		$this->setRedirect( $return, $msg );
+		$this->setRedirect( $uri->toString(), $msg );
 	}
 	
 	private function get_approval_level ($order_cost) {
