@@ -13,6 +13,14 @@
 defined( '_JEXEC' ) or die( 'Restricted access' );
 ?>
 
+<script>
+<!--
+function printDiv(){
+	jQuery("#divToPrint").jqprint();
+}
+//-->
+</script>
+
 <?php
 if(isset($this->message)){
 	$this->display('message');
@@ -24,10 +32,12 @@ if(isset($this->message)){
 </div>
 
 <div style="float: right">
-	<a href=<?php echo $href; ?> >Click for Printing</a>
+	<a href="#" onclick="printDiv();">
+		<img alt="Print" src="/images/iconPring.gif">
+	</a>
 </div>
 
-<div id="detailsPrintArea">
+<div id="divToPrint">
 	<table cellpadding="0" cellspacing="0" border="0" width="100%"	class="so_table">
 		<tr>
 			<td><?php echo JText::_( 'ID' ); ?></td>
