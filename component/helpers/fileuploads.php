@@ -63,7 +63,7 @@ class SupplyOrderFileUploads
 		
 		$filename = $file['name'];
 		//lose any special characters in the filename
-		$filename = preg_replace("/[^A-Za-z0-9]/i", "-", $filename);
+		$filename = preg_replace("/[^A-Za-z0-9_\.-]/i", "-", $filename);
 		$filename = $request_id . "-" . $filename;
 		
 		//always use constants when making file paths, to avoid the possibilty of remote file inclusion
