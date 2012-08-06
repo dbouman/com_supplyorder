@@ -132,7 +132,7 @@ class SupplyOrderFileUploads
 	static private function checkFileSize  ($filesize) {
 		$error = "";
 		
-		if($fileSize > self::$MAX_FILE_SIZE)
+		if($filesize > self::$MAX_FILE_SIZE)
 		{
 			$error = JText::_( 'MAX FILE SIZE EXCEEDED' );
 			$error .= self::$MAX_FILE_SIZE_MB;

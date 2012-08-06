@@ -92,7 +92,7 @@ class SupplyOrderController extends JController
 		$order_cost = JRequest::getVar('quantity') * JRequest::getVar('unit_cost');
 		$model->setRequest("request_cost", $order_cost);
 		
-		$model->setRequest("date_required", JRequest::getVar('date_required'));
+		$model->setRequest("date_required", date('Y-m-d H:i:s',strtotime(JRequest::getVar('date_required'))));
 		$model->setRequest("date_submitted", date('Y-m-d H:i:s',strtotime('now')));
 		
 		$model->setRequest("approval_level_required", $this->get_approval_level($order_cost));
@@ -134,7 +134,7 @@ class SupplyOrderController extends JController
 		// Add comments if they exist
 		$comments = JRequest::getVar('comments');
 		if (!empty($comments)) {
-			insertComment($comments, $request_id, $employee_id);
+			$commentsModel->insertComment($comments, $request_id, $employee_id);
 		}
 		
 		$this->setRedirect( $uri->toString(), $msg );
