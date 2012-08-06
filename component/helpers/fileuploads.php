@@ -134,7 +134,9 @@ class SupplyOrderFileUploads
 		
 		if($fileSize > self::$MAX_FILE_SIZE)
 		{
-			$error = JText::_( 'FILE BIGGER THAN ' . self::$MAX_FILE_SIZE_MB );
+			$error = JText::_( 'MAX FILE SIZE EXCEEDED' );
+			$error .= self::$MAX_FILE_SIZE_MB;
+			$error .= JText::_( 'REATTACH FILES' );
 		}
 		
 		return $error;
@@ -161,6 +163,7 @@ class SupplyOrderFileUploads
 		if ($extOk == false)
 		{
 			$error = JText::_( 'INVALID EXTENSION' );
+			$error .= JText::_( 'REATTACH FILES' );
 		}
 		
 		return $error;

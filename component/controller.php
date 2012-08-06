@@ -123,7 +123,7 @@ class SupplyOrderController extends JController
 					$filesModel->deleteFiles($request_id);
 					$model->deleteRequest($request_id);
 					
-					$this->setRedirect( $uri->toString(), $error );
+					$this->setRedirect( $uri->toString(), $error, 'error' );
 					return;
 				}
 				
