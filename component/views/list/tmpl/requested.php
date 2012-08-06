@@ -44,6 +44,7 @@ if(isset($this->message)){
 			<th><?php echo JText::_( 'Description' ); ?></th>
 			<th><?php echo JText::_( 'Quantity' ); ?></th>
 			<th><?php echo JText::_( 'Total Price' ); ?></th>
+			<th><?php echo JText::_( 'Status' ); ?></th>
 			<th><?php echo JText::_( 'Details' ); ?></th>
 			<th><?php echo JText::_( 'Delete' ); ?></th>
 		</tr>
@@ -59,6 +60,7 @@ if(isset($this->message)){
 				<td><?php echo $request['item_desc']; ?></td>
 				<td><?php echo $request['quantity']; ?></td>
 				<td><?php echo $request['request_cost']; ?></td>
+				<td><?php echo $request['status_name']; ?></td>
 				<td><a class="popup fancybox.iframe" href="<?php echo JRoute::_( 'index.php?option=com_supplyorder&view=list&layout=details&tmpl=component&request_id=' . $request['request_id'] ); ?>">Details</a></td>
 				<td><a href="<?php echo JRoute::_( 'index.php?option=com_supply_order&view=list&layout=saved&task=delete_request&request_id=' . $request['request_id'] ); ?>">Delete</a></td>
 			</tr>

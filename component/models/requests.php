@@ -52,7 +52,7 @@ class SupplyOrderModelRequests extends JModel
 		$this->setState('limit', $limit);
 		$this->setState('limitstart', $limitstart);
 		
-		// Get ordering variables
+		// Get ordering variables for sorting
 		$filter_order = JRequest::getCmd('filter_order');
 		$filter_order_dir = JRequest::getCmd('filter_order_dir');
 		
