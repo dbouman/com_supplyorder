@@ -64,6 +64,7 @@ class SupplyOrderController extends JController
 	 * Save a request
 	 */
 	function save_request() {
+		$mainframe =& JFactory::getApplication();
 		$model =& $this->getModel('requests');
 		$userModel =& $this->getModel ( 'user' );
 		$commentsModel =& $this->getModel ( 'comments' );
@@ -115,10 +116,8 @@ class SupplyOrderController extends JController
 			foreach ($files as $file) {
 				$error = SupplyOrderFileUploads::checkFileForError($file);
 				if (!empty($error)) {
-					$params = JRequest::get($_POST);
-					$params = array_merge( $uri->getQuery( true ), $params );
-					$query = $uri->buildQuery( $params );
-					$uri->setQuery( $query );
+					// Get all form data and store in session
+					$mainframe->setUserState('com_supplyorder.edit.request.data', JRequest::get($_POST));
 					
 					// Delete previously entered request and files since there was an error with current file
 					$filesModel->deleteFiles($request_id);

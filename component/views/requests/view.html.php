@@ -54,7 +54,14 @@ class SupplyOrderViewRequests extends JView
 		$this->assignRef('accounts',$accounts);
 		
 		// Assign params
-		$this->assignRef('params',		$params);
+		$this->assignRef('params', $params);
+		
+		// Get any existing form data to be displayed, possibly if an error occurred
+		$request = JFactory::getApplication()->getUserState('com_supplyorder.edit.request.data', array());
+		$this->assignRef('request', $request);
+		// Clear saved session data after loaded once
+		JFactory::getApplication()->setUserState('com_supplyorder.edit.request.data', '');
+		
 		
 		parent::display($tpl);
 	}

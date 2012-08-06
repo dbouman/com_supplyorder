@@ -17,16 +17,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 <!--
 	jQuery(document).ready(function() {
 		jQuery('#unit_cost,#quantity').change(function() {
-		    var unit_cost = jQuery('#unit_cost').val();
-		    var quantity = jQuery('#quantity').val();
-		    if (unit_cost && quantity) { 
-			    var total = parseFloat(jQuery('#unit_cost').val()) * parseInt(jQuery('#quantity').val());
-			    total = parseFloat(Math.round(total * 100) / 100).toFixed(2);
-		    	jQuery('#total_price').html("Total Price: $ "+total);
-		    }
-		    else {
-		    	jQuery('#total_price').html("");
-		    }
+			calculateTotalCost();
 	    });
 
 	    jQuery("#date_required").datepicker();
@@ -62,9 +53,38 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 			jQuery(this).next().remove();
 			jQuery(this).remove();
 		});
+
+		// Auto-select values in dropdown menus if passed into form
+		<?php if (!empty($this->request['unit_measure'])) { ?>
+			jQuery('#unit_measure option[value=<?php echo $this->request['unit_measure']; ?>]').attr('selected',true);
+		<?php } ?>
+
+		<?php if (!empty($this->request['ship_to'])) { ?>
+			jQuery('#ship_to option[value=<?php echo $this->request['ship_to']; ?>]').attr('selected',true);
+		<?php } ?>
+
+		<?php if (!empty($this->request['account_id'])) { ?>
+			jQuery('#account_id option[value=<?php echo $this->request['account_id']; ?>]').attr('selected',true);
+		<?php } ?>
+
+		// Run calculate cost in case numbers already passed in, won't do anything if empty
+		calculateTotalCost();
 		
 		jQuery('vendor').focus(); 
 	});
+
+	function calculateTotalCost () {
+		var unit_cost = jQuery('#unit_cost').val();
+	    var quantity = jQuery('#quantity').val();
+	    if (unit_cost && quantity) { 
+		    var total = parseFloat(jQuery('#unit_cost').val()) * parseInt(jQuery('#quantity').val());
+		    total = parseFloat(Math.round(total * 100) / 100).toFixed(2);
+	    	jQuery('#total_price').html("Total Price: $ "+total);
+	    }
+	    else {
+	    	jQuery('#total_price').html("");
+	    }
+	}
 
 	function addAnotherFile() {
 		jQuery('#filesContainer').append(
@@ -97,25 +117,25 @@ if(isset($this->message)){
 		<tr>
 			<td><?php echo JText::_( 'Vendor Name' ); ?> <span style="color: red;">*</span>
 			</td>
-			<td><input type="text" name="vendor" id="vendor" class="inputbox required" /></td>
+			<td><input type="text" name="vendor" id="vendor" class="inputbox required"  value="<?php if (!empty($this->request['vendor'])) { echo $this->request['vendor']; } ?>" /></td>
 		</tr>
 		<tr>
 			<td><?php echo JText::_( 'Item No.' ); ?></td>
-			<td><input type="text" name="item_num" id="item_num" class="inputbox" /></td>
+			<td><input type="text" name="item_num" id="item_num" class="inputbox" value="<?php if (!empty($this->request['item_num'])) { echo $this->request['item_num']; } ?>" /></td>
 		</tr>
 		<tr>
 			<td><?php echo JText::_( 'Color' ); ?></td>
-			<td><input type="text" name="color" id="color" class="inputbox" /></td>
+			<td><input type="text" name="color" id="color" class="inputbox" value="<?php if (!empty($this->request['color'])) { echo $this->request['color']; } ?>" /></td>
 		</tr>
 		<tr>
 			<td><?php echo JText::_( 'Quantity' ); ?><span style="color: red;">*</span></td>
-			<td><input type="text" name="quantity" id="quantity" class="inputbox" /></td>
+			<td><input type="text" name="quantity" id="quantity" class="inputbox" value="<?php if (!empty($this->request['quantity'])) { echo $this->request['quantity']; } ?>" /></td>
 		</tr>
 		<tr>
 			<td><?php echo JText::_( 'Unit Price' ); ?> <span style="color: red;">*</span>
 			</td>
 			<td>$<input type="text" name="unit_cost" id="unit_cost"
-				class="inputbox" width="248px;" />	<span id="total_price"></span>
+				class="inputbox" width="248px;" value="<?php if (!empty($this->request['unit_cost'])) { echo $this->request['unit_cost']; } ?>" />	<span id="total_price"></span>
 			</td>
 		</tr>
 		<tr>
@@ -137,7 +157,7 @@ if(isset($this->message)){
 			<td><?php echo JText::_( 'Description' ); ?> <span style="color: red;">*</span>
 			</td>
 			<td><textarea cols="50" id="item_desc" name="item_desc" rows="7"
-					class="inputbox"></textarea>
+					class="inputbox"><?php if (!empty($this->request['item_desc'])) { echo $this->request['item_desc']; } ?></textarea>
 			</td>
 		</tr>
 		<tr>
@@ -148,7 +168,7 @@ if(isset($this->message)){
 			<td><?php echo JText::_( 'Need By' ); ?> <span style="color: red;">*</span>
 			</td>
 			<td>
-				<input	type="text" name="date_required" id="date_required" class="inputbox" />
+				<input	type="text" name="date_required" id="date_required" value="<?php if (!empty($this->request['date_required'])) { echo $this->request['date_required']; } ?>" class="inputbox" />
 			</td>
 		</tr>
 		<tr>
@@ -173,7 +193,7 @@ if(isset($this->message)){
 		</tr>
 		<tr>
 			<td><?php echo JText::_( 'URL' ); ?></td>
-			<td><input type="text" name="url" id="url" class="inputbox" /> <span>
+			<td><input type="text" name="url" id="url" class="inputbox" value="<?php if (!empty($this->request['url'])) { echo $this->request['url']; } ?>" /> <span>
 			</span>
 			</td>
 		</tr>
@@ -206,7 +226,7 @@ if(isset($this->message)){
 		<tr>
 			<td><?php echo JText::_( 'Comments' ); ?></td>
 			<td><textarea cols="50" id="comments" name="comments" rows="7"
-					class="inputbox"></textarea>
+					class="inputbox"><?php if (!empty($this->request['comments'])) { echo $this->request['comments']; } ?></textarea>
 			</td>
 		</tr>
 		<tr>
