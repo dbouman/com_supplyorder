@@ -187,7 +187,7 @@ INSERT INTO `#__so_requests` (`request_id`, `request_status_id`,
 							`date_approved`, `date_required`, 
 							`date_submitted`, `po_number`, 
 							`date_received`) VALUES 
-							('1', '1', '0', '66', '1', '0', 'Vendor', 
+							('1', '1', '0', '62', '1', '0', 'Vendor', 
 							'1234456789', 'Item Description 1', 'None', 
 							'hclibrary.org', 'ADM@CEN', '11', '0.00', 'Each', 
 							'12.34', NULL, '2012-08-31 00:00:00', 
