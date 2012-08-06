@@ -369,36 +369,17 @@ class SupplyOrderModelRequests extends JModel
 	{
 		$db = JFactory::getDBO();
 		
-		$userModel = JModel::getInstance('User', 'SuppyOrderModel');
-		
-		/*$query = "SELECT r.request_id, r.vendor, r.item_desc, r.ship_to, r.quantity, r.request_cost, 
-					r.date_required, r.employee_id, os.status_name, os.status_desc, a.account_num, a.account_name
-					FROM r requests, os order_status, a accounts 
-					WHERE r.request_id = $request_id 
-					AND r.request_status_id = os.request_status_id
-					AND r.account_id = a.account_id" ;*/
-		
-		
-		$query = "SELECT r.request_id, r.employee_id, r.account_is, r.vendor, r.item_num, r.item_desc, r.color, r.url, r.ship_to, 
+		$query = "SELECT r.request_id, r.employee_id, r.account_id, r.vendor, r.item_num, r.item_desc, r.color, r.url, r.ship_to, 
 						r.quantity, r.unit_cost, r.unit_measure, r.request_cost, r.date_approved, r.date_required, r.date_submitted,
 						r.date_received, o.order_name, o.order_desc, o.shipping_cost, o.order_total, c.comment_body, c.date_sent,
 						rs.status_name, rs.status_desc
-					FROM (( #__so_requests r
-						LEFT JOIN #__so_order o
-							ON r.order_id = o.order_id)
-							( #__so_request
-						INNER JOIN #__so_request_status rs
-							ON r.request_status_id = rs.request_status_id)
-							( #__so_request
-						INNER JOIN #__so_files f
-							ON r.request_id = f.request_id)
-							( #__so_request
-						INNER JOIN #__so_comments c
-							ON r.request_id = c.request_id)
-							( #__so_request
-						INNER JOIN #__so_accounts a
-							ON r.account_id = a.account_id))
-						where r.request_id = $request_id";
+					FROM #__so_requests r
+					INNER JOIN #__so_request_status rs ON r.request_status_id = rs.request_status_id
+					INNER JOIN #__so_accounts a	ON r.account_id = a.account_id
+					LEFT JOIN #__so_orders o	ON r.order_id = o.order_id
+					LEFT JOIN #__so_files f	ON r.request_id = f.request_id
+					LEFT JOIN #__so_comments c ON r.request_id = c.request_id
+					WHERE r.request_id = $request_id";
 		
 		$db->setQuery($query);
 		
@@ -408,7 +389,7 @@ class SupplyOrderModelRequests extends JModel
 		//User Model instance
 		$userModel = JModel::getInstance('User', 'SupplyOrderModel');
 		//Employee Info
-		$userInfo = $userModel->getUserInfo($completeDetail["employee_id"]);
+		$userInfo = $userModel->getUserInfo($completeDetails["employee_id"]);
 		
 		//Add employee value
 		$completeDetails["employee_name"] = $userInfo['name'];
