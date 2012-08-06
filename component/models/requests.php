@@ -63,6 +63,15 @@ class SupplyOrderModelRequests extends JModel
 		return $this->_pagination;
 	}
 	
+	//Sorting of records 
+	public function populateState() {
+		$filter_order = JRequest::getCmd('filter_order');
+		$filter_order_Dir = JRequest::getCmd('filter_order_Dir');
+	
+		$this->setState('filter_order', $filter_order);
+		$this->setState('filter_order_Dir', $filter_order_Dir);
+	}
+	
 	/**
 	 * Add field/value pairs to the $request array
 	 * @param string $field
@@ -218,9 +227,16 @@ class SupplyOrderModelRequests extends JModel
 		$status_ids = implode(',', $status_ids);
 		$status_ids = rtrim($status_ids, ',');
 		
+		//Order by
+		$order_by = $db->getEscaped($this->getState('filter_order', 'request_id'));
+		
+		//Asc or desc
+		$asc_by = $db->getEscaped($this->getState('filter_order_Dir', 'DESC'));
+		
 		$query = "SELECT SQL_CALC_FOUND_ROWS * FROM `#__so_requests` 
 					WHERE `employee_id` = $employee_id
-					AND `request_status_id` IN ($status_ids)";
+					AND `request_status_id` IN ($status_ids) $order_by $asc_by";
+		
 		$db->setQuery($query, $this->getState('limitstart'), $this->getState('limit'));
 		$requests = $db->loadAssocList();
 		
@@ -246,9 +262,15 @@ class SupplyOrderModelRequests extends JModel
 		$status_ids = implode(',', $status_ids);
 		$status_ids = rtrim($status_ids, ',');
 		
+		//Order by
+		$order_by = $db->getEscaped($this->getState('filter_order', 'request_id'));
+		
+		//Asc or desc
+		$asc_by = $db->getEscaped($this->getState('filter_order_Dir', 'DESC'));
+		
 		$query = "SELECT SQL_CALC_FOUND_ROWS * FROM `#__so_requests` 
 					WHERE `account_id` = $approver_id
-					AND `request_status_id` IN ($status_ids)";
+					AND `request_status_id` IN ($status_ids) $order_by $asc_by";
 		$db->setQuery($query, $this->getState('limitstart'), $this->getState('limit'));
 		$requests = $db->loadAssocList();
 
@@ -273,7 +295,13 @@ class SupplyOrderModelRequests extends JModel
 		$status_ids = implode(',', $status_ids);
 		$status_ids = rtrim($status_ids, ',');
 		
-		$query = "SELECT SQL_CALC_FOUND_ROWS * FROM `#__so_requests` WHERE `request_status_id` IN ($status_ids)";
+		//Order by
+		$order_by = $db->getEscaped($this->getState('filter_order', 'request_id'));
+		
+		//Asc or desc
+		$asc_by = $db->getEscaped($this->getState('filter_order_Dir', 'DESC'));
+		
+		$query = "SELECT SQL_CALC_FOUND_ROWS * FROM `#__so_requests` WHERE `request_status_id` IN ($status_ids) $order_by $asc_by";
 		$db->setQuery($query, $this->getState('limitstart'), $this->getState('limit'));
 		$requests = $db->loadAssocList();
 		

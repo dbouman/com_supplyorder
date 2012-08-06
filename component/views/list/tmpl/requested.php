@@ -30,7 +30,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 		jQuery(".so_table").delegate('input[id^="request"]','click', function(e) {
 			jQuery(this).parents("tr").toggleClass("selected_color");
 		});
-
+	
 		jQuery("a.popup").fancybox({
 			fitToView	: false,
 			width		: 830,
@@ -45,6 +45,15 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 		});
 		
 	  });
+
+	function tableOrdering( order, dir, task )
+	{
+		var form = document.adminForm;
+	 
+		form.filter_order.value = order;
+		form.filter_order_Dir.value = dir;
+		document.adminForm.submit( task );
+	}
 //-->
 </script>
 
@@ -68,8 +77,8 @@ if(isset($this->message)){
 	<table cellpadding="0" cellspacing="0" border="0" width="100%"	class="so_table">
 		<tr>
 			<th><?php echo JText::_( 'Received' ); ?></th>
-			<th><?php echo JText::_( 'ID' ); ?></th>
-			<th><?php echo JText::_( 'Vendor' ); ?></th>
+			<th><?php echo JHTML::_( 'grid.sort', 'ID', 'DbNameColumn', $this->sortDirection, $this->sortColumn); ?></th>
+			<th><?php echo JHTML::_( 'grid.sort', 'Vendor', 'DbDescriptionColumn', $this->sortDirection, $this->sortColumn); ?></th>
 			<th><?php echo JText::_( 'Description' ); ?></th>
 			<th><?php echo JText::_( 'Quantity' ); ?></th>
 			<th><?php echo JText::_( 'Total Price' ); ?></th>
@@ -117,6 +126,9 @@ if(isset($this->message)){
 	}
 	?>
 	</table>
+	<input type="hidden" name="filter_order" value="<?php echo $this->request_id; ?>" />
+	<input type="hidden" name="filter_order_Dir" value="<?php echo $this->desc; ?>" />
+	
 	<input type="hidden" name="view" value="list" />
 	<input type="hidden" name="layout" value="requested" />
 	<input type="hidden" name="task" value="received_submit" /> 

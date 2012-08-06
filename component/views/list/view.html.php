@@ -81,6 +81,12 @@ class SupplyOrderViewList extends JView
 		// Assign params
 		$this->assignRef('params',		$params);
 		
+		//Column Sorting
+		$items = $this->get('Items');
+		$state = $this->get('State');
+		$this->sortDirection = $state->get('filter_order_Dir');
+		$this->sortColumn = $state->get('filter_order');
+		
 		parent::display($tpl);
 	}
 	
