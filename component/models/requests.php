@@ -51,6 +51,13 @@ class SupplyOrderModelRequests extends JModel
 	 
 		$this->setState('limit', $limit);
 		$this->setState('limitstart', $limitstart);
+		
+		// Get ordering variables
+		$filter_order = JRequest::getCmd('filter_order');
+		$filter_order_Dir = JRequest::getCmd('filter_order_dir');
+		
+		$this->setState('filter_order', $filter_order);
+		$this->setState('filter_order_dir', $filter_order_dir);
 	}
 	
 	function getPagination()
@@ -61,15 +68,6 @@ class SupplyOrderModelRequests extends JModel
 			$this->_pagination = new JPagination($this->_total, $this->getState('limitstart'), $this->getState('limit') );
 		}
 		return $this->_pagination;
-	}
-	
-	//Sorting of records 
-	public function populateState() {
-		$filter_order = JRequest::getCmd('filter_order');
-		$filter_order_Dir = JRequest::getCmd('filter_order_Dir');
-	
-		$this->setState('filter_order', $filter_order);
-		$this->setState('filter_order_Dir', $filter_order_Dir);
 	}
 	
 	/**
@@ -228,14 +226,18 @@ class SupplyOrderModelRequests extends JModel
 		$status_ids = rtrim($status_ids, ',');
 		
 		//Order by
-		$order_by = $db->getEscaped($this->getState('filter_order', 'request_id'));
-		
+		$order_by = $db->getEscaped($this->getState('filter_order'));
 		//Asc or desc
-		$asc_by = $db->getEscaped($this->getState('filter_order_Dir', 'DESC'));
+		$asc_by = $db->getEscaped($this->getState('filter_order_dir'));
+		if (empty($order_by)) {
+			$order_by = 'request_id';
+			$asc_by = 'ASC';
+		}
 		
 		$query = "SELECT SQL_CALC_FOUND_ROWS * FROM `#__so_requests` 
 					WHERE `employee_id` = $employee_id
-					AND `request_status_id` IN ($status_ids) $order_by $asc_by";
+					AND `request_status_id` IN ($status_ids)
+					ORDER BY $order_by $asc_by";
 		
 		$db->setQuery($query, $this->getState('limitstart'), $this->getState('limit'));
 		$requests = $db->loadAssocList();
@@ -263,14 +265,18 @@ class SupplyOrderModelRequests extends JModel
 		$status_ids = rtrim($status_ids, ',');
 		
 		//Order by
-		$order_by = $db->getEscaped($this->getState('filter_order', 'request_id'));
-		
-		//Asc or desc
-		$asc_by = $db->getEscaped($this->getState('filter_order_Dir', 'DESC'));
+		$order_by = $db->getEscaped($this->getState('filter_order'));
+		$asc_by = $db->getEscaped($this->getState('filter_order_dir'));
+		if (empty($order_by)) {
+			$order_by = 'request_id';
+			$asc_by = 'ASC';
+		}		
 		
 		$query = "SELECT SQL_CALC_FOUND_ROWS * FROM `#__so_requests` 
 					WHERE `account_id` = $approver_id
-					AND `request_status_id` IN ($status_ids) $order_by $asc_by";
+					AND `request_status_id` IN ($status_ids)
+					ORDER BY $order_by $asc_by";
+		
 		$db->setQuery($query, $this->getState('limitstart'), $this->getState('limit'));
 		$requests = $db->loadAssocList();
 
@@ -296,12 +302,18 @@ class SupplyOrderModelRequests extends JModel
 		$status_ids = rtrim($status_ids, ',');
 		
 		//Order by
-		$order_by = $db->getEscaped($this->getState('filter_order', 'request_id'));
-		
+		$order_by = $db->getEscaped($this->getState('filter_order'));
 		//Asc or desc
-		$asc_by = $db->getEscaped($this->getState('filter_order_Dir', 'DESC'));
+		$asc_by = $db->getEscaped($this->getState('filter_order_dir'));
+		if (empty($order_by)) {
+			$order_by = 'request_id';
+			$asc_by = 'ASC';
+		}
 		
-		$query = "SELECT SQL_CALC_FOUND_ROWS * FROM `#__so_requests` WHERE `request_status_id` IN ($status_ids) $order_by $asc_by";
+		$query = "SELECT SQL_CALC_FOUND_ROWS * FROM `#__so_requests` 
+					WHERE `request_status_id` IN ($status_ids)
+					ORDER BY $order_by $asc_by";
+				
 		$db->setQuery($query, $this->getState('limitstart'), $this->getState('limit'));
 		$requests = $db->loadAssocList();
 		

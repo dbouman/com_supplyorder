@@ -56,6 +56,10 @@ class SupplyOrderViewList extends JView
 		
 		$requestsModel =& $this->getModel('requests');
 		
+		//Column Sorting
+		$this->assignRef('sortDirection', $requestsModel->getState('filter_order_dir'));
+		$this->assignRef('sortColumn', $requestsModel->getState('filter_order'));
+		
 		if ($layoutName == 'details') {
 			$request_id = JRequest::getVar('request_id');
 			$request = $requestsModel->getRequestCompleteDetail($request_id); // @NOTE change to complete details
@@ -79,13 +83,7 @@ class SupplyOrderViewList extends JView
 		$this->assignRef('pagination', $pagination);
 		
 		// Assign params
-		$this->assignRef('params',		$params);
-		
-		//Column Sorting
-		$items = $this->get('Items');
-		$state = $this->get('State');
-		$this->sortDirection = $state->get('filter_order_Dir');
-		$this->sortColumn = $state->get('filter_order');
+		$this->assignRef('params', $params);
 		
 		parent::display($tpl);
 	}
