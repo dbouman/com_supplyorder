@@ -54,7 +54,7 @@ class SupplyOrderModelRequests extends JModel
 		
 		// Get ordering variables
 		$filter_order = JRequest::getCmd('filter_order');
-		$filter_order_Dir = JRequest::getCmd('filter_order_dir');
+		$filter_order_dir = JRequest::getCmd('filter_order_dir');
 		
 		$this->setState('filter_order', $filter_order);
 		$this->setState('filter_order_dir', $filter_order_dir);
