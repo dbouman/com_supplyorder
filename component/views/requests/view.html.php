@@ -25,6 +25,9 @@ class SupplyOrderViewRequests extends JView
 	function display( $tpl = null)
 	{
 		global $mainframe;
+		
+		$layoutName = $this->getLayout();
+		
 		$document =& JFactory::getDocument();
 		$document->addScript(JURI::base(true).'/components/com_supplyorder/js/jquery-1.7.2.min.js');
 		$document->addScriptDeclaration ( 'jQuery.noConflict();');
@@ -42,10 +45,10 @@ class SupplyOrderViewRequests extends JView
 		if (is_object( $menu )) {
 			$menu_params = new JParameter( $menu->params );
 			if (!$menu_params->get( 'page_title')) {
-				$params->set('page_title', JText::_( 'SUPPLYORDER' ));
+				$params->set('page_title', $this->getDefaultTitle ($layoutName));
 			}
 		} else {
-			$params->set('page_title', JText::_( 'SUPPLYORDER' ));
+			$params->set('page_title', $this->getDefaultTitle ($layoutName) );
 		}
 		$document->setTitle( $params->get( 'page_title' ) );
 		
@@ -64,6 +67,19 @@ class SupplyOrderViewRequests extends JView
 		
 		
 		parent::display($tpl);
+	}
+	
+	/**
+	 * Get default page title based on layout
+	 * @param string $layout
+	 */
+	function getDefaultTitle ($layoutName) {
+		$page_title = "";
+		if ($layoutName == 'default') {
+			$page_title = JText::_( 'New Request' );
+		}
+		
+		return $page_title;
 	}
 }
 ?>

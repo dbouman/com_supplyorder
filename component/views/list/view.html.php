@@ -44,10 +44,10 @@ class SupplyOrderViewList extends JView
 		if (is_object( $menu )) {
 			$menu_params = new JParameter( $menu->params );
 			if (!$menu_params->get( 'page_title')) {
-				$params->set('page_title', JText::_( 'SUPPLYORDER' ));
+				$params->set('page_title', $this->getDefaultTitle ($layoutName));
 			}
 		} else {
-			$params->set('page_title', JText::_( 'SUPPLYORDER' ));
+			$params->set('page_title', $this->getDefaultTitle ($layoutName) );
 		}
 		$document->setTitle( $params->get( 'page_title' ) );
 
@@ -82,6 +82,25 @@ class SupplyOrderViewList extends JView
 		$this->assignRef('params',		$params);
 		
 		parent::display($tpl);
+	}
+	
+	/**
+	 * Get default page title based on layout
+	 * @param string $layout
+	 */
+	function getDefaultTitle ($layoutName) {
+		$page_title = "";
+		if ($layoutName == 'default') {
+			$page_title = JText::_( 'SUPPLYORDER' ); // NO Default page actually
+		}
+		else if ($layoutName == 'saved') {
+			$page_title = JText::_( 'Saved Requests' );
+		}
+		else if ($layoutName == 'requested') {
+			$page_title = JText::_( 'Requested Requests' );
+		}
+	
+		return $page_title;
 	}
 }
 ?>
