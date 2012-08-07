@@ -76,6 +76,26 @@ class SupplyOrderViewList extends JView
 				$status_ids = array(2,3,4,5,6);
 				$requests = $requestsModel->listRequestByOwner($employee_id, $status_ids);
 			}
+			else if($layoutName == 'received'){
+				$status_ids = array(2,3,4,5,6);
+				$requests = $requestsModel->listRequestByStatus($status_ids);//@NOTE Admin List only
+			}
+			else if($layoutName == 'pending'){
+				$status_ids = array(2,3,4,5,6);
+				$requests = $requestsModel->listRequestByOwner($employee_id, $status_ids);
+			}
+			else if($layoutName == 'approved'){
+				$status_ids = array(2,3,4,5,6);
+				$requests = $requestsModel->listRequestByApprover($employee_id, $status_ids);
+			}
+			else if($layoutName == 'pendingAccouting'){
+				$status_ids = array(2,3,4,5,6);
+				$requests = $requestsModel->listRequestByOwner($employee_id, $status_ids);// @TODO list pending orders by Acc Admin 
+			}
+			else if($layoutName == 'ordered'){
+				$status_ids = array(2,3,4,5,6);
+				$requests = $requestsModel->listRequestByStatus($status_ids);// @NOTE Admin List only
+			}
 			
 			$this->assignRef('requests',$requests);
 		}
@@ -104,6 +124,21 @@ class SupplyOrderViewList extends JView
 		}
 		else if ($layoutName == 'requested') {
 			$page_title = JText::_( 'Requested Requests' );
+		}
+		else if ($layoutName == 'received') {
+			$page_title = JText::_( 'Received Requests' );
+		}
+		else if ($layoutName == 'pending') {
+			$page_title = JText::_( 'Pending Requests' );
+		}
+		else if ($layoutName == 'approved') {
+			$page_title = JText::_( 'Approved Requests' );
+		}
+		else if ($layoutName == 'pendingAccouting') {
+			$page_title = JText::_( 'PendingAccounting Requests' );
+		}
+		else if ($layoutName == 'ordered') {
+			$page_title = JText::_( 'Ordered Requests' );
 		}
 	
 		return $page_title;
