@@ -26,7 +26,6 @@ CREATE  TABLE IF NOT EXISTS  `#__so_accounts` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
-DEFAULT CHARACTER SET = latin1;
 
 
 -- -----------------------------------------------------
