@@ -1,15 +1,15 @@
 -- -----------------------------------------------------
--- Table  `#__so_department_head`
+-- Table `com_supplyorder`.`#__so_department_head`
 -- -----------------------------------------------------
 CREATE  TABLE IF NOT EXISTS  `#__so_department_head` (
   `dept_head_id` INT(11) NOT NULL AUTO_INCREMENT ,
   `employee_id` INT(11) NOT NULL ,
   PRIMARY KEY (`dept_head_id`) )
-ENGINE = InnoDB;
+ENGINE = InnoDB
 
 
 -- -----------------------------------------------------
--- Table  `#__so_accounts`
+-- Table `com_supplyorder`.`#__so_accounts`
 -- -----------------------------------------------------
 CREATE  TABLE IF NOT EXISTS  `#__so_accounts` (
   `account_id` INT(11) NOT NULL AUTO_INCREMENT ,
@@ -22,14 +22,15 @@ CREATE  TABLE IF NOT EXISTS  `#__so_accounts` (
   INDEX `fk_accounts_department_head1` (`dept_head_id` ASC) ,
   CONSTRAINT `fk_accounts_department_head1`
     FOREIGN KEY (`dept_head_id` )
-    REFERENCES  `#__so_department_head` (`dept_head_id` )
+    REFERENCES `#__so_department_head` (`dept_head_id` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = latin1;
 
 
 -- -----------------------------------------------------
--- Table  `#__so_request_status`
+-- Table `com_supplyorder`.`#__so_request_status`
 -- -----------------------------------------------------
 CREATE  TABLE IF NOT EXISTS  `#__so_request_status` (
   `request_status_id` INT(11) NOT NULL AUTO_INCREMENT ,
@@ -37,24 +38,11 @@ CREATE  TABLE IF NOT EXISTS  `#__so_request_status` (
   `status_desc` VARCHAR(255) NOT NULL ,
   `approval_level` TINYINT(4) NOT NULL ,
   PRIMARY KEY (`request_status_id`) )
-ENGINE = InnoDB;
+ENGINE = InnoDB
 
 
 -- -----------------------------------------------------
--- Table  `#__so_orders`
--- -----------------------------------------------------
-CREATE  TABLE IF NOT EXISTS  `#__so_orders` (
-  `order_id` INT NOT NULL ,
-  `order_name` VARCHAR(105) NOT NULL ,
-  `order_desc` VARCHAR(1028) NOT NULL ,
-  `shipping_cost` VARCHAR(45) NULL ,
-  `order_total` VARCHAR(45) NOT NULL ,
-  PRIMARY KEY (`order_id`) )
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table  `#__so_requests`
+-- Table `com_supplyorder`.`#__so_requests`
 -- -----------------------------------------------------
 CREATE  TABLE IF NOT EXISTS  `#__so_requests` (
   `request_id` BIGINT(20) NOT NULL AUTO_INCREMENT ,
@@ -90,7 +78,7 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table  `#__so_roles`
+-- Table `com_supplyorder`.`#__so_roles`
 -- -----------------------------------------------------
 CREATE  TABLE IF NOT EXISTS  `#__so_roles` (
   `role_id` INT(11) NOT NULL AUTO_INCREMENT ,
@@ -100,26 +88,27 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table  `#__so_files`
+-- Table `com_supplyorder`.`#__so_files`
 -- -----------------------------------------------------
 CREATE  TABLE IF NOT EXISTS  `#__so_files` (
   `file_id` INT(11) NOT NULL AUTO_INCREMENT ,
   `request_id` BIGINT(20) NOT NULL ,
   `employee_id` INT(11) NOT NULL ,
   `file_location` VARCHAR(255) NOT NULL ,
+  `file_name` VARCHAR(145) NULL ,
   `date_posted` DATETIME NOT NULL ,
   PRIMARY KEY (`file_id`) ,
   INDEX `order_id_index` (`request_id` ASC) ,
   CONSTRAINT `fk_files_order`
     FOREIGN KEY (`request_id` )
-    REFERENCES  `#__so_requests` (`request_id` )
+    REFERENCES `#__so_requests` (`request_id` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table  `#__so_comments`
+-- Table `com_supplyorder`.`#__so_comments`
 -- -----------------------------------------------------
 CREATE  TABLE IF NOT EXISTS  `#__so_comments` (
   `comment_id` INT(11) NOT NULL AUTO_INCREMENT ,
@@ -131,14 +120,28 @@ CREATE  TABLE IF NOT EXISTS  `#__so_comments` (
   INDEX `fk_order_comments_order1` (`request_id` ASC) ,
   CONSTRAINT `fk_order_comments_order1`
     FOREIGN KEY (`request_id` )
-    REFERENCES  `#__so_requests` (`request_id` )
+    REFERENCES `#__so_requests` (`request_id` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table  `#__so_title_roles`
+-- Table `com_supplyorder`.`#__so_orders`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS  `#__so_orders` (
+  `order_id` INT NOT NULL ,
+  `order_name` VARCHAR(105) NOT NULL ,
+  `order_desc` VARCHAR(1028) NOT NULL ,
+  `shipping_cost` VARCHAR(45) NULL ,
+  `order_total` VARCHAR(45) NOT NULL ,
+  `date_ordered` VARCHAR(45) NOT NULL ,
+  PRIMARY KEY (`order_id`) )
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `com_supplyorder`.`#__so_title_roles`
 -- -----------------------------------------------------
 CREATE  TABLE IF NOT EXISTS  `#__so_title_roles` (
   `title` VARCHAR(205) NOT NULL ,
@@ -146,10 +149,12 @@ CREATE  TABLE IF NOT EXISTS  `#__so_title_roles` (
   INDEX `fk_#__so_title_roles_#__so_roles1` (`role_id` ASC) ,
   CONSTRAINT `fk_#__so_title_roles_#__so_roles1`
     FOREIGN KEY (`role_id` )
-    REFERENCES  `#__so_roles` (`role_id` )
+    REFERENCES `#__so_roles` (`role_id` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
+
+
 
   
 -- Add role data
