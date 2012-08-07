@@ -81,12 +81,12 @@ class SupplyOrderViewList extends JView
 				$requests = $requestsModel->listRequestByOwner($employee_id, $status_ids);
 			}
 			else if ($layoutName == 'requested') {
-				$status_ids = array(2,3,4,5,6);
+				$status_ids = array(2,3,4,5,6);  //@TODO requested items should have 3 status_id 
 				$requests = $requestsModel->listRequestByOwner($employee_id, $status_ids);
 			}
 			else if($layoutName == 'received'){
 				$status_ids = array(2,3,4,5,6);
-				$requests = $requestsModel->listRequestByStatus($status_ids);//@NOTE Admin List only
+				$requests = $requestsModel->listRequestByStatus($status_ids);  //@NOTE Admin List only
 			}
 			else if($layoutName == 'pending'){
 				$status_ids = array(2,3,4,5,6);

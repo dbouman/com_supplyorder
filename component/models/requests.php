@@ -236,7 +236,7 @@ class SupplyOrderModelRequests extends JModel
 		
 		$query = "SELECT SQL_CALC_FOUND_ROWS r.request_id, r.vendor, r.item_num, r.item_desc, r.quantity, r.unit_cost, 
 					r.request_cost, r.date_approved, r.date_required, r.date_submitted, r.po_number, r.date_received, 
-					o.date_ordered, rs.status_desc
+					o.date_ordered, rs.request_status_id, rs.status_name, rs.status_desc
 					FROM `#__so_requests` r
 					INNER JOIN `#__so_request_status` rs ON r.request_status_id = rs.request_status_id
 					LEFT JOIN `#__so_orders` o ON r.order_id = o.order_id
@@ -279,7 +279,7 @@ class SupplyOrderModelRequests extends JModel
 		
 		$query = "SELECT SQL_CALC_FOUND_ROWS r.request_id, r.vendor, r.item_num, r.item_desc, r.quantity, r.unit_cost, 
 					r.request_cost, r.date_approved, r.date_required, r.date_submitted, r.po_number, r.date_received, 
-					o.date_ordered, rs.status_desc 
+					o.date_ordered, rs.request_status_id, rs.status_name, rs.status_desc
 					FROM `#__so_requests` r
 					INNER JOIN `#__so_request_status` rs ON r.request_id = rs.request_status_id 
 					LEFT JOIN `#__so_orders` o ON r.order_id = o.order_id
@@ -322,7 +322,7 @@ class SupplyOrderModelRequests extends JModel
 		
 		$query = "SELECT SQL_CALC_FOUND_ROWS r.request_id, r.vendor, r.item_num, r.item_desc, r.quantity, r.unit_cost, 
 					r.request_cost, r.date_approved, r.date_required, r.date_submitted, r.po_number, r.date_received, 
-					o.date_ordered, rs.status_desc 
+					o.date_ordered, rs.request_status_id, rs.status_name, rs.status_desc
 					FROM `#__so_requests` r
 					INNER JOIN `#__so_request_status` rs ON r.request_status_id = rs.request_status_id
 					LEFT JOIN `#__so_orders` o ON r.order_id = o.order_id
