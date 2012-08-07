@@ -50,13 +50,14 @@
 
 #so_left_col {
 	float: left;
-	width: 450px;
+	width: 425px;
 }
 
 #so_right_col {
 	float: right;
 	width: 350px;
 	margin-left: 10px; 
+	margin-right: 15px;
 }
 
 .so_clear_both {

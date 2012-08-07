@@ -144,7 +144,7 @@ if(isset($this->message)){
 			</tr>
 			<?php
 			if (!empty($this->comments)) { 
-				foreach ($comments as $comment) {
+				foreach ($this->comments as $comment) {
 				?>
 					<tr>
 						<td><?php echo $comment['comment_body']; ?><br />
@@ -182,7 +182,7 @@ if(isset($this->message)){
 					<td><?php echo JText::_( 'Date Posted' ); ?></td>
 				</tr>
 				<?php
-				foreach ($files as $file) {
+				foreach ($this->files as $file) {
 				?>
 					<tr>
 					<td><a href="<?php echo $file['file_location']; ?>"><?php echo $file['file_name']; ?></a></td>
