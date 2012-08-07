@@ -85,7 +85,6 @@ class SupplyOrderViewList extends JView
 			else if ($layoutName == 'requested') {
 				$status_ids = array(2,3,4,5,6);
 				$requests = $requestsModel->listRequestByOwner($employee_id, $status_ids);
-				$this->formatStatusDesc($request);
 			}
 			else if($layoutName == 'received'){
 				$status_ids = array(2,3,4,5,6);
