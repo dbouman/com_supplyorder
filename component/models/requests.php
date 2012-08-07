@@ -234,7 +234,9 @@ class SupplyOrderModelRequests extends JModel
 			$asc_by = 'ASC';
 		}
 		
-		$query = "SELECT SQL_CALC_FOUND_ROWS * FROM `#__so_requests` 
+		$query = "SELECT SQL_CALC_FOUND_ROWS * 
+					FROM `#__so_requests` r
+					INNER JOIN `#__so_request_status` ON r.request_status_id = rs.request_status_id
 					WHERE `employee_id` = $employee_id
 					AND `request_status_id` IN ($status_ids)
 					ORDER BY $order_by $asc_by";
@@ -272,7 +274,9 @@ class SupplyOrderModelRequests extends JModel
 			$asc_by = 'ASC';
 		}		
 		
-		$query = "SELECT SQL_CALC_FOUND_ROWS * FROM `#__so_requests` 
+		$query = "SELECT SQL_CALC_FOUND_ROWS * 
+					FROM `#__so_requests` r
+					INNER JOIN `#__so_request_status` rs ON r.request_id = rs.request_status_id 
 					WHERE `account_id` = $approver_id
 					AND `request_status_id` IN ($status_ids)
 					ORDER BY $order_by $asc_by";
@@ -310,7 +314,9 @@ class SupplyOrderModelRequests extends JModel
 			$asc_by = 'ASC';
 		}
 		
-		$query = "SELECT SQL_CALC_FOUND_ROWS * FROM `#__so_requests` 
+		$query = "SELECT SQL_CALC_FOUND_ROWS * 
+					FROM `#__so_requests` r
+					INNER JOIN `#__so_request_status` rs ON r.request_status_id = rs.request_status_id
 					WHERE `request_status_id` IN ($status_ids)
 					ORDER BY $order_by $asc_by";
 				
