@@ -5,7 +5,7 @@ CREATE  TABLE IF NOT EXISTS  `#__so_department_head` (
   `dept_head_id` INT(11) NOT NULL AUTO_INCREMENT ,
   `employee_id` INT(11) NOT NULL ,
   PRIMARY KEY (`dept_head_id`) )
-ENGINE = InnoDB
+ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -25,7 +25,7 @@ CREATE  TABLE IF NOT EXISTS  `#__so_accounts` (
     REFERENCES `#__so_department_head` (`dept_head_id` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = InnoDB
+ENGINE = InnoDB;
 DEFAULT CHARACTER SET = latin1;
 
 
@@ -38,7 +38,7 @@ CREATE  TABLE IF NOT EXISTS  `#__so_request_status` (
   `status_desc` VARCHAR(255) NOT NULL ,
   `approval_level` TINYINT(4) NOT NULL ,
   PRIMARY KEY (`request_status_id`) )
-ENGINE = InnoDB
+ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
