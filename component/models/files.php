@@ -41,11 +41,12 @@ class SupplyOrderModelFiles extends JModel
 		if (!empty($error)) {
 			JError::raiseError('', $error);
 		}
+		$file_name = SupplyOrderFileUploads::getCleanFilename($file, $request_id);
 		$file_location = SupplyOrderFileUploads::getFileLocation($file,$request_id,true);
 
 		$query = "INSERT INTO `#__so_files`
-					(request_id, employee_id, file_location, date_posted)
-					VALUES ($request_id, $employee_id, '$file_location', NOW())";
+					(request_id, employee_id, file_location, file_name, date_posted)
+					VALUES ($request_id, $employee_id, '$file_location', '$file_name', NOW())";
 
 		$db->setQuery($query);
 

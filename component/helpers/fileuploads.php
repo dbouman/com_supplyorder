@@ -59,12 +59,18 @@ class SupplyOrderFileUploads
 		return $error;
 	}
 	
-	static public function getFileLocation ($file, $request_id, $relative=false) {
-		
+	static public function getCleanFilename ($file, $request_id) {
 		$filename = $file['name'];
 		//lose any special characters in the filename
 		$filename = preg_replace("/[^A-Za-z0-9_\.-]/i", "-", $filename);
 		$filename = $request_id . "-" . $filename;
+		
+		return $filename;
+	}
+	
+	static public function getFileLocation ($file, $request_id, $relative=false) {
+		
+		$filename = self::getCleanFilename ($file, $request_id);
 		
 		//always use constants when making file paths, to avoid the possibilty of remote file inclusion
 		$uploadPath = "";
