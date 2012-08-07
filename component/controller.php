@@ -43,16 +43,24 @@ class SupplyOrderController extends JController
 		$view =& $this->getView( $viewName, $viewType, '', array( 'base_path'=>$this->_basePath));
 		
 		// Set the default model as requests
-		$requestsModel =& $this->getModel ( 'requests' ); // get first model
+		$requestsModel =& $this->getModel ( 'requests' ); 
 	    $view->setModel( $requestsModel, true );  // true is for the default model  
 	    
 	    // Set accounts model
-	    $accountsModel =& $this->getModel ( 'accounts' ); // get second model     
+	    $accountsModel =& $this->getModel ( 'accounts' );   
 	    $view->setModel( $accountsModel );  
 	    
 	    // Set user model
-	    $userModel =& $this->getModel ( 'user' ); // get second model
+	    $userModel =& $this->getModel ( 'user' );
 	    $view->setModel( $userModel );
+	    
+	    // Set comments model
+	    $commentsModel =& $this->getModel ( 'comments' ); 
+	    $view->setModel( $commentsModel );
+	    
+	    // Set files model
+	    $filesModel =& $this->getModel ( 'files' ); 
+	    $view->setModel( $filesModel );
 
 	    // Set the layout
 	    $view->setLayout($viewLayout);

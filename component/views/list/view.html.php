@@ -32,10 +32,12 @@ class SupplyOrderViewList extends JView
 		$document->addScript(JURI::base(true).'/components/com_supplyorder/js/jquery-1.7.2.min.js');
 		$document->addScriptDeclaration ( 'jQuery.noConflict();');
 		$document->addScript(JURI::base(true).'/components/com_supplyorder/js/jquery.fancybox.pack.js');
+		$document->addScript(JURI::base(true).'/components/com_supplyorder/js/jquery.printarea.js');
 		$document->addScript(JURI::base(true).'/components/com_supplyorder/js/so.table.js');
 		
 		$document->addStyleSheet(JURI::base(true).'/components/com_supplyorder/css/jquery.fancybox.css');
 		$document->addStyleSheet(JURI::base(true).'/components/com_supplyorder/css/default.css');
+		$document->addStyleSheet(JURI::base(true).'/components/com_supplyorder/css/default.print.css','text/css','print');
 		
 		// Get the page/component configuration
 		$params = &$mainframe->getParams();
@@ -56,7 +58,10 @@ class SupplyOrderViewList extends JView
 		$user =& JFactory::getUser();
 		$employee_id = $user->id;
 		
+		// Get required models
 		$requestsModel =& $this->getModel('requests');
+		$commentsModel =& $this->getModel('comments');
+		$filesModel =& $this->getModel('files');
 		
 		//Column Sorting
 		$this->assignRef('sortDirection', $requestsModel->getState('filter_order_dir'));
@@ -64,8 +69,13 @@ class SupplyOrderViewList extends JView
 		
 		if ($layoutName == 'details') {
 			$request_id = JRequest::getVar('request_id');
-			$request = $requestsModel->getRequestCompleteDetail($request_id); // @NOTE change to complete details
+			$request = $requestsModel->getRequestCompleteDetail($request_id);
+			$this->formatRequestDates($request);
+			$this->formatStatusDesc($request);
 			$this->assignRef('request',$request);
+			
+			$this->assignRef('comments',$commentsModel->getComments($request['request_id']));
+			$this->assignRef('files',$filesModel->getFiles($request['request_id']));
 		}
 		else {
 			if ($layoutName == 'saved') {
@@ -142,6 +152,61 @@ class SupplyOrderViewList extends JView
 		}
 	
 		return $page_title;
+	}
+	
+	function formatStatusDesc (&$request) {
+		$status_id =& $request['request_status_id'];
+		$status_desc =& $request['status_desc'];
+		$date_submitted = $request['date_submitted'];
+		$date_approved = $request['date_approved'];
+		$date_ordered = $request['$date_ordered'];
+		$date_received = $request['date_received'];
+	
+		if ($status_id == 7) { // Received
+			$status_desc = $status_desc . " (" . $date_received . ")";
+		}
+		else if ($status_id == 6) { // Ordered
+			$status_desc = $status_desc . " (" . $date_ordered . ")";
+		}
+		else if ($status_id > 2) { // Ordered
+			$status_desc = $status_desc . " (" . $date_approved . ")";
+		}
+	}
+	
+	function formatRequestDates (&$request) {
+		$date_required =& $request['date_required'];
+		$date_submitted =& $request['date_submitted'];
+		$date_approved =& $request['date_approved'];
+		$date_ordered =& $request['$date_ordered'];
+		$date_received =& $request['date_received'];
+		
+		if (!empty($date_required)) {
+			$date_required = $this->formatDate($date_required);
+		}
+		
+		if (!empty($date_submitted)) {
+			$date_submitted = $this->formatDateTime($date_submitted);
+		}
+		
+		if (!empty($date_approved)) {
+			$date_approved = $this->formatDateTime($date_approved);
+		}
+		
+		if (!empty($date_ordered)) {
+			$date_ordered = $this->formatDateTime($date_approved);
+		}
+		
+		if (!empty($date_received)) {
+			$date_received = $this->formatDateTime($date_received);
+		}
+	}
+	
+	function formatDate ($date='now') {	
+		return date("F j, Y",strtotime($date));
+	}
+	
+	function formatDateTime ($date='now') {
+		return date("F j, Y, g:i a",strtotime($date));
 	}
 }
 ?>
