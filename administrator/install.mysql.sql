@@ -135,7 +135,7 @@ CREATE  TABLE IF NOT EXISTS  `#__so_orders` (
   `order_desc` VARCHAR(1028) NOT NULL ,
   `shipping_cost` VARCHAR(45) NULL ,
   `order_total` VARCHAR(45) NOT NULL ,
-  `date_ordered` VARCHAR(45) NOT NULL ,
+  `date_ordered` DATETIME NOT NULL ,
   PRIMARY KEY (`order_id`) )
 ENGINE = InnoDB;
 
