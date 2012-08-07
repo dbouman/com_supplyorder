@@ -234,9 +234,12 @@ class SupplyOrderModelRequests extends JModel
 			$asc_by = 'ASC';
 		}
 		
-		$query = "SELECT SQL_CALC_FOUND_ROWS * 
+		$query = "SELECT SQL_CALC_FOUND_ROWS r.request_id, r.vendor, r.item_num, r.item_desc, r.quantity, r.unit_cost, 
+					r.request_cost, r.date_approved, r.date_required, r.date_submitted, r.po_number, r.date_received, 
+					o.date_ordered, rs.status_desc
 					FROM `#__so_requests` r
 					INNER JOIN `#__so_request_status` rs ON r.request_status_id = rs.request_status_id
+					LEFT JOIN `#__so_orders` o ON r.order_id = o.order_id
 					WHERE r.employee_id = $employee_id
 					AND r.request_status_id IN ($status_ids)
 					ORDER BY $order_by $asc_by";
@@ -270,15 +273,18 @@ class SupplyOrderModelRequests extends JModel
 		$order_by = $db->getEscaped($this->getState('filter_order'));
 		$asc_by = $db->getEscaped($this->getState('filter_order_dir'));
 		if (empty($order_by)) {
-			$order_by = 'request_id';
+			$order_by = 'r.request_id';
 			$asc_by = 'ASC';
 		}		
 		
-		$query = "SELECT SQL_CALC_FOUND_ROWS * 
+		$query = "SELECT SQL_CALC_FOUND_ROWS r.request_id, r.vendor, r.item_num, r.item_desc, r.quantity, r.unit_cost, 
+					r.request_cost, r.date_approved, r.date_required, r.date_submitted, r.po_number, r.date_received, 
+					o.date_ordered, rs.status_desc 
 					FROM `#__so_requests` r
 					INNER JOIN `#__so_request_status` rs ON r.request_id = rs.request_status_id 
-					WHERE `account_id` = $approver_id
-					AND `request_status_id` IN ($status_ids)
+					LEFT JOIN `#__so_orders` o ON r.order_id = o.order_id
+					WHERE r.`account_id` = $approver_id
+					AND r.`request_status_id` IN ($status_ids)
 					ORDER BY $order_by $asc_by";
 		
 		$db->setQuery($query, $this->getState('limitstart'), $this->getState('limit'));
@@ -310,14 +316,17 @@ class SupplyOrderModelRequests extends JModel
 		//Asc or desc
 		$asc_by = $db->getEscaped($this->getState('filter_order_dir'));
 		if (empty($order_by)) {
-			$order_by = 'request_id';
+			$order_by = 'r.request_id';
 			$asc_by = 'ASC';
 		}
 		
-		$query = "SELECT SQL_CALC_FOUND_ROWS * 
+		$query = "SELECT SQL_CALC_FOUND_ROWS r.request_id, r.vendor, r.item_num, r.item_desc, r.quantity, r.unit_cost, 
+					r.request_cost, r.date_approved, r.date_required, r.date_submitted, r.po_number, r.date_received, 
+					o.date_ordered, rs.status_desc 
 					FROM `#__so_requests` r
 					INNER JOIN `#__so_request_status` rs ON r.request_status_id = rs.request_status_id
-					WHERE `request_status_id` IN ($status_ids)
+					LEFT JOIN `#__so_orders` o ON r.order_id = o.order_id
+					WHERE r.`request_status_id` IN ($status_ids)
 					ORDER BY $order_by $asc_by";
 				
 		$db->setQuery($query, $this->getState('limitstart'), $this->getState('limit'));
