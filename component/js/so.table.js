@@ -24,12 +24,6 @@ jQuery(document).ready(function() {
 		closeSpeed	: 'normal'
 	});
 	
-	jQuery('#so_print_button a').click(function() {
-		var container = jQuery(this).attr('rel');
-		jQuery('#' + container).printArea();
-		return false;
-	});
-	
   });
 
 function tableOrdering( order, dir, task )

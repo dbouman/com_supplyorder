@@ -24,7 +24,7 @@ if(isset($this->message)){
 </div>
 
 <div id="so_print_button">
-	<a href="#" rel="so_print_area">
+	<a href="javascript: jQuery('so_print_area').printElement({printMode:'popup'});">
 		<img alt="Print" src="/media/com_supplyorder/print_icon.png">
 	</a>
 </div>
@@ -61,7 +61,7 @@ if(isset($this->message)){
 			</tr>
 			<tr>
 				<td><?php echo JText::_( 'URL' ); ?></td>
-				<td><?php echo $this->request['url']; ?></td>
+				<td><a href="<?php echo $this->request['url']; ?>" target="_blank"><?php echo $this->request['url']; ?></a></td>
 			</tr>
 			<tr>
 				<td><?php echo JText::_( 'Quantity' ); ?></td>
@@ -180,7 +180,7 @@ if(isset($this->message)){
 				foreach ($this->files as $file) {
 				?>
 				<tr>
-					<td><a href="<?php echo $file['file_location']; ?>"><?php echo $file['file_name']; ?></a></td>
+					<td><a href="<?php echo $file['file_location']; ?>" target="_blank"><?php echo $file['file_name']; ?></a></td>
 					<td><?php echo $file['date_posted']; ?></td>
 				</tr>
 				<?php
