@@ -41,6 +41,11 @@
 	color: #6D929B;
 }
 
+#comment_footer {
+	font-size: 10px;
+	font-style:italic
+}
+
 #so_print_button {
 	text-align: right;
 	padding: 2px;

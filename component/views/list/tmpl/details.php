@@ -41,7 +41,7 @@ if(isset($this->message)){
 			</tr>
 			<tr>
 				<td><?php echo JText::_( 'Status' ); ?></td>
-				<td><?php echo $this->request['status_desc']; ?></td>
+				<td><?php echo SupplyOrderController::get_status_with_date($this->request); ?></td>
 			</tr>
 			<tr>
 				<td><?php echo JText::_( 'Vendor' ); ?></td>
@@ -73,7 +73,7 @@ if(isset($this->message)){
 			</tr>
 			<tr>
 				<td><?php echo JText::_( 'Needed By' ); ?></td>
-				<td><?php echo $this->request['date_required']; ?></td>
+				<td><?php echo JHTML::_('date', $this->request['date_required'], JText::_( 'DATE_FORMAT' )); ?></td>
 			</tr>
 			<tr>
 				<td><?php echo JText::_( 'Ship To' ); ?></td>
@@ -81,7 +81,7 @@ if(isset($this->message)){
 			</tr>
 			<tr>
 				<td><?php echo JText::_( 'Date Created' ); ?></td>
-				<td><?php echo $this->request['date_submitted']; ?></td>
+				<td><?php echo JHTML::_('date', $this->request['date_submitted'], JText::_( 'DATETIME_FORMAT' )); ?></td>
 			</tr>
 		</table>
 		<?php if (!empty($this->request['order_id'])) { ?>
@@ -100,7 +100,7 @@ if(isset($this->message)){
 			</tr>
 			<tr>
 				<td><?php echo JText::_( 'Date Ordered' ); ?></td>
-				<td><?php echo $this->request['date_ordered']; ?></td>
+				<td><?php echo JHTML::_('date', $this->request['date_ordered'], JText::_( 'DATETIME_FORMAT' )); ?></td>
 			</tr>
 		</table>
 		<?php } ?>
@@ -152,7 +152,8 @@ if(isset($this->message)){
 								<?php echo JText::_( 'Posted by' ) . " "; ?>
 								<?php echo $comment['employee_name'] . " "; ?> 
 								<?php echo JText::_( 'on' ) . " "; ?> 
-								<?php echo $comment['date_sent']; ?></div>
+								<?php echo JHTML::_('date', $comment['date_sent'], JText::_( 'DATETIME_FORMAT' )); ?>
+							</div>
 						</td>
 					</tr>
 				<?php
@@ -176,15 +177,9 @@ if(isset($this->message)){
 			</tr>
 			<?php
 			if (!empty($this->files)) { 
-			?>
-				<tr>
-					<td><?php echo JText::_( 'File' ); ?></td>
-					<td><?php echo JText::_( 'Date Posted' ); ?></td>
-				</tr>
-				<?php
 				foreach ($this->files as $file) {
 				?>
-					<tr>
+				<tr>
 					<td><a href="<?php echo $file['file_location']; ?>"><?php echo $file['file_name']; ?></a></td>
 					<td><?php echo $file['date_posted']; ?></td>
 				</tr>

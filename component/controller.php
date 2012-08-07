@@ -148,6 +148,27 @@ class SupplyOrderController extends JController
 		$this->setRedirect( $uri->toString(), $msg );
 	}
 	
+	public function get_status_with_date ($request) {
+		$status_id = $request['request_status_id'];
+		$status_desc = $request['status_desc'];
+		$date_submitted = $request['date_submitted'];
+		$date_approved = $request['date_approved'];
+		$date_ordered = @$request['date_ordered'];
+		$date_received = $request['date_received'];
+		
+		if ($status_id == 7) { // Received
+			$status_desc = $status_desc . " (" . $date_received . ")";
+		}
+		else if ($status_id == 6) { // Ordered
+			$status_desc = $status_desc . " (" . $date_ordered . ")";
+		}
+		else if ($status_id > 2) { // Ordered
+			$status_desc = $status_desc . " (" . $date_approved . ")";
+		}
+		
+		return $status_desc;
+	}
+	
 	private function get_approval_level ($order_cost) {
 		$approval_level = 1;
 		

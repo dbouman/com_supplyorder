@@ -62,6 +62,20 @@ class SupplyOrderModelComments extends JModel
 		$db->setQuery($query);
 		$result = $db->loadAssocList();
 		
-		return $result;
+		// Get user model
+		$userModel = JModel::getInstance('User', 'SupplyOrderModel');
+		
+		$comments = array();
+		$i = 0;
+		foreach ($result as $row) {
+			$comments[$i]['comment_body'] = $row['comment_body'];
+			$comments[$i]['date_sent'] = $row['date_sent'];
+				
+			$userInfo = $userModel->getUserInfo($row['employee_id']);
+			$comments[$i]['employee_name'] = $userInfo['name'];
+			$i++;
+		}
+		
+		return $comments;
 	}
 }
