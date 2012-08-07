@@ -236,9 +236,9 @@ class SupplyOrderModelRequests extends JModel
 		
 		$query = "SELECT SQL_CALC_FOUND_ROWS * 
 					FROM `#__so_requests` r
-					INNER JOIN `#__so_request_status` ON r.request_status_id = rs.request_status_id
-					WHERE `employee_id` = $employee_id
-					AND `request_status_id` IN ($status_ids)
+					INNER JOIN `#__so_request_status` rs ON r.request_status_id = rs.request_status_id
+					WHERE r.employee_id = $employee_id
+					AND r.request_status_id IN ($status_ids)
 					ORDER BY $order_by $asc_by";
 		
 		$db->setQuery($query, $this->getState('limitstart'), $this->getState('limit'));
