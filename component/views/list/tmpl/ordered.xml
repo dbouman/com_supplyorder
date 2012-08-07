@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<layout title="Approved Requests">
+		<message>
+			List ordered requests
+		</message>
+	</layout>
+	<state>
+		<name>Ordered Requests</name>
+		<description>List all ordered requests</description>
+		<params>
+		</params>
+	</state>
+</metadata>

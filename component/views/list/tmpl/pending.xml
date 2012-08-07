@@ -2,12 +2,12 @@
 <metadata>
 	<layout title="Received Requests">
 		<message>
-			List received requests
+			List pending requests
 		</message>
 	</layout>
 	<state>
-		<name>Received Requests</name>
-		<description>List all received requests</description>
+		<name>Pending Requests</name>
+		<description>List all pending requests</description>
 		<params>
 		</params>
 	</state>

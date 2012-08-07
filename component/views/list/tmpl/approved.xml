@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<layout title="Approved Requests">
+		<message>
+			List approved requests
+		</message>
+	</layout>
+	<state>
+		<name>Approved Requests</name>
+		<description>List all approved requests</description>
+		<params>
+		</params>
+	</state>
+</metadata>

@@ -41,10 +41,10 @@ if(isset($this->message)){
 			<th><?php echo JText::_( 'Received' ); ?></th>
 			<th><?php echo JHTML::_( 'grid.sort', 'ID', 'request_id', $this->sortDirection, $this->sortColumn); ?></th>
 			<th><?php echo JHTML::_( 'grid.sort', 'Vendor', 'vendor', $this->sortDirection, $this->sortColumn); ?></th>
-			<th><?php echo JText::_( 'Description' ); ?></th>
+			<th><?php echo JHTML::_( 'grid.sort', 'Description', 'item_desc', $this->sortDirection, $this->sortColumn); ?></th>
 			<th><?php echo JText::_( 'Quantity' ); ?></th>
 			<th><?php echo JText::_( 'Total Price' ); ?></th>
-			<th><?php echo JText::_( 'Status' ); ?></th>
+			<th><?php echo JHTML::_( 'grid.sort', 'Status', 'status_name', $this->sortDirection, $this->sortColumn); ?></th>
 			<th><?php echo JText::_( 'Details' ); ?></th>
 			<th><?php echo JText::_( 'Delete' ); ?></th>
 		</tr>
@@ -83,7 +83,7 @@ if(isset($this->message)){
 	?>
 		<tr>
 			<td colspan="9">
-				<?php echo JText::_( 'No saved requests.' ); ?>
+				<?php echo JText::_( 'No requested requests.' ); ?>
 			</td>
 		</tr>
 	<?php
