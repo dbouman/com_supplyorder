@@ -17,7 +17,7 @@ jQuery(document).ready(function() {
 		height		: 600,
 		autoSize	: false,
 		closeClick	: false,
-		scrolling	: 'yes',
+		scrolling	: 'auto',
 		openEffect	: 'elastic',
 		closeEffect	: 'elastic',
 		openSpeed	: 'normal', 
