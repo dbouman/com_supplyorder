@@ -13,14 +13,6 @@
 defined( '_JEXEC' ) or die( 'Restricted access' );
 ?>
 
-<script>
-<!--
-function printDiv(){
-	jQuery("#divToPrint").jqprint();
-}
-//-->
-</script>
-
 <?php
 if(isset($this->message)){
 	$this->display('message');
@@ -31,25 +23,23 @@ if(isset($this->message)){
 	Request Details - #<?php echo $this->request['request_id']; ?>
 </div>
 
-<div style="float: right">
-	<a href="#" onclick="printDiv();">
-		<img alt="Print" src="/images/iconPring.gif">
+<div id="so_print_button">
+	<a href="javascript: window.print();">
+		<img alt="Print" src="/media/com_supplyorder/print_icon.png">
 	</a>
 </div>
 
-<div id="divToPrint">
-	<table cellpadding="0" cellspacing="0" border="0" width="100%"	class="so_table">
-		<tr>
-			<td><?php echo JText::_( 'ID' ); ?></td>
-			<td><?php echo $this->request['request_id']; ?></td>
-		</tr>
-		<tr>
-			<td><?php echo JText::_( 'Vendor' ); ?></td>
-			<td><?php echo $this->request['vendor']; ?></td>
-		</tr>
-		<tr>
-			<td><?php echo JText::_( 'Description' ); ?></td>
-			<td><?php echo $this->request['item_desc']; ?></td>
-		</tr>
-	</table>
-</div>
+<table cellpadding="0" cellspacing="0" border="0" width="100%"	class="so_table">
+	<tr>
+		<td><?php echo JText::_( 'ID' ); ?></td>
+		<td><?php echo $this->request['request_id']; ?></td>
+	</tr>
+	<tr>
+		<td><?php echo JText::_( 'Vendor' ); ?></td>
+		<td><?php echo $this->request['vendor']; ?></td>
+	</tr>
+	<tr>
+		<td><?php echo JText::_( 'Description' ); ?></td>
+		<td><?php echo $this->request['item_desc']; ?></td>
+	</tr>
+</table>

@@ -32,7 +32,6 @@ class SupplyOrderViewList extends JView
 		$document->addScript(JURI::base(true).'/components/com_supplyorder/js/jquery-1.7.2.min.js');
 		$document->addScriptDeclaration ( 'jQuery.noConflict();');
 		$document->addScript(JURI::base(true).'/components/com_supplyorder/js/jquery.fancybox.pack.js');
-		$document->addScript(JURI::base(true).'/components/com_supplyorder/js/jquery.printElement.min.js');
 		$document->addScript(JURI::base(true).'/components/com_supplyorder/js/so.table.js');
 		
 		$document->addStyleSheet(JURI::base(true).'/components/com_supplyorder/css/jquery.fancybox.css');

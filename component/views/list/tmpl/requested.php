@@ -61,7 +61,7 @@ if(isset($this->message)){
 				<td><?php echo $request['quantity']; ?></td>
 				<td><?php echo $request['request_cost']; ?></td>
 				<td><?php echo SupplyOrderController::get_status_with_date($request); ?></td>
-				<td><a class="popup fancybox.iframe" href="<?php echo JRoute::_( 'index.php?option=com_supplyorder&view=list&layout=details&tmpl=component&request_id=' . $request['request_id'] ); ?>">Details</a></td>
+				<td><a class="popup" href="<?php echo JRoute::_( 'index.php?option=com_supplyorder&view=list&layout=details&tmpl=component&request_id=' . $request['request_id'] ); ?>">Details</a></td>
 				<td><a href="<?php echo JRoute::_( 'index.php?option=com_supply_order&view=list&layout=saved&task=delete_request&request_id=' . $request['request_id'] ); ?>">Delete</a></td>
 			</tr>
 		<?php

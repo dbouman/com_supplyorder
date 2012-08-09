@@ -21,7 +21,8 @@ jQuery(document).ready(function() {
 		openEffect	: 'elastic',
 		closeEffect	: 'elastic',
 		openSpeed	: 'normal', 
-		closeSpeed	: 'normal'
+		closeSpeed	: 'normal',
+		type		: 'ajax'
 	});
 	
   });
