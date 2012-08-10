@@ -29,18 +29,21 @@ if(isset($this->message)){
 		<table cellpadding="0" cellspacing="0" border="0" width="100%"
 			class="so_table">
 			<tr>
+				<td>&nbsp;</td>
 				<td><?php echo JText::_( 'Admin Comments' ); ?> <span
-					style="color: red;">*</span>
-				</td>
-				<td><input type="text" name="comments" id="comments"
-					class="inputbox" />
+					style="color: red;">*</span></td>
+			</tr>
+			<tr>
+				<td>&nbsp;</td>
+				<td><textarea cols="50" id="comments" name="comments" rows="7"
+						class="inputbox"></textarea>
 				</td>
 			</tr>
 			<tr>
 				<td>&nbsp;</td>
 				<td><input type="submit" value="Save" name="save" /> <input
 					type="reset" value="Cancel" name="cancel"
-					onclick="parent.$.fancybox.close();" />
+					onclick="$.fancybox.close();" />
 				</td>
 			</tr>
 		</table>
