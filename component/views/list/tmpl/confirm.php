@@ -11,35 +11,41 @@
 
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
-?>
 
-<?php
 if(isset($this->message)){
 	$this->display('message');
 }
 ?>
 <div
 	class="componentheading<?php echo $this->escape($this->params->get('pageclass_sfx')); ?>">
-	Request Details - #<?php echo $this->request['request_id']; ?>
+	Confirm action - #<?php echo $this->request['request_id']; ?>
 </div>
 
-<div id="so_print_button">
-	<a href="javascript: window.print();">
-		<img alt="Print" src="/media/com_supplyorder/print_icon.png">
-	</a>
-</div>
+<form
+	action="<?php echo JRoute::_( 'index.php?option=com_supplyorder' ); ?>"
+	method="post" id="action_confirm_form" name="action_confirm_form" enctype="multipart/form-data" >
 
-<table cellpadding="0" cellspacing="0" border="0" width="100%"	class="so_table">
-	<tr>
-		<td><?php echo JText::_( 'ID' ); ?></td>
-		<td><?php echo $this->request['request_id']; ?></td>
-	</tr>
-	<tr>
-		<td><?php echo JText::_( 'Vendor' ); ?></td>
-		<td><?php echo $this->request['vendor']; ?></td>
-	</tr>
-	<tr>
-		<td><?php echo JText::_( 'Description' ); ?></td>
-		<td><?php echo $this->request['item_desc']; ?></td>
-	</tr>
-</table>
+	<div id="divToPrint">
+		<table cellpadding="0" cellspacing="0" border="0" width="100%"
+			class="so_table">
+			<tr>
+				<td><?php echo JText::_( 'Admin Comments' ); ?> <span
+					style="color: red;">*</span>
+				</td>
+				<td><input type="text" name="comments" id="comments"
+					class="inputbox" />
+				</td>
+			</tr>
+			<tr>
+				<td>&nbsp;</td>
+				<td><input type="submit" value="Save" name="save" /> <input
+					type="reset" value="Cancel" name="cancel"
+					onclick="parent.$.fancybox.close();" />
+				</td>
+			</tr>
+		</table>
+	</div>
+	<input type="hidden" name="request_id" value="<?php echo $this->request['request_id']; ?>" />
+	<input type="hidden" name="task" value="save_request" />
+	<?php echo JHTML::_( 'form.token' ); ?>
+</form>

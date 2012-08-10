@@ -38,6 +38,7 @@ if(isset($this->message)){
 
 	<table cellpadding="0" cellspacing="0" border="0" width="100%"	class="so_table">
 		<tr>
+			<th><?php echo JText::_( 'Select' ); ?></th>
 			<th><?php echo JHTML::_( 'grid.sort', 'ID', 'request_id', $this->sortDirection, $this->sortColumn); ?></th>
 			<th><?php echo JHTML::_( 'grid.sort', 'Vendor', 'vendor', $this->sortDirection, $this->sortColumn); ?></th>
 			<th><?php echo JHTML::_( 'grid.sort', 'Description', 'item_desc', $this->sortDirection, $this->sortColumn); ?></th>
