@@ -36,7 +36,8 @@ class SupplyOrderViewList extends JView
 		
 		$document->addStyleSheet(JURI::base(true).'/components/com_supplyorder/css/jquery.fancybox.css');
 		$document->addStyleSheet(JURI::base(true).'/components/com_supplyorder/css/default.css');
-		$document->addStyleSheet(JURI::base(true).'/components/com_supplyorder/css/default.print.css','text/css','print');
+		if (JRequest::getCmd('tmpl') != 'component') 
+			$document->addStyleSheet(JURI::base(true).'/components/com_supplyorder/css/default.print.css','text/css','print');
 		
 		// Get the page/component configuration
 		$params = &$mainframe->getParams();

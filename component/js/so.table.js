@@ -22,7 +22,7 @@ jQuery(document).ready(function() {
 		closeEffect	: 'elastic',
 		openSpeed	: 'normal', 
 		closeSpeed	: 'normal',
-		type		: 'ajax'
+		type		: 'iframe'
 	});
 	
   });
