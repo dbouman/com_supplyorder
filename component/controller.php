@@ -123,7 +123,11 @@ class SupplyOrderController extends JController
 			
 			foreach ($files as $file) {
 				$error = SupplyOrderFileUploads::checkFileForError($file);
-				if (!empty($error)) {
+				if ($error == JText::_( 'ERROR NO FILE' )) {
+					// skip file not found errors
+					continue;
+				}
+				else if (!empty($error)) {
 					// Get all form data and store in session
 					$mainframe->setUserState('com_supplyorder.edit.request.data', JRequest::get($_POST));
 					
