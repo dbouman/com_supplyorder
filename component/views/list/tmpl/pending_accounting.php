@@ -43,7 +43,7 @@ if(isset($this->message)){
 ?>
 
 <form
-	action="<?php echo JRoute::_( 'index.php?option=com_supplyorder&view=list&layout=pendingAccouting' ); ?>"
+	action="<?php echo JRoute::_( 'index.php?option=com_supplyorder&view=list&layout=pending_accounting' ); ?>"
 	method="post" id="requested_requests" name="requested_requests" >
 
 	<?php if ( $this->params->def( 'show_page_title', 1 ) ) : ?>
@@ -113,7 +113,7 @@ if(isset($this->message)){
 	<input type="hidden" name="filter_order_dir" value="<?php echo $this->sortDirection; ?>" />
 	
 	<input type="hidden" name="view" value="list" />
-	<input type="hidden" name="layout" value="pendingAccounting" />
+	<input type="hidden" name="layout" value="pending_accounting" />
 	<input type="hidden" name="task" value="received_submit" /> 
 	<?php echo JHTML::_( 'form.token' ); ?>
 </form>
