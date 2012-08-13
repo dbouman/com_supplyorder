@@ -153,6 +153,20 @@ CREATE  TABLE IF NOT EXISTS  `#__so_title_roles` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
+-- -----------------------------------------------------
+-- Table `com_supplyorder`.`#__so_global_config`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `#__so_global_config` (
+  `global_config_id` INT NOT NULL ,
+  `name` VARCHAR(45) NULL ,
+  `value` VARCHAR(105) NULL ,
+  PRIMARY KEY (`global_config_id`) )
+ENGINE = InnoDB;
+
+-- Add global_config data
+INSERT INTO `#__so_global_config` (`global_config_id`, `name`, `value`) VALUES
+(1, 'accounting', 'jacquelynn.morris@hclibrary.org'),
+(2, 'IT', 'anshul.meena@hclibrary.org');
 
 
   

@@ -74,6 +74,13 @@ class SupplyOrderViewList extends JView
 			
 			$this->assignRef('comments',$commentsModel->getComments($request['request_id']));
 			$this->assignRef('files',$filesModel->getFiles($request['request_id']));
+		}else if ($layoutName == 'confirm') {//Confirm popup to approve and unapprove a request
+			$request_id = JRequest::getVar('request_id');
+			$request = $requestsModel->getRequestCompleteDetail($request_id);
+			$this->assignRef('request',$request);
+			
+			$this->assignRef('comments',$commentsModel->getComments($request['request_id']));
+			$this->assignRef('files',$filesModel->getFiles($request['request_id']));
 		}
 		else {
 			if ($layoutName == 'saved') {
@@ -96,7 +103,7 @@ class SupplyOrderViewList extends JView
 				$status_ids = array(2,3,4,5,6);
 				$requests = $requestsModel->listRequestByApprover($employee_id, $status_ids);
 			}
-			else if($layoutName == 'pendingAccouting'){
+			else if($layoutName == 'pending_accouting'){
 				$status_ids = array(2,3,4,5,6);
 				$requests = $requestsModel->listRequestByOwner($employee_id, $status_ids);// @TODO list pending orders by Acc Admin 
 			}
@@ -142,7 +149,7 @@ class SupplyOrderViewList extends JView
 		else if ($layoutName == 'approved') {
 			$page_title = JText::_( 'Approved Requests' );
 		}
-		else if ($layoutName == 'pendingAccouting') {
+		else if ($layoutName == 'pending_accouting') {
 			$page_title = JText::_( 'PendingAccounting Requests' );
 		}
 		else if ($layoutName == 'ordered') {
