@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<layout title="Received Requests">
+		<message>
+			List admin pending requests
+		</message>
+	</layout>
+	<state>
+		<name>Admin Pending Requests</name>
+		<description>List all admin pending requests</description>
+		<params>
+		</params>
+	</state>
+</metadata>
