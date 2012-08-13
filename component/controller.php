@@ -152,6 +152,44 @@ class SupplyOrderController extends JController
 		$this->setRedirect( $uri->toString(), $msg );
 	}
 	
+	//Update request status on Submit, Approve1, Approve2
+	public function update_status(){
+		$mainframe =& JFactory::getApplication();
+		$model =& $this->getModel('requests');
+		$userModel =& $this->getModel ( 'user' );
+		$commentsModel =& $this->getModel ( 'comments' );
+		$filesModel =& $this->getModel ( 'files' );
+		
+		// Clean all POST variables
+		JRequest::_cleanArray( $_POST );
+		
+		$user =& JFactory::getUser();
+		$employee_id = $user->id;
+		
+		$requests_id_list = JRequest::getVar('requests');
+		$request_status_id = JRequest::getVar('request_status_id');
+		
+		foreach ($requests_id_list as $request_id){
+			$request_detail = $model->getRequestBriefDetail($request_id);
+			
+			if ($request_detail["request_status_id"] == 1) {
+				$approver_l1_email = $request_detail["account_owner_id"];
+				$model->updateStatus($request_id,$request_status_id);
+				//@TODO Send email to approver level 1 ($approver_l1_email)
+			}elseif ($request_detail["request_status_id"] == 2){
+				$approver_l2_email = $request_detail["account_owner_id"];
+				$model->updateStatus($request_id,$request_status_id);
+				//@TODO Send email to approver level 1 ($approver_l2_email)
+			}elseif ($request_detail["request_status_id"] == 3){
+				$approver_l3_email = $request_detail["account_owner_id"];
+				$model->updateStatus($request_id,$request_status_id);
+				//@TODO Send email to approver level 1 ($approver_l3_email)
+			}
+			
+		}
+		
+	}
+	
 	public function get_status_with_date ($request) {
 		$status_id = $request['request_status_id'];
 		$status_desc = $request['status_desc'];
@@ -200,4 +238,6 @@ class SupplyOrderController extends JController
 			$this->setRedirect( $return);
 		}
 	}
+	
+	
 }
