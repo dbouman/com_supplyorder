@@ -152,8 +152,13 @@ class SupplyOrderController extends JController
 		$this->setRedirect( $uri->toString(), $msg );
 	}
 	
-	//Update request status on Submit, Approve1, Approve2
-	public function update_status(){
+	// Alias for approve_request function since it handles the submitting of requests as well
+	public function submit_request ( ) {
+		return $this->approve_request();
+	}
+	
+	// Updates request status on approval
+	public function approve_request ( ) {
 		$mainframe =& JFactory::getApplication();
 		$model =& $this->getModel('requests');
 		$userModel =& $this->getModel ( 'user' );
@@ -167,25 +172,62 @@ class SupplyOrderController extends JController
 		$employee_id = $user->id;
 		
 		$requests_id_list = JRequest::getVar('requests');
-		$request_status_id = JRequest::getVar('request_status_id');
 		
 		foreach ($requests_id_list as $request_id){
-			$request_detail = $model->getRequestBriefDetail($request_id);
+			$request = $model->getRequestCompleteDetail($request_id);
+			$comments = $commentsModel->getComments($request['request_id']);
+			$files = $filesModel->getFiles($request['request_id']);
+			$curr_status_id = $request['request_status_id'];
+			$approval_level_required = $request['approval_level_required'];
+			$approval_level = $request['approval_level'];
 			
-			if ($request_detail["request_status_id"] == 1) {
-				$approver_l1_email = $request_detail["account_owner_id"];
-				$model->updateStatus($request_id,$request_status_id);
-				//@TODO Send email to approver level 1 ($approver_l1_email)
-			}elseif ($request_detail["request_status_id"] == 2){
-				$approver_l2_email = $request_detail["account_owner_id"];
-				$model->updateStatus($request_id,$request_status_id);
-				//@TODO Send email to approver level 1 ($approver_l2_email)
-			}elseif ($request_detail["request_status_id"] == 3){
-				$approver_l3_email = $request_detail["account_owner_id"];
-				$model->updateStatus($request_id,$request_status_id);
-				//@TODO Send email to approver level 1 ($approver_l3_email)
+			// Get helper for emails
+			if(!class_exists('SupplyOrderNotifications')) require('components'.DS.'com_supplyorder'.DS.'helpers'.DS.'fileuploads.php');
+			
+			if ($curr_status_id == 1) { // Saved request being submitted for Tier 1 Approval
+				$to_email = $userModel->getUserInfo($request['account_owner_id']);
+				$new_status_id = 2;
+				$subject =  JText::_( 'Request has been submitted and is awaiting approval' );
+			}
+			else if ($curr_status_id == 2) { // Tier 1 request approved 
+				if ($this->is_approved($approval_level, $approval_level_required)) {
+					// Approval level met, go straight to accounting
+					$to_email = ""; // accounting email
+					$new_status_id = 5;
+					$subject =  JText::_( 'Request has been approved and is awaiting purchase' );
+				}
+				else {
+					// Needs next level of approval
+					$to_email = $userModel->getUserInfo($request['dept_head_id']);
+					$new_status_id = 3;
+					$subject =  JText::_( 'A new request is awaiting your approval' );
+				}
+			}
+			else if ($curr_status_id == 3) { // Tier 2 request approved
+				if ($this->is_approved($approval_level, $approval_level_required)) {
+					// Approval level met, go straight to accounting
+					$to_email = ""; // accounting email
+					$new_status_id = 5;
+					$subject =  JText::_( 'Request has been approved and is awaiting purchase' );
+				}
+				else {
+					// Needs next level of approval
+					$to_email = ""; // Valerie's email
+					$new_status_id = 4;
+					$subject =  JText::_( 'A new request is awaiting your approval' );
+				}
+			}
+			else if ($curr_status_id == 4) { // Tier 3 request approved
+				$to_email = ""; // accounting email
+				$new_status_id = 5;
+				$subject =  JText::_( 'Request has been approved and is awaiting purchase' );
 			}
 			
+			// Update status in database
+			$model->updateStatus($request_id,$new_status_id);
+			
+			// Send email
+			SupplyOrderNotifications::emailRequestDetails($to_email, $subject, $request, $comments, $files);	
 		}
 		
 	}
@@ -209,6 +251,10 @@ class SupplyOrderController extends JController
 		}
 		
 		return $status_desc;
+	}
+	
+	private function is_approved ($approval_level, $approval_level_required) {
+		return (($approval_level+1) >= $approval_level_required);
 	}
 	
 	private function get_approval_level ($order_cost) {

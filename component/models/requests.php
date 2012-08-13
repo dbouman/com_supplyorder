@@ -385,13 +385,14 @@ class SupplyOrderModelRequests extends JModel
 	{
 		$db = JFactory::getDBO();
 		
-		$query = "SELECT r.request_id, r.request_status_id, r.employee_id, r.account_id, r.vendor, r.item_num, r.item_desc, r.color, 
+		$query = "SELECT r.request_id, r.request_status_id, r.employee_id, r.account_id, r.approval_level_required, r.vendor, r.item_num, r.item_desc, r.color, 
 						r.url, r.ship_to, r.quantity, r.unit_cost, r.unit_measure, r.request_cost, r.date_approved, r.date_required, 
 						r.date_submitted, r.date_received, o.order_name, o.order_desc, o.shipping_cost, o.order_total, o.date_ordered, 
-						rs.status_name,	rs.status_desc,	a.account_num, a.account_name, a.employee_id as account_owner_id
+						rs.status_name,	rs.status_desc, rs.approval_level, a.account_num, a.account_name, a.employee_id as account_owner_id, d.employee_id as dept_head_id
 					FROM #__so_requests r
 					INNER JOIN #__so_request_status rs ON r.request_status_id = rs.request_status_id
 					INNER JOIN #__so_accounts a	ON r.account_id = a.account_id
+					INNER JOIN #__so_department_head d ON a.dept_head_id = d.dept_head_id
 					LEFT JOIN #__so_orders o	ON r.order_id = o.order_id
 					WHERE r.request_id = $request_id";
 		

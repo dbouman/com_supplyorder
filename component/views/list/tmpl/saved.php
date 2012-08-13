@@ -86,7 +86,6 @@ if(isset($this->message)){
 		?>
 	<input type="hidden" name="view" value="list" />
 	<input type="hidden" name="layout" value="saved" />
-	<input type="hidden" name="task" value="request_submit" />
-	<input type="hidden" name="request_status_id" value="2" /> 
+	<input type="hidden" name="task" value="submit_request" />
 	<?php echo JHTML::_( 'form.token' ); ?>
 </form>
