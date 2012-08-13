@@ -175,14 +175,14 @@ class SupplyOrderController extends JController
 		
 		foreach ($requests_id_list as $request_id){
 			$request = $model->getRequestCompleteDetail($request_id);
-			$comments = $commentsModel->getComments($request['request_id']);
-			$files = $filesModel->getFiles($request['request_id']);
+			$comments = $commentsModel->getComments($request_id);
+			$files = $filesModel->getFiles($request_id);
 			$curr_status_id = $request['request_status_id'];
 			$approval_level_required = $request['approval_level_required'];
 			$approval_level = $request['approval_level'];
 			
 			// Get helper for emails
-			if(!class_exists('SupplyOrderNotifications')) require('components'.DS.'com_supplyorder'.DS.'helpers'.DS.'fileuploads.php');
+			if(!class_exists('SupplyOrderNotifications')) require('components'.DS.'com_supplyorder'.DS.'helpers'.DS.'notifications.php');
 			
 			if ($curr_status_id == 1) { // Saved request being submitted for Tier 1 Approval
 				$to_email = $userModel->getUserInfo($request['account_owner_id']);
@@ -224,6 +224,7 @@ class SupplyOrderController extends JController
 			}
 			
 			// Update status in database
+			// @TODO Is date_approved updated?
 			$model->updateStatus($request_id,$new_status_id);
 			
 			// Send email
