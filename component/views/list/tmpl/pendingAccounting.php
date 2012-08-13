@@ -19,6 +19,23 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 //
 ?>
 
+<script>
+jQuery("a.confirmPopup").fancybox({
+	fitToView	: false,
+	width		: 300,
+	height		: 300,
+	autoSize	: false,
+	closeClick	: false,
+	scrolling	: 'auto',
+	openEffect	: 'elastic',
+	closeEffect	: 'elastic',
+	openSpeed	: 'normal', 
+	closeSpeed	: 'normal',
+	type		: 'iframe'
+	});
+
+</script>
+
 <?php
 if(isset($this->message)){
 	$this->display('message');
@@ -61,8 +78,8 @@ if(isset($this->message)){
 				<td><?php echo $request['item_desc']; ?></td>
 				<td><?php echo $request['quantity']; ?></td>
 				<td><?php echo $request['request_cost']; ?></td>
-				<td><a class="popup fancybox.iframe" href="<?php echo JRoute::_( 'index.php?option=com_supplyorder&view=list&layout=confirm&tmpl=component&request_id=' . $request['request_id'] ); ?>">Approve</a></td>
-				<td><a class="popup fancybox.iframe" href="<?php echo JRoute::_( 'index.php?option=com_supplyorder&view=list&layout=confirm&tmpl=component&request_id=' . $request['request_id'] ); ?>">Unapprove</a></td>
+				<td><a class="confirmPopup fancybox.iframe" href="<?php echo JRoute::_( 'index.php?option=com_supplyorder&view=list&layout=confirm&tmpl=component&request_id=' . $request['request_id'] ); ?>">Approve</a></td>
+				<td><a class="confirmPopup fancybox.iframe" href="<?php echo JRoute::_( 'index.php?option=com_supplyorder&view=list&layout=confirm&tmpl=component&request_id=' . $request['request_id'] ); ?>">Unapprove</a></td>
 				<td><a class="popup" href="<?php echo JRoute::_( 'index.php?option=com_supplyorder&view=list&layout=details&tmpl=component&request_id=' . $request['request_id'] ); ?>">Details</a></td>
 				<td><a href="<?php echo JRoute::_( 'index.php?option=com_supply_order&view=list&layout=saved&task=delete_request&request_id=' . $request['request_id'] ); ?>">Delete</a></td>
 			</tr>

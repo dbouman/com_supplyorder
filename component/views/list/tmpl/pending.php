@@ -19,6 +19,23 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 //
 ?>
 
+<script>
+jQuery("a.confirmPopup").fancybox({
+	fitToView	: false,
+	width		: 300,
+	height		: 300,
+	autoSize	: false,
+	closeClick	: false,
+	scrolling	: 'auto',
+	openEffect	: 'elastic',
+	closeEffect	: 'elastic',
+	openSpeed	: 'normal', 
+	closeSpeed	: 'normal',
+	type		: 'iframe'
+	});
+
+</script>
+
 <?php
 if(isset($this->message)){
 	$this->display('message');

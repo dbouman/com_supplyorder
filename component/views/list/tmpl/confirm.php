@@ -43,7 +43,7 @@ if(isset($this->message)){
 				<td>&nbsp;</td>
 				<td><input type="submit" value="Save" name="save" /> <input
 					type="reset" value="Cancel" name="cancel"
-					onclick="$.fancybox.close();" />
+					onclick="parent.jQuery.fancybox.close();" />
 				</td>
 			</tr>
 		</table>
