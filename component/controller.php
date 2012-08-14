@@ -91,7 +91,7 @@ class SupplyOrderController extends JController
 		$model->setRequest("item_num", JRequest::getVar('item_num'));
 		$model->setRequest("item_desc", JRequest::getVar('item_desc'));
 		$model->setRequest("color", JRequest::getVar('color'));
-		$model->setRequest("url", JRequest::getVar('url'));
+		$model->setRequest("url", $this->check_url(JRequest::getVar('url')));
 		$model->setRequest("ship_to", JRequest::getVar('ship_to'));
 		$model->setRequest("quantity", JRequest::getVar('quantity'));
 		$model->setRequest("unit_cost", JRequest::getVar('unit_cost'));
@@ -175,7 +175,7 @@ class SupplyOrderController extends JController
 		$model->setRequest("item_num", JRequest::getVar('item_num'));
 		$model->setRequest("item_desc", JRequest::getVar('item_desc'));
 		$model->setRequest("color", JRequest::getVar('color'));
-		$model->setRequest("url", JRequest::getVar('url'));
+		$model->setRequest("url", $this->check_url(JRequest::getVar('url')));
 		$model->setRequest("ship_to", JRequest::getVar('ship_to'));
 		$model->setRequest("quantity", JRequest::getVar('quantity'));
 		$model->setRequest("unit_cost", JRequest::getVar('unit_cost'));
@@ -411,6 +411,14 @@ class SupplyOrderController extends JController
 	
 	private function is_approved ($approval_level, $approval_level_required) {
 		return (($approval_level+1) >= $approval_level_required);
+	}
+	
+	private function check_url ($url) {
+		if (strpos($url, 'http') === false) {
+			$url = "http://" . $url;
+		}
+		
+		return $url;
 	}
 	
 	private function get_approval_level ($order_cost) {

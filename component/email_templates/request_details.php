@@ -172,7 +172,7 @@
 			foreach ($this->files as $file) {
 			?>
 			<tr>
-				<td><a href="<?php echo $file['file_location']; ?>" target="_blank"><?php echo $file['file_name']; ?></a></td>
+				<td><a href="<?php echo JURI::base() . ltrim($file['file_location'],'/'); ?>" target="_blank"><?php echo $file['file_name']; ?></a></td>
 				<td><?php echo $file['date_posted']; ?></td>
 			</tr>
 			<?php
