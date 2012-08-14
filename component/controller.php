@@ -350,15 +350,28 @@ class SupplyOrderController extends JController
 	
 	// Delete the request item
 	// @TODO Would be good to add some security, potential for anyone to enter URL and delete request
-	// @TODO Needs to delete all comments and files before deleting request
 	public function delete_request(){
 		$model =& $this->getModel('requests');
+		$commentsModel =& $this->getModel ( 'comments' );
+		$filesModel =& $this->getModel ( 'files' );
+		
 		// Clean all POST variables
 		JRequest::_cleanArray( $_POST );
 		
-		$requests_id_list = JRequest::getVar('requests');
+		$request_id = JRequest::getVar('request_id');
 		
+		$commentsModel->deleteComments($request_id);
+		$filesModel->deleteFiles($request_id);
 		$model->deleteRequest($request_id);
+		
+		$uri = JURI::getInstance();
+		$uri->delVar( 'task' ); // Remove task from URI
+		$uri->delVar( 'request_id' ); // Remove request ID from URI
+		
+		// Set message
+		$msg = JText::_( 'Request has been deleted.' );
+		
+		$this->setRedirect( $uri->toString(), $msg );
 	}
 	
 	// Delete an attached file
