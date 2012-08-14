@@ -12,20 +12,52 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
+JLoader::import('joomla.application.component.model');
+
 class SupplyOrderNotifications
 {
+	// Models
+	private $requestsModel;
+	private $commentsModel;
+	private $filesModel;
+	
+	// Variables
+	private $request;
+	private $comments;
+	private $files;
+	
+	public function __construct ( ) {
+		if(!class_exists('SupplyOrderModelRequests')) {
+			JLoader::import( 'requests', 'components' . DS . 'com_supplyorder' . DS . 'models' );
+		}
+		
+		if(!class_exists('SupplyOrderModelComments')) {
+			JLoader::import( 'comments', 'components' . DS . 'com_supplyorder' . DS . 'models' );
+		}
+		
+		if(!class_exists('SupplyOrderModelFiles')) {
+			JLoader::import( 'files', 'components' . DS . 'com_supplyorder' . DS . 'models' );
+		}
+		
+		$this->requestsModel =& JModel::getInstance( 'Requests', 'SupplyOrderModel' );
+		$this->commentsModel =& JModel::getInstance( 'Comments', 'SupplyOrderModel' );
+		$this->filesModel =& JModel::getInstance( 'Files', 'SupplyOrderModel' );
+	}
+	
 	
 	/**
 	 * Handles all emails that need to send out request details to various people
 	 * 
 	 * @param string $to_email
 	 * @param string $subject
-	 * @param array $request includes all request details for display in email message
-	 * @param array $comments includes all comments for display in email message
-	 * @param array $files includes all files for display in email message
+	 * @param int $request_id 
 	 * @return true on success or JError object on failure
 	 */
-	static public function emailRequestDetails ($to_email, $subject, $request, $comments, $files) {
+	public function emailRequestDetails ($to_email, $subject, $request_id) {
+		$this->request = $this->requestsModel->getRequestCompleteDetail($request_id);
+		$this->comments = $this->commentsModel->getComments($request_id);
+		$this->files = $this->filesModel->getFiles($request_id);
+		
 		$mailer =& JFactory::getMailer();
 		
 		// Set sender
@@ -38,12 +70,13 @@ class SupplyOrderNotifications
 		
 		// Set recipient
 		$mailer->addRecipient($to_email);
+		$mailer->addCC('danny.bouman@hclibrary.org'); // Testing purposes
 		
 		// Set subject
-		$mailer->setSubject("Request #". $request['request_id'] ." - $subject");
+		$mailer->setSubject("Request #". $request_id ." - $subject");
 		
 		// Set body
-		$body   = self::getTemplate('/components/com_supplyorder/email_templates/request_details.php');
+		$body   = self::getTemplate(JPATH_SITE . DS.'components'.DS.'com_supplyorder'.DS.'email_templates'.DS.'request_details.php');
 		$mailer->isHTML(true);
 		$mailer->Encoding = 'base64';
 		$mailer->setBody($body);
@@ -58,7 +91,7 @@ class SupplyOrderNotifications
 	 * @param string $file location of email template
 	 * @return string template as rendered variable
 	 */
-	static private function getTemplate($file) {
+	private function getTemplate($file) {
 	
 		ob_start(); // start output buffer
 	

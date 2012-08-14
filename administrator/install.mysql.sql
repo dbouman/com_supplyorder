@@ -152,23 +152,6 @@ CREATE  TABLE IF NOT EXISTS  `#__so_title_roles` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
-
--- -----------------------------------------------------
--- Table `com_supplyorder`.`#__so_global_config`
--- -----------------------------------------------------
-CREATE  TABLE IF NOT EXISTS `#__so_global_config` (
-  `global_config_id` INT NOT NULL ,
-  `name` VARCHAR(45) NULL ,
-  `value` VARCHAR(105) NULL ,
-  PRIMARY KEY (`global_config_id`) )
-ENGINE = InnoDB;
-
--- Add global_config data
-INSERT INTO `#__so_global_config` (`global_config_id`, `name`, `value`) VALUES
-(1, 'accounting', 'jacquelynn.morris@hclibrary.org'),
-(2, 'IT', 'anshul.meena@hclibrary.org');
-
-
   
 -- Add role data
 INSERT INTO `#__so_roles` (`role_id`, `role_name`) VALUES
@@ -205,17 +188,17 @@ INSERT INTO `#__so_requests` (`request_id`, `request_status_id`,
 							`date_approved`, `date_required`, 
 							`date_submitted`, `po_number`, 
 							`date_received`) VALUES 
-							('1', '2', '0', '62', '1', '0', 'CVendor', 
+							('1', '1', '0', '62', '1', '0', 'CVendor', 
 							'1234456789', 'FItem Description 1', 'None', 
 							'hclibrary.org', 'ADM@CEN', '11', '0.00', 'Each', 
 							'12.34', NULL, '2012-08-31 00:00:00', 
 							'2012-08-02 00:00:00', '999999', NULL),
-							('2', '2', '0', '62', '1', '0', 'AVendor', 
+							('2', '1', '0', '62', '1', '0', 'AVendor', 
 							'1234456789', 'DItem Description 1', 'None', 
 							'hclibrary.org', 'ADM@CEN', '11', '0.00', 'Each', 
 							'12.34', NULL, '2012-08-31 00:00:00', 
 							'2012-08-02 00:00:00', '999999', NULL),
-							('3', '2', '0', '62', '1', '0', 'BVendor', 
+							('3', '1', '0', '62', '1', '0', 'BVendor', 
 							'1234456789', 'CItem Description 1', 'None', 
 							'hclibrary.org', 'ADM@CEN', '11', '0.00', 'Each', 
 							'12.34', NULL, '2012-08-31 00:00:00', 

@@ -67,6 +67,12 @@ class SupplyOrderModelUser extends JModel
 
 		return $user_info;
 	}
+	
+	function getUserEmail($id = 0) {
+		$user_info = $this->getUserInfo($id);
+		
+		return $user_info['email'];
+	}
 
 	/**
 	 * Map a title to a role id. If no match is found, assume that the role id is 1 (lowest). 

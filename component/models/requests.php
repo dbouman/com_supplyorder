@@ -167,22 +167,26 @@ class SupplyOrderModelRequests extends JModel
 	}
 	
 	/**
-	 * Get details of a specific status
+	 * Get status details for specific request
 	 * 
-	 * @param int request status id
+	 * @param int request id
 	 * @return array of status details
 	 */
-	function getStatus($request_status_id)
+	function getStatusDetails($request_id)
 	{
 		$db = JFactory::getDBO();
 		
-		$query = "SELECT *
-					FROM `#__so_request_status` 
-					WHERE request_status_id = $request_status_id)";
+		$query = "SELECT r.request_status_id, r.employee_id, r.approval_level_required, rs.approval_level, 
+					a.employee_id as account_owner_id, d.employee_id as dept_head_id
+					FROM #__so_requests r
+					INNER JOIN #__so_request_status rs ON r.request_status_id = rs.request_status_id
+					INNER JOIN #__so_accounts a	ON r.account_id = a.account_id
+					INNER JOIN #__so_department_head d ON a.dept_head_id = d.dept_head_id
+					WHERE r.request_id = $request_id";
 		
 		$db->setQuery($query);
 		
-		return $db->loadResult();
+		return $db->loadAssoc();
 	}
 	
 	/**
@@ -190,14 +194,16 @@ class SupplyOrderModelRequests extends JModel
 	 *
 	 * @param int request id
 	 * @param int request status id
+	 * @param string date column to update
 	 * @return true if successfully updated
 	 */
-	function updateStatus($request_id, $request_status_id)
+	function updateStatus($request_id, $request_status_id, $date_column)
 	{
 		$db = JFactory::getDBO();
 		
 		$query = "UPDATE `#__so_requests` 
-					SET `request_status_id` = $request_status_id 
+					SET `request_status_id` = $request_status_id,
+					`$date_column` = NOW()
 					WHERE request_id = $request_id";
 		
 		$db->setQuery($query);

@@ -152,9 +152,41 @@ class SupplyOrderController extends JController
 		$this->setRedirect( $uri->toString(), $msg );
 	}
 	
-	// Alias for approve_request function since it handles the submitting of requests as well
+	// Similar to approve_request function, but only handles submitting saved requests
 	public function submit_request ( ) {
-		return $this->approve_request();
+		$mainframe =& JFactory::getApplication();
+		$model =& $this->getModel('requests');
+		$userModel =& $this->getModel ( 'user' );
+		
+		// Clean all POST variables
+		JRequest::_cleanArray( $_POST );
+		
+		// Get helper for emails
+		if(!class_exists('SupplyOrderNotifications')) require('components'.DS.'com_supplyorder'.DS.'helpers'.DS.'notifications.php');
+		
+		$requests_id_list = JRequest::getVar('requests');
+		foreach ($requests_id_list as $request_id) {
+			$status_details = $model->getStatusDetails($request_id);
+			
+			$to_email = $userModel->getUserEmail($status_details['account_owner_id']);
+			$new_status_id = 2;
+			$subject =  JText::_( 'Request has been submitted and is awaiting approval' );
+			
+			// Update status in database
+			$model->updateStatus($request_id,$new_status_id,'date_submitted');
+				
+			// Send email
+			$notifications = new SupplyOrderNotifications();
+			$notifications->emailRequestDetails($to_email, $subject, $request_id);
+		}
+		
+		// get the redirect, current page including query string
+		$uri = JURI::getInstance();
+		if (count($requests_id_list) > 1)
+			$msg	= JText::_( 'Your requests have been submitted and are awaiting approval.' );
+		else if (count($requests_id_list) == 1)
+			$msg	= JText::_( 'Your request has been submitted and is awaiting approval.' );
+		$this->setRedirect( $uri->toString(), $msg );
 	}
 	
 	// Updates request status on approval
@@ -162,43 +194,35 @@ class SupplyOrderController extends JController
 		$mainframe =& JFactory::getApplication();
 		$model =& $this->getModel('requests');
 		$userModel =& $this->getModel ( 'user' );
-		$commentsModel =& $this->getModel ( 'comments' );
-		$filesModel =& $this->getModel ( 'files' );
+		
+		// Get parameters
+		$params = &JComponentHelper::getParams( 'com_supplyorder' );
+		$accounting_email = $params->get('accounting_email');
+		$ceo_email = $params->get('ceo_email');
 		
 		// Clean all POST variables
 		JRequest::_cleanArray( $_POST );
 		
-		$user =& JFactory::getUser();
-		$employee_id = $user->id;
+		// Get helper for emails
+		if(!class_exists('SupplyOrderNotifications')) require('components'.DS.'com_supplyorder'.DS.'helpers'.DS.'notifications.php');
 		
 		$requests_id_list = JRequest::getVar('requests');
-		
 		foreach ($requests_id_list as $request_id){
-			$request = $model->getRequestCompleteDetail($request_id);
-			$comments = $commentsModel->getComments($request_id);
-			$files = $filesModel->getFiles($request_id);
-			$curr_status_id = $request['request_status_id'];
-			$approval_level_required = $request['approval_level_required'];
-			$approval_level = $request['approval_level'];
+			$status_details = $model->getStatusDetails($request_id); 
+			$curr_status_id = $status_details['request_status_id'];
+			$approval_level_required = $status_details['approval_level_required'];
+			$approval_level = $status_details['approval_level'];
 			
-			// Get helper for emails
-			if(!class_exists('SupplyOrderNotifications')) require('components'.DS.'com_supplyorder'.DS.'helpers'.DS.'notifications.php');
-			
-			if ($curr_status_id == 1) { // Saved request being submitted for Tier 1 Approval
-				$to_email = $userModel->getUserInfo($request['account_owner_id']);
-				$new_status_id = 2;
-				$subject =  JText::_( 'Request has been submitted and is awaiting approval' );
-			}
-			else if ($curr_status_id == 2) { // Tier 1 request approved 
+			if ($curr_status_id == 2) { // Tier 1 request approved 
 				if ($this->is_approved($approval_level, $approval_level_required)) {
 					// Approval level met, go straight to accounting
-					$to_email = ""; // accounting email
+					$to_email = $accounting_email; 
 					$new_status_id = 5;
 					$subject =  JText::_( 'Request has been approved and is awaiting purchase' );
 				}
 				else {
 					// Needs next level of approval
-					$to_email = $userModel->getUserInfo($request['dept_head_id']);
+					$to_email = $userModel->getUserEmail($status_details['dept_head_id']);
 					$new_status_id = 3;
 					$subject =  JText::_( 'A new request is awaiting your approval' );
 				}
@@ -206,30 +230,38 @@ class SupplyOrderController extends JController
 			else if ($curr_status_id == 3) { // Tier 2 request approved
 				if ($this->is_approved($approval_level, $approval_level_required)) {
 					// Approval level met, go straight to accounting
-					$to_email = ""; // accounting email
+					$to_email = $accounting_email;
 					$new_status_id = 5;
 					$subject =  JText::_( 'Request has been approved and is awaiting purchase' );
 				}
 				else {
 					// Needs next level of approval
-					$to_email = ""; // Valerie's email
+					$to_email = $ceo_email;
 					$new_status_id = 4;
 					$subject =  JText::_( 'A new request is awaiting your approval' );
 				}
 			}
 			else if ($curr_status_id == 4) { // Tier 3 request approved
-				$to_email = ""; // accounting email
+				$to_email = $accounting_email;
 				$new_status_id = 5;
 				$subject =  JText::_( 'Request has been approved and is awaiting purchase' );
 			}
 			
 			// Update status in database
-			// @TODO Is date_approved updated?
-			$model->updateStatus($request_id,$new_status_id);
+			$model->updateStatus($request_id,$new_status_id,'date_approved');
 			
 			// Send email
-			SupplyOrderNotifications::emailRequestDetails($to_email, $subject, $request, $comments, $files);	
+			$notifications = new SupplyOrderNotifications();
+			$notifications->emailRequestDetails($to_email, $subject, $request_id);	
 		}
+		
+		// get the redirect, current page including query string
+		$uri = JURI::getInstance();
+		if (count($requests_id_list) > 1)
+			$msg	= JText::_( 'Selected requests have been approved.' );
+		else if (count($requests_id_list) == 1)
+			$msg	= JText::_( 'Selected request has been approved.' );
+		$this->setRedirect( $uri->toString(), $msg );
 		
 	}
 	

@@ -17,5 +17,7 @@
 			<option value="0">Hide</option>
 			<option value="1">Show</option>
 		</param>
+		<param type="text" name="accounting_email" label="Accounting Email:" description="Please enter the accounting email" />
+		<param type="text" name="ceo_email" label="CEO Email:" description="Please enter the CEO email" />
 	</params>
 </config>

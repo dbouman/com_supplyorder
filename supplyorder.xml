@@ -32,6 +32,7 @@
 		<filename>controller.php</filename>
 		<filename>index.html</filename>
 		<folder>css</folder>
+		<folder>email_templates</folder>
 		<folder>helpers</folder>
 		<folder>js</folder>
 		<folder>models</folder>
@@ -81,4 +82,8 @@
 			<language tag="en-GB">en-GB.com_supplyorder.ini</language>
 		</languages>
 	</administration>
+	<params>
+	    <param name="accounting_email" default="anshul.meena@hclibrary.org" />
+	    <param name="ceo_email" default="anshul.meena@hclibrary.org" />
+ 	</params>
 </install>
