@@ -265,6 +265,22 @@ class SupplyOrderController extends JController
 		
 	}
 	
+	//Delete the reqeust item
+	public function delete_request(){
+		$model =& $this->getModel('requests');
+		// Clean all POST variables
+		JRequest::_cleanArray( $_POST );
+		
+		$requests_id_list = JRequest::getVar('requests');
+		
+		$model->deleteRequest($request_id);
+	}
+	
+	/*
+	 * Edit Request
+	 * 
+	 */	
+	
 	public function get_status_with_date ($request) {
 		$status_id = $request['request_status_id'];
 		$status_desc = $request['status_desc'];
