@@ -78,4 +78,25 @@ class SupplyOrderModelComments extends JModel
 		
 		return $comments;
 	}
+	
+	/**
+	 * Delete comments 
+	 * 
+	 * @param int $request_id
+	 */
+	function deleteComments($request_id)
+	{
+		$db = JFactory::getDBO();
+		
+		$query = "Delete FROM `#__so_comments` WHERE request_id = $request_id";
+		
+		$db->setQuery($query);
+		
+		if (!$result = $db->query()) {
+			JError::raiseError('', JText::_('SQL_ERROR'));
+			return false;
+		} 
+		
+		return true;
+	}
 }
