@@ -81,7 +81,7 @@ if(isset($this->message)){
 				<td><a class="confirmPopup" href="<?php echo JRoute::_( 'index.php?option=com_supplyorder&view=list&layout=confirm&tmpl=component&request_id=' . $request['request_id'] ); ?>">Approve</a></td>
 				<td><a class="confirmPopup" href="<?php echo JRoute::_( 'index.php?option=com_supplyorder&view=list&layout=confirm&tmpl=component&request_id=' . $request['request_id'] ); ?>">Unapprove</a></td>
 				<td><a class="popup" href="<?php echo JRoute::_( 'index.php?option=com_supplyorder&view=list&layout=details&tmpl=component&request_id=' . $request['request_id'] ); ?>">Details</a></td>
-				<td><a href="<?php echo JRoute::_( 'index.php?option=com_supply_order&view=list&layout=saved&task=delete_request&request_id=' . $request['request_id'] ); ?>">Delete</a></td>
+				<td><a href="<?php echo JRoute::_( 'index.php?option=com_supplyorder&view=list&layout=saved&task=delete_request&request_id=' . $request['request_id'] ); ?>">Delete</a></td>
 			</tr>
 		<?php
 			} 
