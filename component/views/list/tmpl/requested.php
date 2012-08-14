@@ -54,7 +54,11 @@ if(isset($this->message)){
 			{ 
 		?>
 			<tr>
-				<td><input type="checkbox" value="<?php echo $request['request_id']; ?>" name="requests[]" id="request<?php echo $request['request_id']; ?>" /></td>
+				<td>
+				<?php if ($request['request_status_id'] == 6) { ?>
+					<input type="checkbox" value="<?php echo $request['request_id']; ?>" name="requests[]" id="request<?php echo $request['request_id']; ?>" />
+				<?php } ?>
+				</td>
 				<td><?php echo $request['request_id']; ?></td>
 				<td><?php echo $request['vendor']; ?></td>
 				<td><?php echo $request['item_desc']; ?></td>
