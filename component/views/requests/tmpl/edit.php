@@ -23,7 +23,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 	    jQuery("#date_required").datepicker();
 
 	 	// validate signup form on keyup and submit
-		var validator = jQuery("#save_request_form").validate({
+		var validator = jQuery("#edit_request").validate({
 			rules: {
 				vendor: "required",
 				quantity: "required digits",
@@ -92,12 +92,30 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 			" <a href='javascript:;' class='removeFile'>X</a> <br />"
 		);
 	}	
+
+	function deleteFile(file_id) {
+		var url = '<?php echo JRoute::_( 'index.php?option=com_supplyorder&task=delete_file' ); ?>';
+		jQuery.get(  
+	            url,  
+	            {file_id: file_id},  
+	            function(responseText){  
+	            	jQuery('#file'+file_id).remove();
+	            },  
+	            "html"  
+	        );  
+	}
 //-->
 </script>
+		
+<?php
+if(isset($this->message)){
+	$this->display('message');
+}
+?>
 
 <form
-	action="<?php echo JRoute::_( 'index.php?option=com_supplyorder' ); ?>"
-	method="post" id="save_request_form" name="save_request_form" enctype="multipart/form-data" >
+	action="<?php echo JRoute::_( 'index.php?option=com_supplyorder&view=list&layout=saved' ); ?>"
+	method="post" id="edit_request" name="edit_request" enctype="multipart/form-data" >
 
 	<?php if ( $this->params->def( 'show_page_title', 1 ) ) : ?>
 	<div
@@ -162,7 +180,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 			<td><?php echo JText::_( 'Need By' ); ?> <span style="color: red;">*</span>
 			</td>
 			<td>
-				<input	type="text" name="date_required" id="date_required" value="<?php if (!empty($this->request['date_required'])) { echo $this->request['date_required']; } ?>" class="inputbox" />
+				<input	type="text" name="date_required" id="date_required" value="<?php if (!empty($this->request['date_required'])) { echo JHTML::_('date', $this->request['date_required'], JText::_( 'DATE_FORMAT' )); } ?>" class="inputbox" />
 			</td>
 		</tr>
 		<tr>
@@ -170,8 +188,8 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 			</td>
 			<td><select id="ship_to" name="ship_to">
 					<option value=""><?php echo JText::_( 'Select One' ); ?></option>
-					<option value="Admin@CEN">Admin@CEN</option>
-					<option value="Admin@ECO">Admin@ECO</option>
+					<option value="Admin at CEN">Admin at CEN</option>
+					<option value="Admin at ECO">Admin at ECO</option>
 					<option value="CEN">Central Branch</option>
 					<option value="ECO">East Columbia Branch</option>
 					<option value="ELK">Elkridge Branch</option>
@@ -211,8 +229,32 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 			</select>
 			</td>
 		</tr>
+		<?php
+		if (!empty($this->files)) {
+		?>
 		<tr>
-			<td><?php echo JText::_( 'Attach Files' ); ?></td>
+			<td>Files</td>
+			<td>
+				<div id="attached_files">
+					<?php
+					foreach ($this->files as $file) {
+					?>
+					<div id="file<?php echo $file['file_id']; ?>" class="so_file_row">
+						<span><a href="<?php echo $file['file_location']; ?>" target="_blank"><?php echo $file['file_name']; ?></a></span>
+						<span><?php echo JHTML::_('date', $file['date_posted'], JText::_( 'DATETIME_FORMAT' )); ?></span>
+						<span><a href="javascript: deleteFile(<?php echo $file['file_id']; ?>);" title="<?php echo JText::_( 'Delete File' ); ?>">X</a></span>
+					</div>
+					<?php
+					} 
+					?>
+				</div>
+			</td>
+		</tr>
+		<?php 
+		}
+		?>
+		<tr>
+			<td><?php echo JText::_( 'Attach New Files' ); ?></td>
 			<td><input type="file" name="files[]"> <a href="javascript: addAnotherFile();">Attach another file</a>
 				<div id="filesContainer"></div>
 			</td>
@@ -227,10 +269,11 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 			<td>&nbsp;</td>
 			<td><input type="submit" value="Save" name="save" /> <input
 				type="reset" value="Cancel" name="cancel"
-				onclick="jQuery('#save_request_form').data('validator').resetForm(); jQuery('#vendor').focus();"></input>
+				onclick="jQuery('#edit_request').data('validator').resetForm(); jQuery('#vendor').focus();"></input>
 			</td>
 		</tr>
 	</table>
-	<input type="hidden" name="task" value="save_request" /> 
+	<input type="hidden" name="request_id" value="<?php echo $this->request['request_id']; ?>" /> 
+	<input type="hidden" name="task" value="edit_request" /> 
 	<?php echo JHTML::_( 'form.token' ); ?>
 </form>

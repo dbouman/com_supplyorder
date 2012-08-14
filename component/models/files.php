@@ -59,6 +59,34 @@ class SupplyOrderModelFiles extends JModel
 	}
 	
 	/**
+	 * Delete a specific file
+	 * @param int $file_id
+	 */
+	function deleteFile ($file_id) {
+		$db = JFactory::getDBO();
+	
+		if(!class_exists('SupplyOrderFileUploads')) require('components'.DS.'com_supplyorder'.DS.'helpers'.DS.'fileuploads.php');
+	
+		// Delete each physical file
+		$file = $this->getFile($file_id);
+		$success =SupplyOrderFileUploads::deleteFile(JPATH_SITE . $file['file_location']);
+		if (!$success) {
+			JError::raiseError('', JText::_('FILE_DELETE_FAILED'));
+		}
+	
+		$query = "DELETE FROM `#__so_files` WHERE file_id = '$file_id'";
+	
+		$db->setQuery($query);
+	
+		if (!$result = $db->query()) {
+			JError::raiseError('', JText::_('SQL_ERROR'));
+			return false;
+		}
+	
+		return true;
+	}
+	
+	/**
 	 * Delete all files associated with a specific request id
 	 * @param int $request_id
 	 */
@@ -70,14 +98,11 @@ class SupplyOrderModelFiles extends JModel
 		// Delete each physical file
 		$files = $this->getFiles($request_id);
 		foreach ($files as $file) {
-			$success =SupplyOrderFileUploads::deleteFile($file['file_location']);
+			$success =SupplyOrderFileUploads::deleteFile(JPATH_SITE . $file['file_location']);
 			if (!$success) {
 				JError::raiseError('', JText::_('FILE_DELETE_FAILED'));
 			}
 		}
-		
-		// Delete directory after all files have been removed to keep things clean
-		rmdir(JPATH_SITE.DS.'media'.DS.'com_supplyorder'.DS.'uploads'.DS.$request_id);
 		
 		$query = "DELETE FROM `#__so_files` WHERE request_id = '$request_id'";
 		
@@ -105,6 +130,24 @@ class SupplyOrderModelFiles extends JModel
 	
 		$db->setQuery($query);
 		$result = $db->loadAssocList();
+	
+		return $result;
+	}
+	
+	/**
+	 * Get a specific file
+	 *
+	 * @param int $file_id
+	 * @return details on a specific file
+	 */
+	function getFile($file_id)
+	{
+		$db = JFactory::getDBO();
+	
+		$query = "SELECT * FROM `#__so_files` WHERE file_id = $file_id";
+	
+		$db->setQuery($query);
+		$result = $db->loadAssoc();
 	
 		return $result;
 	}

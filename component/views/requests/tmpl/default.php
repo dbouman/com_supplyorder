@@ -176,8 +176,8 @@ if(isset($this->message)){
 			</td>
 			<td><select id="ship_to" name="ship_to">
 					<option value=""><?php echo JText::_( 'Select One' ); ?></option>
-					<option value="Admin@CEN">Admin@CEN</option>
-					<option value="Admin@ECO">Admin@ECO</option>
+					<option value="Admin at CEN">Admin at CEN</option>
+					<option value="Admin at ECO">Admin at ECO</option>
 					<option value="CEN">Central Branch</option>
 					<option value="ECO">East Columbia Branch</option>
 					<option value="ELK">Elkridge Branch</option>

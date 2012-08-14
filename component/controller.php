@@ -152,6 +152,89 @@ class SupplyOrderController extends JController
 		$this->setRedirect( $uri->toString(), $msg );
 	}
 	
+	/**
+	 * Edit a request
+	 */
+	function edit_request() {
+		$mainframe =& JFactory::getApplication();
+		$model =& $this->getModel('requests');
+		$userModel =& $this->getModel ( 'user' );
+		$commentsModel =& $this->getModel ( 'comments' );
+		$filesModel =& $this->getModel ( 'files' );
+	
+		// Clean all POST variables
+		JRequest::_cleanArray( $_POST );
+	
+		$user =& JFactory::getUser();
+		$employee_id = $user->id;
+		
+		$request_id = JRequest::getVar('request_id');
+	
+		$model->setRequest("account_id", JRequest::getVar('account_id'));
+		$model->setRequest("vendor", JRequest::getVar('vendor'));
+		$model->setRequest("item_num", JRequest::getVar('item_num'));
+		$model->setRequest("item_desc", JRequest::getVar('item_desc'));
+		$model->setRequest("color", JRequest::getVar('color'));
+		$model->setRequest("url", JRequest::getVar('url'));
+		$model->setRequest("ship_to", JRequest::getVar('ship_to'));
+		$model->setRequest("quantity", JRequest::getVar('quantity'));
+		$model->setRequest("unit_cost", JRequest::getVar('unit_cost'));
+		$model->setRequest("unit_measure", JRequest::getVar('unit_measure'));
+	
+		$order_cost = JRequest::getVar('quantity') * JRequest::getVar('unit_cost');
+		$model->setRequest("request_cost", $order_cost);
+	
+		$model->setRequest("date_required", date('Y-m-d H:i:s',strtotime(JRequest::getVar('date_required'))));
+	
+		$model->setRequest("approval_level_required", $this->get_approval_level($order_cost));
+	
+		if ($model->updateRequest($request_id)) {
+			$msg	= JText::_( 'Request has been updated.' );
+		} else {
+			$msg	= JText::_( 'Error updating request.' );
+		}
+	
+		// get the redirect, current page including query string
+		$uri = JURI::getInstance();
+	
+		// Add files if they exist
+		$files = JRequest::getVar('files', null, 'files', 'array');
+		if (!empty($files)) {
+			if(!class_exists('SupplyOrderFileUploads')) require('components'.DS.'com_supplyorder'.DS.'helpers'.DS.'fileuploads.php');
+				
+			$files = SupplyOrderFileUploads::initFilesArray($files);
+				
+			foreach ($files as $file) {
+				$error = SupplyOrderFileUploads::checkFileForError($file);
+				if ($error == JText::_( 'ERROR NO FILE' )) {
+					// skip file not found errors
+					continue;
+				}
+				else if (!empty($error)) {
+					// Get all form data and store in session
+					$mainframe->setUserState('com_supplyorder.edit.request.data', JRequest::get($_POST));
+						
+					// Delete previously entered request and files since there was an error with current file
+					$filesModel->deleteFiles($request_id);
+					$model->deleteRequest($request_id);
+						
+					$this->setRedirect( $uri->toString(), $error, 'error' );
+					return;
+				}
+	
+				$filesModel->insertFile($file, $request_id, $employee_id);
+			}
+		}
+	
+		// Add comments if they exist
+		$comments = JRequest::getVar('comments');
+		if (!empty($comments)) {
+			$commentsModel->insertComment($comments, $request_id, $employee_id);
+		}
+	
+		$this->setRedirect( $uri->toString(), $msg );
+	}
+	
 	// Similar to approve_request function, but only handles submitting saved requests
 	public function submit_request ( ) {
 		$mainframe =& JFactory::getApplication();
@@ -265,7 +348,9 @@ class SupplyOrderController extends JController
 		
 	}
 	
-	//Delete the reqeust item
+	// Delete the request item
+	// @TODO Would be good to add some security, potential for anyone to enter URL and delete request
+	// @TODO Needs to delete all comments and files before deleting request
 	public function delete_request(){
 		$model =& $this->getModel('requests');
 		// Clean all POST variables
@@ -276,10 +361,19 @@ class SupplyOrderController extends JController
 		$model->deleteRequest($request_id);
 	}
 	
-	/*
-	 * Edit Request
-	 * 
-	 */	
+	// Delete an attached file
+	// @TODO Would be good to add some security, potential for anyone to enter URL and delete file
+	public function delete_file() {
+		$mainframe =& JFactory::getApplication();
+		$filesModel =& $this->getModel ( 'files' );
+		
+		$file_id = JRequest::getVar('file_id');
+		
+		$result = $filesModel->deleteFile($file_id);
+		echo $result;
+		
+		$mainframe->close();
+	}
 	
 	public function get_status_with_date ($request) {
 		$status_id = $request['request_status_id'];

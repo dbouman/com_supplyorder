@@ -41,6 +41,19 @@
 	color: #6D929B;
 }
 
+#attached_files {
+	display: table;
+}
+
+.so_file_row {
+	display: table-row;
+}
+
+.so_file_row span {
+	display: table-cell;
+	padding-right: 15px;
+}
+
 #comment_footer {
 	font-size: 10px;
 	font-style:italic

@@ -52,7 +52,13 @@ class SupplyOrderViewRequests extends JView
 		}
 		$document->setTitle( $params->get( 'page_title' ) );
 		
+		// Get models
+		$requestsModel =& $this->getModel('requests');
+		$commentsModel =& $this->getModel('comments');
+		$filesModel =& $this->getModel('files');
 		$accountsModel =& $this->getModel('accounts');
+		
+		// Get list of accounts
 		$accounts = $accountsModel->listAccounts();
 		$this->assignRef('accounts',$accounts);
 		
@@ -61,6 +67,14 @@ class SupplyOrderViewRequests extends JView
 		
 		// Get any existing form data to be displayed, possibly if an error occurred
 		$request = JFactory::getApplication()->getUserState('com_supplyorder.edit.request.data', array());
+		if(empty($request)) {
+			if ($layoutName == "edit") {
+				$request_id = JRequest::getVar('request_id');
+				$request = $requestsModel->getRequestCompleteDetail($request_id);
+				$this->assignRef('comments',$commentsModel->getComments($request['request_id']));
+				$this->assignRef('files',$filesModel->getFiles($request['request_id']));
+			}
+		}
 		$this->assignRef('request', $request);
 		// Clear saved session data after loaded once
 		JFactory::getApplication()->setUserState('com_supplyorder.edit.request.data', '');
