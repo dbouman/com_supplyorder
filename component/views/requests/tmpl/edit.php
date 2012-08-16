@@ -269,7 +269,7 @@ if(isset($this->message)){
 			<td>&nbsp;</td>
 			<td><input type="submit" value="Save Changes" name="saveButton" /> <input
 				type="button" value="Cancel" name="cancelButton"
-				onclick="window.history.back()"></input>
+				onclick="window.location='<?php echo JRoute::_( 'index.php?option=com_supplyorder&view=list&layout=saved' . '&Itemid='.JRequest::getint( 'Itemid' ) ); ?>'"></input>
 			</td>
 		</tr>
 	</table>

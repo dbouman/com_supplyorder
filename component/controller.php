@@ -207,12 +207,13 @@ class SupplyOrderController extends JController
 				else if (!empty($error)) {
 					// Get all form data and store in session
 					$mainframe->setUserState('com_supplyorder.edit.request.data', JRequest::get($_POST));
-						
-					// Delete previously entered request and files since there was an error with current file
-					$filesModel->deleteFiles($request_id);
-					$model->deleteRequest($request_id);
-						
-					$this->setRedirect( $this->get_redirect_url(), $error, 'error' );
+
+					$delete_vars = array('task');
+					$include_vars = array(	'view' => 'requests',
+							                'layout' => 'edit',
+											'request_id' => $request_id
+											);
+					$this->setRedirect( $this->get_redirect_url($delete_vars, $include_vars), $error, 'error' );
 					return;
 				}
 	
@@ -226,7 +227,8 @@ class SupplyOrderController extends JController
 			$commentsModel->insertComment($comments, $request_id, $employee_id);
 		}
 	
-		$this->setRedirect( $this->get_redirect_url(), $msg );
+		$delete_vars = array('task','request_id');
+		$this->setRedirect( $this->get_redirect_url($delete_vars), $msg );
 	}
 	
 	// Similar to approve_request function, but only handles submitting saved requests
@@ -396,11 +398,21 @@ class SupplyOrderController extends JController
 		return $status_desc;
 	}
 	
-	private function get_redirect_url () {
+	private function get_redirect_url ($delete_vars='', $include_vars='') {
 		// get the redirect, current page including query string
 		$uri = JURI::getInstance();
-		$uri->delVar( 'task' ); // Remove task from URI
-		$uri->delVar( 'request_id' ); // Remove request ID from URI
+		
+		if (!empty($delete_vars)) {
+			foreach ($delete_vars as $var) {
+				$uri->delVar($var);
+			}
+		}
+		
+		if (!empty($include_vars)) {
+			$include_vars = array_merge( $uri->getQuery( true ), $include_vars );
+			$query = $uri->buildQuery( $include_vars );
+			$uri->setQuery( $query );
+		}
 		
 		return $uri->toString();
 	}
