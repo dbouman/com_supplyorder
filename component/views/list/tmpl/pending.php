@@ -55,8 +55,7 @@ if(isset($this->message)){
 			<th><?php echo JHTML::_( 'grid.sort', 'Description', 'item_desc', $this->sortDirection, $this->sortColumn); ?></th>
 			<th><?php echo JText::_( 'Quantity' ); ?></th>
 			<th><?php echo JText::_( 'Total Price' ); ?></th>
-			<th><?php echo JText::_( 'Approve' ); ?></th>
-			<th><?php echo JText::_( 'Uapprove' ); ?></th>
+			<th><?php echo JText::_( 'Unapprove' ); ?></th>
 			<th><?php echo JText::_( 'Details' ); ?></th>
 			<th><?php echo JText::_( 'Delete' ); ?></th>
 		</tr>
@@ -72,7 +71,6 @@ if(isset($this->message)){
 				<td><?php echo $request['item_desc']; ?></td>
 				<td><?php echo $request['quantity']; ?></td>
 				<td><?php echo $request['request_cost']; ?></td>
-				<td><a class="confirmPopup" href="<?php echo JRoute::_( 'index.php?option=com_supplyorder&view=list&layout=confirm&tmpl=component&request_id=' . $request['request_id'] ); ?>">Approve</a></td>
 				<td><a class="confirmPopup" href="<?php echo JRoute::_( 'index.php?option=com_supplyorder&view=list&layout=confirm&tmpl=component&request_id=' . $request['request_id'] ); ?>">Unapprove</a></td>
 				<td><a class="popup" href="<?php echo JRoute::_( 'index.php?option=com_supplyorder&view=list&layout=details&tmpl=component&request_id=' . $request['request_id'] ); ?>">Details</a></td>
 				<td><a href="<?php echo JRoute::_( 'index.php?option=com_supplyorder&view=list&layout=pending&task=delete_request&request_id=' . $request['request_id'] . '&Itemid='.JRequest::getint( 'Itemid' ) ); ?>">Delete</a></td>
@@ -87,7 +85,7 @@ if(isset($this->message)){
 		</tfoot>
 	</table>
 	<div id="so_button_container">
-		<input type="submit" value="Submit Approved Requests" name="submitButton" />
+		<input type="submit" value="Approved Selected Requests" name="submitButton" />
 	</div>
 	<?php
 	}

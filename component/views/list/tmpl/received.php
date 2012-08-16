@@ -61,7 +61,7 @@ if(isset($this->message)){
 		?>
 		<tfoot>
 		    <tr>
-		      <td colspan="9"><?php echo $this->pagination->getListFooter(); ?></td>
+		      <td colspan="8"><?php echo $this->pagination->getListFooter(); ?></td>
 		    </tr>
 		</tfoot>
 	</table>
@@ -70,7 +70,7 @@ if(isset($this->message)){
 	else {
 	?>
 		<tr>
-			<td colspan="9">
+			<td colspan="8">
 				<?php echo JText::_( 'No received requests.' ); ?>
 			</td>
 		</tr>
