@@ -289,7 +289,7 @@ class SupplyOrderModelRequests extends JModel
 					r.request_cost, r.date_approved, r.date_required, r.date_submitted, r.po_number, r.date_received, 
 					o.date_ordered, rs.request_status_id, rs.status_name, rs.status_desc
 					FROM `#__so_requests` r
-					INNER JOIN `#__so_request_status` rs ON r.request_id = rs.request_status_id 
+					INNER JOIN `#__so_request_status` rs ON r.request_status_id  = rs.request_status_id
 					INNER JOIN #__so_accounts a	ON r.account_id = a.account_id
 					INNER JOIN #__so_department_head d ON a.dept_head_id = d.dept_head_id
 					LEFT JOIN `#__so_orders` o ON r.order_id = o.order_id";
