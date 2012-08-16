@@ -112,8 +112,7 @@ if(isset($this->message)){
 	</div>
 	<?php endif; ?>
 
-	<table cellpadding="0" cellspacing="2" border="0" width="100%"
-		class="contentpane">
+	<table cellpadding="0" cellspacing="2" border="0" width="100%" class="so_form_table">
 		<tr>
 			<td><?php echo JText::_( 'Vendor Name' ); ?> <span style="color: red;">*</span>
 			</td>

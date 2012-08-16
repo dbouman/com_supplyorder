@@ -33,12 +33,17 @@
 	border-right: 1px solid #C1DAD7;
 	border-bottom: 1px solid #C1DAD7;
 	padding: 6px 6px 6px 12px;
+	vertical-align: top;
 }
 
 .so_table tfoot tr {
 	text-align: center;
 	background-color: #F5FAFA;
 	color: #6D929B;
+}
+
+.so_form_table td {
+	vertical-align: top;
 }
 
 #attached_files {

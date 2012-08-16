@@ -104,6 +104,16 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 	            "html"  
 	        );  
 	}
+
+	function addComment() {
+			jQuery('#addComment, #hideComment').toggle();
+			jQuery('#comments').show();
+	}
+
+	function hideComment() {
+		jQuery('#addComment, #hideComment').toggle();
+		jQuery('#comments').hide();
+}
 //-->
 </script>
 		
@@ -124,8 +134,7 @@ if(isset($this->message)){
 	</div>
 	<?php endif; ?>
 
-	<table cellpadding="0" cellspacing="2" border="0" width="100%"
-		class="contentpane">
+	<table cellpadding="0" cellspacing="2" border="0" width="100%" class="so_form_table">
 		<tr>
 			<td><?php echo JText::_( 'Vendor Name' ); ?> <span style="color: red;">*</span>
 			</td>
@@ -261,8 +270,41 @@ if(isset($this->message)){
 		</tr>
 		<tr>
 			<td><?php echo JText::_( 'Comments' ); ?></td>
-			<td><textarea cols="50" id="comments" name="comments" rows="7"
-					class="inputbox"><?php if (!empty($this->request['comments'])) { echo $this->request['comments']; } ?></textarea>
+			<td>
+				<?php
+				if (!empty($this->comments)) {
+					foreach ($this->comments as $comment) {
+				?>
+						<?php echo $comment['comment_body']; ?><br />
+						<div id="comment_footer">
+							<?php echo JText::_( 'Posted by' ) . " "; ?>
+							<?php echo $comment['employee_name'] . " "; ?> 
+							<?php echo JText::_( 'on' ) . " "; ?> 
+							<?php echo JHTML::_('date', $comment['date_sent'], JText::_( 'DATETIME_FORMAT' )); ?>
+						</div>
+				<?php 
+					}
+				?>
+					<div id="addComment">
+						<a href="javascript: addComment();"><?php echo JText::_( 'Add New Comment' ); ?></a>
+					</div>
+					<div id="hideComment" style="display: none;">
+						<a href="javascript: hideComment();"><?php echo JText::_( 'Hide New Comment' ); ?></a>
+					</div>
+					<br />
+					<textarea cols="50" id="comments" name="comments" rows="7"
+						class="inputbox" style="display: none;"><?php if (!empty($this->request['comments'])) { echo $this->request['comments']; } ?></textarea>
+				<?php
+				}
+				else {
+				?>
+					<textarea cols="50" id="comments" name="comments" rows="7"
+						class="inputbox"><?php if (!empty($this->request['comments'])) { echo $this->request['comments']; } ?></textarea>
+				<?php
+				} 
+				?>
+			
+				
 			</td>
 		</tr>
 		<tr>
