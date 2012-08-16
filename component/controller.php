@@ -398,6 +398,23 @@ class SupplyOrderController extends JController
 		return $status_desc;
 	}
 	
+	/**
+	 * Confirm unaparove request and enter a comment
+	 */
+	public function confirm(){
+		$mainframe =& JFactory::getApplication();
+		$commentsModel =& $this->getModel ( 'comments' );
+		$user =& JFactory::getUser();
+		
+		$employee_id = $user->id;
+		$request_id = JRequest::getVar('request_id');
+		$comment = JRequest::getVar('comment');
+		
+		$result = $commentsModel->insertComment($comment, $request_id, $employee_id);
+		
+		return $result;
+	}
+	
 	private function get_redirect_url ($delete_vars='', $include_vars='') {
 		// get the redirect, current page including query string
 		$uri = JURI::getInstance();

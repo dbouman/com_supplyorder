@@ -35,7 +35,7 @@ if(isset($this->message)){
 			</tr>
 			<tr>
 				<td>&nbsp;</td>
-				<td><textarea cols="50" id="comments" name="comments" rows="7"
+				<td><textarea cols="50" id="comment" name="comment" rows="7"
 						class="inputbox"></textarea>
 				</td>
 			</tr>
