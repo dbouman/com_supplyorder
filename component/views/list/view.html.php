@@ -88,22 +88,22 @@ class SupplyOrderViewList extends JView
 				$requests = $requestsModel->listRequestByOwner($employee_id, $status_ids);
 			}
 			else if ($layoutName == 'requested') {
-				$status_ids = array(2,3,4,5,6);  //@TODO requested items should have 3 status_id 
+				$status_ids = array(2,3,4,5,6); 
 				$requests = $requestsModel->listRequestByOwner($employee_id, $status_ids);
 			}
-			else if($layoutName == 'received'){
+			else if($layoutName == 'received') {
 				$status_ids = array(7);
-				$requests = $requestsModel->listRequestByStatus($status_ids);  
-			}
-			else if($layoutName == 'pending'){
-				$status_ids = array(2,3,4,5,6);
 				$requests = $requestsModel->listRequestByOwner($employee_id, $status_ids);
 			}
-			else if($layoutName == 'approved'){
-				$status_ids = array(2,3,4,5,6);
+			else if($layoutName == 'pending') {
+				$status_ids = array(2,3,4);
 				$requests = $requestsModel->listRequestByApprover($employee_id, $status_ids);
 			}
-			else if($layoutName == 'pending_accouting'){
+			else if($layoutName == 'approved') {
+				$status_ids = array(5,6,7);
+				$requests = $requestsModel->listRequestByApprover($employee_id, $status_ids);
+			}
+			else if($layoutName == 'pending_accouting') {
 				$status_ids = array(2,3,4,5,6);
 				$requests = $requestsModel->listRequestByOwner($employee_id, $status_ids);// @TODO list pending orders by Acc Admin 
 			}

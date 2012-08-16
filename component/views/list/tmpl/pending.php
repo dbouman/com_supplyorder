@@ -65,7 +65,7 @@ if(isset($this->message)){
 			{ 
 		?>
 			<tr>
-				<td><input type="checkbox" value="<?php echo $request['request_id']; ?>" name="requests[]" id="request<?php echo $request['request_id']; ?>" /></td>
+				<td style="text-align: center;"><input type="checkbox" value="<?php echo $request['request_id']; ?>" name="requests[]" id="request<?php echo $request['request_id']; ?>" /></td>
 				<td><?php echo $request['request_id']; ?></td>
 				<td><?php echo $request['vendor']; ?></td>
 				<td><?php echo $request['item_desc']; ?></td>
@@ -105,6 +105,6 @@ if(isset($this->message)){
 	
 	<input type="hidden" name="view" value="list" />
 	<input type="hidden" name="layout" value="pending" />
-	<input type="hidden" name="task" value="received_submit" /> 
+	<input type="hidden" name="task" value="approve_request" /> 
 	<?php echo JHTML::_( 'form.token' ); ?>
 </form>

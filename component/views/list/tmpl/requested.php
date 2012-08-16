@@ -58,7 +58,7 @@ if(isset($this->message)){
 				<td><?php echo $request['quantity']; ?></td>
 				<td><?php echo $request['request_cost']; ?></td>
 				<td><?php echo SupplyOrderController::get_status_with_date($request); ?></td>
-				<td><input type="checkbox" value="<?php echo $request['request_id']; ?>" name="requests[]" id="request<?php echo $request['request_id']; ?>" <?php if ($request['request_status_id'] != 6) { echo "DISABLED"; } ?> /></td>
+				<td style="text-align: center;"><input type="checkbox" value="<?php echo $request['request_id']; ?>" name="requests[]" id="request<?php echo $request['request_id']; ?>" <?php if ($request['request_status_id'] != 6) { echo "DISABLED"; } ?> /></td>
 				<td><a class="popup" href="<?php echo JRoute::_( 'index.php?option=com_supplyorder&view=list&layout=details&tmpl=component&request_id=' . $request['request_id'] ); ?>">Details</a></td>
 				<td><a href="<?php echo JRoute::_( 'index.php?option=com_supplyorder&view=list&layout=requested&task=delete_request&request_id=' . $request['request_id'] . '&Itemid='.JRequest::getint( 'Itemid' ) ); ?>">Delete</a></td>
 			</tr>
