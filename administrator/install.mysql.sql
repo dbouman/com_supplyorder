@@ -158,7 +158,8 @@ INSERT INTO `#__so_roles` (`role_id`, `role_name`) VALUES
 (1, 'Registered'),
 (2, 'Tier 1 Approver'),
 (3, 'Tier 2 Approver'),
-(4, 'Accounting');
+(4, 'Tier 3 Approver'),
+(5, 'Accounting');
 
 -- Add request statuses
 INSERT INTO `#__so_request_status` (`request_status_id`, `status_name`, `status_desc`, `approval_level`) VALUES

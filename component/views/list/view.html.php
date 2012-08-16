@@ -60,8 +60,12 @@ class SupplyOrderViewList extends JView
 		
 		// Get required models
 		$requestsModel =& $this->getModel('requests');
+		$userModel =& $this->getModel('user');
 		$commentsModel =& $this->getModel('comments');
 		$filesModel =& $this->getModel('files');
+		
+		$userInfo = $userModel->getUserInfo($employee_id);
+		$role_id = $userInfo['role_id'];
 		
 		//Column Sorting
 		$this->assignRef('sortDirection', $requestsModel->getState('filter_order_dir'));
@@ -96,8 +100,13 @@ class SupplyOrderViewList extends JView
 				$requests = $requestsModel->listRequestByOwner($employee_id, $status_ids);
 			}
 			else if($layoutName == 'pending') {
-				$status_ids = array(2,3,4);
-				$requests = $requestsModel->listRequestByApprover($employee_id, $status_ids);
+				if ($role_id == 4) { // CEO using page
+					$status_ids = array(4);
+					$requests = $requestsModel->listRequestByStatus($status_ids);
+				}
+				else {
+					$requests = $requestsModel->listRequestByApprover($employee_id);
+				}
 			}
 			else if($layoutName == 'approved') {
 				$status_ids = array(5,6,7);

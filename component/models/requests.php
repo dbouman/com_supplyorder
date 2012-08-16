@@ -267,13 +267,15 @@ class SupplyOrderModelRequests extends JModel
 	 * @param array status ids
 	 * @return indexed array of associated arrays
 	 */
-	function listRequestByApprover($approver_id, $status_ids)
+	function listRequestByApprover($approver_id, $status_ids='')
 	{
 		$db = JFactory::getDBO();
 		
 		// Turn status ids into comma separated list
-		$status_ids = implode(',', $status_ids);
-		$status_ids = rtrim($status_ids, ',');
+		if (!empty($status_ids)) {
+			$status_ids = implode(',', $status_ids);
+			$status_ids = rtrim($status_ids, ',');
+		}
 		
 		//Order by
 		$order_by = $db->getEscaped($this->getState('filter_order'));
@@ -288,10 +290,21 @@ class SupplyOrderModelRequests extends JModel
 					o.date_ordered, rs.request_status_id, rs.status_name, rs.status_desc
 					FROM `#__so_requests` r
 					INNER JOIN `#__so_request_status` rs ON r.request_id = rs.request_status_id 
-					LEFT JOIN `#__so_orders` o ON r.order_id = o.order_id
-					WHERE r.`account_id` = $approver_id
-					AND r.`request_status_id` IN ($status_ids)
-					ORDER BY $order_by $asc_by";
+					INNER JOIN #__so_accounts a	ON r.account_id = a.account_id
+					INNER JOIN #__so_department_head d ON a.dept_head_id = d.dept_head_id
+					LEFT JOIN `#__so_orders` o ON r.order_id = o.order_id";
+		
+		// If status ids is empty, assume it wants only pending requests
+		if (empty($status_ids)) {
+			$query .= "WHERE (a.`employee_id` = $approver_id AND r.`request_status_id` = 2)
+						OR (d.`employee_id` = $approver_id AND r.`request_status_id` = 3)";
+		}
+		else {
+			$query .= "WHERE (a.`employee_id` = $approver_id OR (d.`employee_id` = $approver_id AND r.approval_level_required > 1))
+						AND r.`request_status_id` IN ($status_ids)";
+		}
+		
+		$query .= "ORDER BY $order_by $asc_by";
 		
 		$db->setQuery($query, $this->getState('limitstart'), $this->getState('limit'));
 		$requests = $db->loadAssocList();
