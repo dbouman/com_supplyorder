@@ -20,7 +20,7 @@ if(isset($this->message)){
 ?>
 
 <form
-	action="<?php echo JRoute::_( 'index.php?option=com_supplyorder&view=list&layout=saved' ); ?>"
+	action="<?php echo JURI::getInstance()->toString(); ?>"
 	method="post" id="saved_requests" name="saved_requests" >
 
 	<?php if ( $this->params->def( 'show_page_title', 1 ) ) : ?>
@@ -55,8 +55,8 @@ if(isset($this->message)){
 				<td><?php echo $request['quantity']; ?></td>
 				<td><?php echo $request['request_cost']; ?></td>
 				<td><a class="popup" href="<?php echo JRoute::_( 'index.php?option=com_supplyorder&view=list&layout=details&tmpl=component&request_id=' . $request['request_id'] ); ?>">Details</a></td>
-				<td><a href="<?php echo JRoute::_( 'index.php?option=com_supplyorder&view=requests&layout=edit&request_id=' . $request['request_id'] ); ?>">Edit</a></td>
-				<td><a href="<?php echo JRoute::_( 'index.php?option=com_supplyorder&view=list&layout=saved&task=delete_request&request_id=' . $request['request_id'] ); ?>">Delete</a></td>
+				<td><a href="<?php echo JRoute::_( 'index.php?option=com_supplyorder&view=requests&layout=edit&request_id=' . $request['request_id'] . '&Itemid='.JRequest::getint( 'Itemid' ) ); ?>">Edit</a></td>
+				<td><a href="<?php echo JRoute::_( 'index.php?option=com_supplyorder&view=list&layout=saved&task=delete_request&request_id=' . $request['request_id'] . '&Itemid='.JRequest::getint( 'Itemid' ) ); ?>">Delete</a></td>
 			</tr>
 		<?php 
 			} 
@@ -67,9 +67,8 @@ if(isset($this->message)){
 			    </tr>
 			</tfoot>
 		</table>
-		<div style="float: right; text-align: right;">
-			<input type="submit" value="Submit" name="submitButton" /> 
-			<input type="button" value="Cancel" name="cancelButton" onclick="window.history.back();"></input>
+		<div id="so_button_container">
+			<input type="submit" value="Submit Selected Requests" name="submitButton" /> 
 		</div>
 		<?php 
 		}

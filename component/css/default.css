@@ -79,6 +79,12 @@
 	margin-right: 15px;
 }
 
+#so_button_container {
+	float: right; 
+	text-align: right;
+	margin-top: 10px;
+}
+
 .so_clear_both {
 	clear: both;
 }

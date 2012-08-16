@@ -102,7 +102,7 @@ if(isset($this->message)){
 ?>
 
 <form
-	action="<?php echo JRoute::_( 'index.php?option=com_supplyorder' ); ?>"
+	action="<?php echo JURI::getInstance()->toString(); ?>"
 	method="post" id="save_request_form" name="save_request_form" enctype="multipart/form-data" >
 
 	<?php if ( $this->params->def( 'show_page_title', 1 ) ) : ?>
@@ -231,8 +231,8 @@ if(isset($this->message)){
 		</tr>
 		<tr>
 			<td>&nbsp;</td>
-			<td><input type="submit" value="Save" name="save" /> <input
-				type="reset" value="Cancel" name="cancel"
+			<td><input type="submit" value="Save" name="saveButton" /> <input
+				type="reset" value="Clear" name="clearButton"
 				onclick="jQuery('#save_request_form').data('validator').resetForm(); jQuery('#vendor').focus();"></input>
 			</td>
 		</tr>

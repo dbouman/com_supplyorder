@@ -402,11 +402,6 @@ class SupplyOrderController extends JController
 		$uri->delVar( 'task' ); // Remove task from URI
 		$uri->delVar( 'request_id' ); // Remove request ID from URI
 		
-		$itemid = JRequest::getint( 'Itemid' );
-		if (!empty($itemid)) {
-			$uri->setVar('Itemid',$itemid);
-		}
-		
 		return $uri->toString();
 	}
 	

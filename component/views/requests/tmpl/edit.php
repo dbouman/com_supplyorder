@@ -114,7 +114,7 @@ if(isset($this->message)){
 ?>
 
 <form
-	action="<?php echo JRoute::_( 'index.php?option=com_supplyorder&view=list&layout=saved' ); ?>"
+	action="<?php echo JRoute::_( 'index.php?option=com_supplyorder&view=list&layout=saved' . '&Itemid='.JRequest::getint( 'Itemid' ) ); ?>"
 	method="post" id="edit_request" name="edit_request" enctype="multipart/form-data" >
 
 	<?php if ( $this->params->def( 'show_page_title', 1 ) ) : ?>
@@ -267,9 +267,9 @@ if(isset($this->message)){
 		</tr>
 		<tr>
 			<td>&nbsp;</td>
-			<td><input type="submit" value="Save" name="save" /> <input
-				type="reset" value="Cancel" name="cancel"
-				onclick="jQuery('#edit_request').data('validator').resetForm(); jQuery('#vendor').focus();"></input>
+			<td><input type="submit" value="Save Changes" name="saveButton" /> <input
+				type="button" value="Cancel" name="cancelButton"
+				onclick="window.history.back()"></input>
 			</td>
 		</tr>
 	</table>

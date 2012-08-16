@@ -2,7 +2,7 @@
 
 /**
  * Supply Order Component for Joomla! 1.5
- * List requested requests
+ * List received requests
  * @version 1.5.0
  * @author Howard County Library
  * @package com_supply_order
@@ -11,12 +11,6 @@
 
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
-
-// Get Brief details display in list
-// Select  ID    Vendor    Description     Quantity     Total Price    Details    Edit   Delete  
-// Check boxes to select orders to submit (use javascript to highly row when selected)
-// Links to edit/delete order (use image icons)
-//
 ?>
 
 <?php
@@ -26,7 +20,7 @@ if(isset($this->message)){
 ?>
 
 <form
-	action="<?php echo JRoute::_( 'index.php?option=com_supplyorder&view=list&layout=received' ); ?>"
+	action="<?php echo JURI::getInstance()->toString(); ?>"
 	method="post" id="received_requests" name="received_requests" >
 
 	<?php if ( $this->params->def( 'show_page_title', 1 ) ) : ?>
@@ -60,7 +54,7 @@ if(isset($this->message)){
 				<td><?php echo $request['request_cost']; ?></td>
 				<td><?php echo $request['status_name']; ?></td>
 				<td><a class="popup" href="<?php echo JRoute::_( 'index.php?option=com_supplyorder&view=list&layout=details&tmpl=component&request_id=' . $request['request_id'] ); ?>">Details</a></td>
-				<td><a href="<?php echo JRoute::_( 'index.php?option=com_supplyorder&view=list&layout=received&task=delete_request&request_id=' . $request['request_id'] ); ?>">Delete</a></td>
+				<td><a href="<?php echo JRoute::_( 'index.php?option=com_supplyorder&view=list&layout=received&task=delete_request&request_id=' . $request['request_id'] . '&Itemid='.JRequest::getint( 'Itemid' ) ); ?>">Delete</a></td>
 			</tr>
 		<?php
 			} 

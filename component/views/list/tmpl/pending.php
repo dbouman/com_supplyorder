@@ -2,7 +2,7 @@
 
 /**
  * Supply Order Component for Joomla! 1.5
- * List requested requests
+ * List pending requests
  * @version 1.5.0
  * @author Howard County Library
  * @package com_supply_order
@@ -11,12 +11,6 @@
 
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
-
-// Get Brief details display in list
-// Select  ID    Vendor    Description     Quantity     Total Price    Details    Edit   Delete  
-// Check boxes to select orders to submit (use javascript to highly row when selected)
-// Links to edit/delete order (use image icons)
-//
 ?>
 
 <script>
@@ -43,8 +37,8 @@ if(isset($this->message)){
 ?>
 
 <form
-	action="<?php echo JRoute::_( 'index.php?option=com_supplyorder&view=list&layout=pending' ); ?>"
-	method="post" id="requested_requests" name="requested_requests" >
+	action="<?php echo JURI::getInstance()->toString(); ?>"
+	method="post" id="pending_requests" name="pending_requests" >
 
 	<?php if ( $this->params->def( 'show_page_title', 1 ) ) : ?>
 	<div
@@ -81,7 +75,7 @@ if(isset($this->message)){
 				<td><a class="confirmPopup" href="<?php echo JRoute::_( 'index.php?option=com_supplyorder&view=list&layout=confirm&tmpl=component&request_id=' . $request['request_id'] ); ?>">Approve</a></td>
 				<td><a class="confirmPopup" href="<?php echo JRoute::_( 'index.php?option=com_supplyorder&view=list&layout=confirm&tmpl=component&request_id=' . $request['request_id'] ); ?>">Unapprove</a></td>
 				<td><a class="popup" href="<?php echo JRoute::_( 'index.php?option=com_supplyorder&view=list&layout=details&tmpl=component&request_id=' . $request['request_id'] ); ?>">Details</a></td>
-				<td><a href="<?php echo JRoute::_( 'index.php?option=com_supplyorder&view=list&layout=pending&task=delete_request&request_id=' . $request['request_id'] ); ?>">Delete</a></td>
+				<td><a href="<?php echo JRoute::_( 'index.php?option=com_supplyorder&view=list&layout=pending&task=delete_request&request_id=' . $request['request_id'] . '&Itemid='.JRequest::getint( 'Itemid' ) ); ?>">Delete</a></td>
 			</tr>
 		<?php
 			} 
@@ -92,9 +86,8 @@ if(isset($this->message)){
 		    </tr>
 		</tfoot>
 	</table>
-	<div style="float: right; text-align: right;">
-		<input type="submit" value="Submit" name="submitButton" />
-		<input type="button" value="Cancel" name="cancelButton" onclick="window.history.back();"></input>
+	<div id="so_button_container">
+		<input type="submit" value="Submit Approved Requests" name="submitButton" />
 	</div>
 	<?php
 	}
