@@ -304,7 +304,7 @@ class SupplyOrderModelRequests extends JModel
 						AND r.`request_status_id` IN ($status_ids)";
 		}
 		
-		$query .= "ORDER BY $order_by $asc_by";
+		$query .= " ORDER BY $order_by $asc_by";
 		
 		$db->setQuery($query, $this->getState('limitstart'), $this->getState('limit'));
 		$requests = $db->loadAssocList();
@@ -349,7 +349,7 @@ class SupplyOrderModelRequests extends JModel
 		if (!empty($approval_level_required)) {
 			$query .= " AND r.approval_level_required = $approval_level_required";
 		}
-		$query .= "ORDER BY $order_by $asc_by";
+		$query .= " ORDER BY $order_by $asc_by";
 				
 		$db->setQuery($query, $this->getState('limitstart'), $this->getState('limit'));
 		$requests = $db->loadAssocList();

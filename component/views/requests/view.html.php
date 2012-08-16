@@ -73,8 +73,10 @@ class SupplyOrderViewRequests extends JView
 				$request = $requestsModel->getRequestCompleteDetail($request_id);	
 			}
 		}
-		$this->assignRef('comments',$commentsModel->getComments($request['request_id']));
-		$this->assignRef('files',$filesModel->getFiles($request['request_id']));
+		if (!empty($request['request_id'])) {
+			$this->assignRef('comments',$commentsModel->getComments($request['request_id']));
+			$this->assignRef('files',$filesModel->getFiles($request['request_id']));
+		}
 		$this->assignRef('request', $request);
 		// Clear saved session data after loaded once
 		JFactory::getApplication()->setUserState('com_supplyorder.edit.request.data', '');

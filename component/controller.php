@@ -281,6 +281,10 @@ class SupplyOrderController extends JController
 		// Clean all POST variables
 		JRequest::_cleanArray( $_POST );
 		
+		// Get current user
+		$user =& JFactory::getUser();
+		$employee_id = $user->id;
+		
 		// Get helper for emails
 		if(!class_exists('SupplyOrderNotifications')) require('components'.DS.'com_supplyorder'.DS.'helpers'.DS.'notifications.php');
 		
@@ -300,9 +304,27 @@ class SupplyOrderController extends JController
 				}
 				else {
 					// Needs next level of approval
-					$to_email = $userModel->getUserEmail($status_details['dept_head_id']);
-					$new_status_id = 3;
-					$subject =  JText::_( 'A new request is awaiting your approval' );
+					// Check if current logged on user is also next level approval
+					if ($status_details['dept_head_id'] == $employee_id) {
+						$approval_level += 1;
+						if ($this->is_approved($approval_level, $approval_level_required)) {
+							// Approval level met, go straight to accounting
+							$to_email = $accounting_email;
+							$new_status_id = 5;
+							$subject =  JText::_( 'Request has been approved and is awaiting purchase' );
+						}
+						else {
+							// Needs next level of approval
+							$to_email = $ceo_email;
+							$new_status_id = 4;
+							$subject =  JText::_( 'A new request is awaiting your approval' );
+						}
+					}
+					else {
+						$to_email = $userModel->getUserEmail($status_details['dept_head_id']);
+						$new_status_id = 3;
+						$subject =  JText::_( 'A new request is awaiting your approval' );
+					}
 				}
 			}
 			else if ($curr_status_id == 3) { // Tier 2 request approved

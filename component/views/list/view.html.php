@@ -109,12 +109,17 @@ class SupplyOrderViewList extends JView
 				}
 			}
 			else if($layoutName == 'approved') {
-				$status_ids = array(5,6,7);
 				if ($role_id == 4) { // CEO using page
+					$status_ids = array(5,6,7);
 					$approval_level_required = 3;
 					$requests = $requestsModel->listRequestByStatus($status_ids,$approval_level_required);
 				}
-				else {
+				else if ($role_id == 3) {
+					$status_ids = array(4,5,6,7);
+					$requests = $requestsModel->listRequestByApprover($employee_id, $status_ids);
+				}
+				else if ($role_id == 2) {
+					$status_ids = array(3,4,5,6,7);
 					$requests = $requestsModel->listRequestByApprover($employee_id, $status_ids);
 				}
 			}
