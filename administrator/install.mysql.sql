@@ -203,6 +203,9 @@ INSERT INTO `#__so_requests` (`request_id`, `request_status_id`,
 							'http://hclibrary.org', 'CEN', '11', '0.00', 'Each', 
 							'12.34', NULL, '2012-08-31', 
 							'2012-08-02 00:00:00', '999999', NULL);
+
+INSERT INTO `#__so_title_roles` (`title`, `role_id`) VALUES 
+								('Web Developer', '2');
 							
 							
 							
