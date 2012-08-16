@@ -71,7 +71,7 @@ if(isset($this->message)){
 	?>
 		<tr>
 			<td colspan="8">
-				<?php echo JText::_( 'No received requests.' ); ?>
+				<?php echo JText::_( 'No ordered requests.' ); ?>
 			</td>
 		</tr>
 	<?php

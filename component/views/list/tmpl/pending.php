@@ -93,7 +93,7 @@ if(isset($this->message)){
 	?>
 		<tr>
 			<td colspan="9">
-				<?php echo JText::_( 'No requested requests.' ); ?>
+				<?php echo JText::_( 'No pending requests.' ); ?>
 			</td>
 		</tr>
 	<?php
