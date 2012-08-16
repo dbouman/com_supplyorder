@@ -178,7 +178,7 @@ INSERT INTO `#__so_department_head` (`dept_head_id`, `employee_id`) VALUES
 
 INSERT INTO `#__so_accounts` (`account_id`, `employee_id`, `dept_head_id`, `account_num`, `account_name`, `account_desc`) VALUES
 (1, 63, 1, '123456', 'Holly Account', 'Test Holly Account'),
-(1, 65, 1, '654321', 'Angela Account', 'Test Angela Account');
+(2, 65, 1, '654321', 'Angela Account', 'Test Angela Account');
 
 -- Sample data for Request Table for new request alter
 INSERT INTO `#__so_requests` (`request_id`, `request_status_id`, 
