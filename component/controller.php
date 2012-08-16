@@ -111,9 +111,6 @@ class SupplyOrderController extends JController
 			$msg	= JText::_( 'Error saving your request.' );
 		}
 		
-		// get the redirect, current page including query string
-		$uri = JURI::getInstance();
-		
 		// Add files if they exist
 		$files = JRequest::getVar('files', null, 'files', 'array');
 		if (!empty($files)) {
@@ -135,7 +132,7 @@ class SupplyOrderController extends JController
 					$filesModel->deleteFiles($request_id);
 					$model->deleteRequest($request_id);
 					
-					$this->setRedirect( $uri->toString(), $error, 'error' );
+					$this->setRedirect( $this->get_redirect_url(), $error, 'error' );
 					return;
 				}
 				
@@ -149,7 +146,7 @@ class SupplyOrderController extends JController
 			$commentsModel->insertComment($comments, $request_id, $employee_id);
 		}
 		
-		$this->setRedirect( $uri->toString(), $msg );
+		$this->setRedirect( $this->get_redirect_url(), $msg );
 	}
 	
 	/**
@@ -194,9 +191,6 @@ class SupplyOrderController extends JController
 			$msg	= JText::_( 'Error updating request.' );
 		}
 	
-		// get the redirect, current page including query string
-		$uri = JURI::getInstance();
-	
 		// Add files if they exist
 		$files = JRequest::getVar('files', null, 'files', 'array');
 		if (!empty($files)) {
@@ -218,7 +212,7 @@ class SupplyOrderController extends JController
 					$filesModel->deleteFiles($request_id);
 					$model->deleteRequest($request_id);
 						
-					$this->setRedirect( $uri->toString(), $error, 'error' );
+					$this->setRedirect( $this->get_redirect_url(), $error, 'error' );
 					return;
 				}
 	
@@ -232,7 +226,7 @@ class SupplyOrderController extends JController
 			$commentsModel->insertComment($comments, $request_id, $employee_id);
 		}
 	
-		$this->setRedirect( $uri->toString(), $msg );
+		$this->setRedirect( $this->get_redirect_url(), $msg );
 	}
 	
 	// Similar to approve_request function, but only handles submitting saved requests
@@ -263,13 +257,12 @@ class SupplyOrderController extends JController
 			$notifications->emailRequestDetails($to_email, $subject, $request_id);
 		}
 		
-		// get the redirect, current page including query string
-		$uri = JURI::getInstance();
 		if (count($requests_id_list) > 1)
 			$msg	= JText::_( 'Your requests have been submitted and are awaiting approval.' );
 		else if (count($requests_id_list) == 1)
 			$msg	= JText::_( 'Your request has been submitted and is awaiting approval.' );
-		$this->setRedirect( $uri->toString(), $msg );
+		
+		$this->setRedirect( $this->get_redirect_url(), $msg );
 	}
 	
 	// Updates request status on approval
@@ -338,14 +331,12 @@ class SupplyOrderController extends JController
 			$notifications->emailRequestDetails($to_email, $subject, $request_id);	
 		}
 		
-		// get the redirect, current page including query string
-		$uri = JURI::getInstance();
 		if (count($requests_id_list) > 1)
 			$msg	= JText::_( 'Selected requests have been approved.' );
 		else if (count($requests_id_list) == 1)
 			$msg	= JText::_( 'Selected request has been approved.' );
-		$this->setRedirect( $uri->toString(), $msg );
 		
+		$this->setRedirect( $this->get_redirect_url(), $msg );
 	}
 	
 	// Delete the request item
@@ -364,14 +355,10 @@ class SupplyOrderController extends JController
 		$filesModel->deleteFiles($request_id);
 		$model->deleteRequest($request_id);
 		
-		$uri = JURI::getInstance();
-		$uri->delVar( 'task' ); // Remove task from URI
-		$uri->delVar( 'request_id' ); // Remove request ID from URI
-		
 		// Set message
 		$msg = JText::_( 'Request has been deleted.' );
 		
-		$this->setRedirect( $uri->toString(), $msg );
+		$this->setRedirect( $this->get_redirect_url(), $msg );
 	}
 	
 	// Delete an attached file
@@ -407,6 +394,20 @@ class SupplyOrderController extends JController
 		}
 		
 		return $status_desc;
+	}
+	
+	private function get_redirect_url () {
+		// get the redirect, current page including query string
+		$uri = JURI::getInstance();
+		$uri->delVar( 'task' ); // Remove task from URI
+		$uri->delVar( 'request_id' ); // Remove request ID from URI
+		
+		$itemid = JRequest::getint( 'Itemid' );
+		if (!empty($itemid)) {
+			$uri->setVar('Itemid',$itemid);
+		}
+		
+		return $uri->toString();
 	}
 	
 	private function is_approved ($approval_level, $approval_level_required) {
