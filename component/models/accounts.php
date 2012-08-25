@@ -104,6 +104,7 @@ class SupplyOrderModelAccounts extends JModel
 	/**
 	 * Delete an account by account id
 	 * @param int $accountId
+	 * @return bool 
 	 */
 	function deleteAccount($account_id)
 	{
